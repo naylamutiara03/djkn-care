@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DJKN CARE - Isi Piringku</title>
+    <title>Isi Piringku - DJKN CARE</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Bootstrap Icons (UNTUK ICON BACK) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
         body {
-            background-color: #badc84 !important; /* BACKGROUND BARU */
+            background-color: #badc84;
         }
 
         .navbar-custom {
@@ -21,37 +19,43 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
-        /* Tombol Back */
-        .back-button {
-            position: absolute;
-            top: 15px;
+        .back-btn {
+            position: fixed;
+            top: 80px;
+            /* ⭐ DITURUNKAN AGAR PAS DI BAWAH NAVBAR */
             left: 15px;
-            z-index: 1000;
-            font-size: 1.5rem;
-            color: #2d6a4f;
-            text-decoration: none;
+            z-index: 9999;
+            background: #ffffff;
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
         }
 
-        .back-button:hover {
-            color: #1b4332;
-        }
 
         .plate-container {
-            max-width: 700px;
-            margin: 50px auto;
+            max-width: 850px;
+            margin: 60px auto;
             text-align: center;
         }
 
         .plate-image-wrapper {
-            position: relative;
-            display: inline-block;
-            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            /* jarak antar gambar */
+            margin-bottom: 40px;
         }
 
         .plate-image {
-            width: 100%;
+            width: auto;
+            max-width: 35%;
+            /* supaya 3 gambar tidak terlalu besar */
             height: auto;
-            display: block;
         }
 
         .plate-area {
@@ -91,73 +95,101 @@
 
         .tooltip-overlay {
             position: absolute;
-            padding: 5px 10px;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            border-radius: 5px;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.2s;
-            z-index: 20;
+            padding: 6px 12px;
+            background: rgba(0, 0, 0, 0.75);
+            color: #fff;
             font-weight: bold;
             font-size: 0.9rem;
+            border-radius: 5px;
+            pointer-events: none;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity .15s;
         }
 
         .tooltip-overlay.active {
             opacity: 1;
         }
 
-        #plate-display {
-            width: 100%;
+        /* BAGIAN KOMPOSISI USIA 12–24 BULAN */
+        .komposisi-wrapper {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #f0fff0;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .komposisi-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 10px;
+        }
+
+        .komposisi-img {
+            max-width: 260px;
+            height: auto;
+        }
+
+        .arrow-img {
+            max-width: 70px;
             height: auto;
         }
     </style>
 </head>
+
 <body>
 
-    <!-- TOMBOL BACK -->
-    <a href="home.html" class="back-button">
-        <i class="bi bi-arrow-left-circle"></i>
+    <a href="home.html" class="back-btn">
+        <i class="bi bi-arrow-left"></i>
     </a>
 
     <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
         <div class="container-fluid">
             <a class="navbar-brand d-flex align-items-center" href="home.html">
-                <img src="DJKN_Logo.png" alt="DJKN Logo" height="30" class="me-2">
+                <img src="DJKN_Logo.png" alt="logo" height="30" class="me-2">
                 DJKN-CARE
             </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
+
                     <li class="nav-item dropdown">
-                        <a class="btn btn-sm btn-success dropdown-toggle me-2" href="#" data-bs-toggle="dropdown">
+                        <a class="btn btn-success dropdown-toggle me-2" href="#" role="button"
+                            data-bs-toggle="dropdown">
                             Usia Balita
                         </a>
+
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#" onclick="changePlate('12-24')">Kebutuhan Harian Balita 12-24 Bulan</a></li>
-                            <li><a class="dropdown-item" href="#" onclick="changePlate('2-5')">Kebutuhan Harian Balita 2-5 Tahun</a></li>
+                            <li><span class="dropdown-item-text fw-bold text-success">Pilih Usia:</span></li>
+                            <li><a class="dropdown-item" onclick="resetPlate()">Usia Balita (Default)</a></li>
+                            <hr class="dropdown-divider">
+                            <li><a class="dropdown-item" onclick="changePlate('12-24')">12–23 Bulan</a></li>
+                            <li><a class="dropdown-item" onclick="changePlate('2-5')">2–5 Tahun</a></li>
                         </ul>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="btn btn-sm btn-outline-primary" href="quiz.html">Mulai Quiz</a>
-                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-
     <div class="container plate-container">
-        <h2 class="text-success mb-5">Rencanakan Piring Sehatmu!</h2>
-        <p class="lead" id="usia-indicator">Kebutuhan Harian Balita 12-24 Bulan</p>
+        <h2 class="text-success mb-4">Rencanakan Piring Sehatmu!</h2>
 
-        <div class="plate-image-wrapper">
+        <p class="lead" id="usia-indicator">Kebutuhan Harian Balita (Default)</p>
 
+        <div class="plate-image-wrapper" id="plateContainer">
             <img id="plate-display" src="img/isi-piring-removebg.png" class="plate-image">
 
             <div id="karbohidrat-area" class="plate-area">
@@ -175,52 +207,91 @@
             <div id="lemak-area" class="plate-area">
                 <div class="tooltip-overlay">LEMAK</div>
             </div>
-
         </div>
+
+        <!-- KOMPOSISI 12–24 BULAN -->
+        <div id="komposisi-12-24" class="komposisi-wrapper">
+            <h4 class="text-success mb-3">Rencana Komposisi Harian 12–23 Bulan</h4>
+
+            <div class="komposisi-row">
+                <img src="img/piring1(12-24).png" class="komposisi-img" alt="Piring 1">
+                <img src="img/right-arrow.png" class="arrow-img" alt="Arrow">
+                <img src="img/piring2(12-24).png" class="komposisi-img" alt="Piring 2">
+            </div>
+        </div>
+
     </div>
 
-
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
         const plateImages = {
-            "12-24": "img/isi-piring-12-24.png",
-            "2-5": "img/isi-piring-2-5.png"
+            "default": ["img/isi-piring-removebg.png"],
+            "12-24": [
+                "img/piring1(12-24).png",
+                "img/right-arrow.png",
+                "img/piring2(12-24).png"
+            ],
+            "2-5": ["img/isi-piring-2-5.png"]
         };
+
+        function updatePlateImage(age) {
+            const container = document.getElementById("plateContainer");
+            container.innerHTML = ""; // bersihkan gambar sebelumnya
+
+            const images = plateImages[age] || plateImages["default"];
+
+            images.forEach(src => {
+                const img = document.createElement("img");
+                img.src = src;
+                img.className = "plate-image";
+                container.appendChild(img);
+            });
+        }
+
+
 
         const plateDisplay = document.getElementById("plate-display");
         const indicator = document.getElementById("usia-indicator");
+        const komposisiDetail = document.getElementById("komposisi-12-24");
+
+        function resetPlate() {
+            indicator.textContent = "Kebutuhan Harian Balita (Default)";
+            plateDisplay.src = plateImages["default"];
+            komposisiDetail.style.display = "none";
+        }
 
         function changePlate(ageKey) {
             indicator.textContent =
                 ageKey === "12-24"
-                ? "Kebutuhan Harian Balita 12-24 Bulan"
-                : "Kebutuhan Harian Balita 2-5 Tahun";
+                    ? "Kebutuhan Harian Balita 12–23 Bulan"
+                    : "Kebutuhan Harian Balita 2–5 Tahun";
 
-            plateDisplay.src = plateImages[ageKey];
+            plateDisplay.src = plateImages[ageKey] || plateImages["default"];
+
+            komposisiDetail.style.display = (ageKey === "12-24") ? "flex" : "none";
         }
 
-        function setupHoverEffect() {
-            const areas = document.querySelectorAll(".plate-area");
+        // Tooltip
+        document.querySelectorAll(".plate-area").forEach(area => {
+            const tooltip = area.querySelector(".tooltip-overlay");
 
-            areas.forEach(area => {
-                const tooltip = area.querySelector(".tooltip-overlay");
-
-                area.addEventListener("mousemove", (e) => {
-                    tooltip.classList.add("active");
-                    tooltip.style.left = (e.clientX - area.getBoundingClientRect().left + 10) + "px";
-                    tooltip.style.top = (e.clientY - area.getBoundingClientRect().top - 30) + "px";
-                });
-
-                area.addEventListener("mouseleave", () => {
-                    tooltip.classList.remove("active");
-                });
+            area.addEventListener("mousemove", e => {
+                const rect = area.getBoundingClientRect();
+                tooltip.style.left = (e.clientX - rect.left + 10) + "px";
+                tooltip.style.top = (e.clientY - rect.top - 30) + "px";
+                tooltip.classList.add("active");
             });
-        }
 
-        document.addEventListener("DOMContentLoaded", setupHoverEffect);
+            area.addEventListener("mouseleave", () => {
+                tooltip.classList.remove("active");
+            });
+        });
+
+        window.changePlate = changePlate;
+        window.resetPlate = resetPlate;
     </script>
 
 </body>
+
 </html>
