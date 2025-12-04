@@ -10,6 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
+        /* Gaya Dasar */
         body {
             background-color: #badc84;
         }
@@ -22,124 +23,56 @@
         .back-btn {
             position: fixed;
             top: 80px;
-            /* ⭐ DITURUNKAN AGAR PAS DI BAWAH NAVBAR */
-            left: 15px;
+            left: 25px;
             z-index: 9999;
             background: #ffffff;
             border-radius: 50%;
-            width: 42px;
-            height: 42px;
+            width: 48px;
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
         }
 
-
+        /* Container Piring & Gambar */
         .plate-container {
-            max-width: 850px;
+            max-width: 1200px; /* Diperbesar untuk menampung gambar yang lebih besar */
             margin: 60px auto;
             text-align: center;
+            padding: 0 15px;
         }
 
         .plate-image-wrapper {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 20px;
-            /* jarak antar gambar */
+            /* Mengurangi jarak agar 5 elemen (Piring, Panah, Piring, Panah, ASI) muat dengan baik */
+            gap: 25px; 
             margin-bottom: 40px;
         }
 
+        /* Ukuran Gambar */
         .plate-image {
-            width: auto;
-            max-width: 35%;
-            /* supaya 3 gambar tidak terlalu besar */
+            width: 250px; /* Ukuran piring disesuaikan agar muat */
             height: auto;
-        }
-
-        .plate-area {
-            position: absolute;
-            cursor: default;
-            z-index: 10;
-        }
-
-        #karbohidrat-area {
-            top: 15%;
-            left: 20%;
-            width: 25%;
-            height: 25%;
-        }
-
-        #protein-area {
-            top: 15%;
-            right: 20%;
-            width: 25%;
-            height: 25%;
-        }
-
-        #serat-area {
-            bottom: 20%;
-            left: 10%;
-            width: 35%;
-            height: 40%;
-            border-radius: 40%;
-        }
-
-        #lemak-area {
-            bottom: 15%;
-            right: 15%;
-            width: 30%;
-            height: 30%;
-        }
-
-        .tooltip-overlay {
-            position: absolute;
-            padding: 6px 12px;
-            background: rgba(0, 0, 0, 0.75);
-            color: #fff;
-            font-weight: bold;
-            font-size: 0.9rem;
-            border-radius: 5px;
-            pointer-events: none;
-            white-space: nowrap;
-            opacity: 0;
-            transition: opacity .15s;
-        }
-
-        .tooltip-overlay.active {
-            opacity: 1;
-        }
-
-        /* BAGIAN KOMPOSISI USIA 12–24 BULAN */
-        .komposisi-wrapper {
-            display: none;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            margin-top: 40px;
-            padding: 20px;
-            background-color: #f0fff0;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .komposisi-row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 25px;
-            margin-top: 10px;
-        }
-
-        .komposisi-img {
-            max-width: 260px;
-            height: auto;
+            cursor: pointer; /* Menunjukkan ada interaksi (tooltip) */
         }
 
         .arrow-img {
-            max-width: 70px;
+            width: 60px; /* Ukuran panah disesuaikan */
             height: auto;
+        }
+
+        .asi-img {
+            width: 120px; /* Ukuran gambar ASI disesuaikan */
+            height: auto;
+            margin-top: -15px;
+        }
+
+        .default-plate {
+            width: 70%;
+            max-width: 450px;
         }
     </style>
 </head>
@@ -153,7 +86,7 @@
     <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
         <div class="container-fluid">
             <a class="navbar-brand d-flex align-items-center" href="home.html">
-                <img src="DJKN_Logo.png" alt="logo" height="30" class="me-2">
+                <img src="DJKN_Logo.png" alt="logo" height="30" class="me-2"> 
                 DJKN-CARE
             </a>
 
@@ -165,17 +98,14 @@
                 <ul class="navbar-nav ms-auto">
 
                     <li class="nav-item dropdown">
-                        <a class="btn btn-success dropdown-toggle me-2" href="#" role="button"
+                        <a id="usiaDropdown" class="btn btn-success dropdown-toggle me-2" href="#" role="button"
                             data-bs-toggle="dropdown">
-                            Usia Balita
+                            Pilih Usia
                         </a>
 
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><span class="dropdown-item-text fw-bold text-success">Pilih Usia:</span></li>
-                            <li><a class="dropdown-item" onclick="resetPlate()">Usia Balita (Default)</a></li>
-                            <hr class="dropdown-divider">
-                            <li><a class="dropdown-item" onclick="changePlate('12-24')">12–23 Bulan</a></li>
-                            <li><a class="dropdown-item" onclick="changePlate('2-5')">2–5 Tahun</a></li>
+                            <li><a class="dropdown-item" onclick="changePlate('12-24')">Usia 12–23 Bulan</a></li>
+                            <li><a class="dropdown-item" onclick="changePlate('2-5')">Usia 2–5 Tahun</a></li>
                         </ul>
                     </li>
 
@@ -187,109 +117,82 @@
     <div class="container plate-container">
         <h2 class="text-success mb-4">Rencanakan Piring Sehatmu!</h2>
 
-        <p class="lead" id="usia-indicator">Kebutuhan Harian Balita (Default)</p>
+        <p class="lead" id="usia-indicator">Silakan pilih usia untuk melihat komposisi piring.</p>
 
         <div class="plate-image-wrapper" id="plateContainer">
-            <img id="plate-display" src="img/isi-piring-removebg.png" class="plate-image">
-
-            <div id="karbohidrat-area" class="plate-area">
-                <div class="tooltip-overlay">KARBOHIDRAT</div>
-            </div>
-
-            <div id="protein-area" class="plate-area">
-                <div class="tooltip-overlay">PROTEIN</div>
-            </div>
-
-            <div id="serat-area" class="plate-area">
-                <div class="tooltip-overlay">SERAT (Buah & Sayur)</div>
-            </div>
-
-            <div id="lemak-area" class="plate-area">
-                <div class="tooltip-overlay">LEMAK</div>
-            </div>
+            <img src="img/isi-piring-removebg.png" class="default-plate" alt="Isi Piringku Default">
         </div>
-
-        <!-- KOMPOSISI 12–24 BULAN -->
-        <div id="komposisi-12-24" class="komposisi-wrapper">
-            <h4 class="text-success mb-3">Rencana Komposisi Harian 12–23 Bulan</h4>
-
-            <div class="komposisi-row">
-                <img src="img/piring1(12-24).png" class="komposisi-img" alt="Piring 1">
-                <img src="img/right-arrow.png" class="arrow-img" alt="Arrow">
-                <img src="img/piring2(12-24).png" class="komposisi-img" alt="Piring 2">
-            </div>
-        </div>
-
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
+        // Data gambar yang akan ditampilkan per usia
         const plateImages = {
-            "default": ["img/isi-piring-removebg.png"],
+            // ⭐ Urutan baru untuk 12-24 Bulan: Piring 1 -> Panah 1 -> Piring 2 -> Panah 2 -> ASI
             "12-24": [
-                "img/piring1(12-24).png",
-                "img/right-arrow.png",
-                "img/piring2(12-24).png"
+                { type: "plate1", src: "img/piring1(12-24).png" }, // Piring 1: Bahan/Takaran (dengan Tooltip)
+                { type: "arrow", src: "img/right-arrow.png" },    // Panah 1
+                { type: "plate2", src: "img/piring2(12-24).png" }, // Piring 2: Hasil Jadi
+                { type: "arrow2", src: "img/right-arrow.png" },   // Panah 2
+                { type: "asi", src: "img/asi.png" }              // Kebutuhan ASI (di paling kanan)
             ],
-            "2-5": ["img/isi-piring-2-5.png"]
+            // Asumsi: img/isi-piring-2-5.png adalah gambar tunggal untuk usia 2-5 tahun
+            "2-5": [
+                { type: "single", src: "img/isi-piring-2-5.png" } 
+            ]
         };
 
-        function updatePlateImage(age) {
-            const container = document.getElementById("plateContainer");
-            container.innerHTML = ""; // bersihkan gambar sebelumnya
-
-            const images = plateImages[age] || plateImages["default"];
-
-            images.forEach(src => {
-                const img = document.createElement("img");
-                img.src = src;
-                img.className = "plate-image";
-                container.appendChild(img);
-            });
-        }
-
-
-
-        const plateDisplay = document.getElementById("plate-display");
-        const indicator = document.getElementById("usia-indicator");
-        const komposisiDetail = document.getElementById("komposisi-12-24");
-
-        function resetPlate() {
-            indicator.textContent = "Kebutuhan Harian Balita (Default)";
-            plateDisplay.src = plateImages["default"];
-            komposisiDetail.style.display = "none";
-        }
+        // Tooltip Content
+        const tooltipContent = "Nasi putih 5sdm=55 gram, Bayam dan wortel 20 gram, Minyak 7,5 gram, Garam 1/8 sdt=0,1gram, Ati 55 gram";
 
         function changePlate(ageKey) {
-            indicator.textContent =
-                ageKey === "12-24"
-                    ? "Kebutuhan Harian Balita 12–23 Bulan"
-                    : "Kebutuhan Harian Balita 2–5 Tahun";
+            const indicator = document.getElementById("usia-indicator");
+            const dropdownText = document.getElementById("usiaDropdown");
+            const container = document.getElementById("plateContainer");
 
-            plateDisplay.src = plateImages[ageKey] || plateImages["default"];
+            // Update tulisan dropdown dan indicator
+            dropdownText.textContent = (ageKey === "12-24") ? "Usia 12–23 Bulan" : "Usia 2–5 Tahun";
+            indicator.textContent = (ageKey === "12-24") ? "Kebutuhan Harian Balita 12–23 Bulan" : "Kebutuhan Harian Balita 2–5 Tahun";
 
-            komposisiDetail.style.display = (ageKey === "12-24") ? "flex" : "none";
+            // Tampilkan gambar
+            const images = plateImages[ageKey];
+            container.innerHTML = "";
+            container.style.gap = (ageKey === "12-24") ? "25px" : "0"; // Sesuaikan gap
+
+            images.forEach(item => {
+                const img = document.createElement("img");
+                img.src = item.src;
+                img.alt = item.type;
+
+                // Tentukan kelas CSS berdasarkan tipe
+                if (item.type === "arrow" || item.type === "arrow2") {
+                    img.className = "arrow-img";
+                } else if (item.type === "asi") {
+                    img.className = "asi-img";
+                } else if (item.type === "plate1") {
+                    img.className = "plate-image";
+                    
+                    // Tambahkan atribut untuk Tooltip Bootstrap
+                    img.setAttribute('data-bs-toggle', 'tooltip');
+                    img.setAttribute('data-bs-placement', 'bottom');
+                    img.setAttribute('data-bs-title', tooltipContent);
+
+                } else if (item.type === "plate2") {
+                    img.className = "plate-image";
+                } else if (item.type === "single") {
+                    img.className = "default-plate";
+                }
+
+                container.appendChild(img);
+            });
+            
+            // Inisialisasi Tooltip setelah elemen ditambahkan ke DOM
+            if (ageKey === "12-24") {
+                const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+                const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+            }
         }
-
-        // Tooltip
-        document.querySelectorAll(".plate-area").forEach(area => {
-            const tooltip = area.querySelector(".tooltip-overlay");
-
-            area.addEventListener("mousemove", e => {
-                const rect = area.getBoundingClientRect();
-                tooltip.style.left = (e.clientX - rect.left + 10) + "px";
-                tooltip.style.top = (e.clientY - rect.top - 30) + "px";
-                tooltip.classList.add("active");
-            });
-
-            area.addEventListener("mouseleave", () => {
-                tooltip.classList.remove("active");
-            });
-        });
-
-        window.changePlate = changePlate;
-        window.resetPlate = resetPlate;
     </script>
 
 </body>

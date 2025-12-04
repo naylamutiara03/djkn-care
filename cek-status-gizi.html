@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cek Status Gizi Anak Lengkap - WHO Z-Score</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+
+
+    <style>
+        /* Latar Belakang Gradien */
+        body {
+            background: linear-gradient(to top, #badc84 50%, #d4eb95 100%);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Tombol Back */
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 9999;
+            background: #ffffff;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            color: #333;
+            transition: transform 0.2s;
+        }
+
+        .back-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Container Utama */
+        .gizi-container {
+            max-width: 700px;
+            width: 95%;
+            background-color: #fff;
+            padding: 30px 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            margin: 80px auto;
+        }
+
+        /* Header */
+        .gizi-container h1 {
+            color: #4a6c38;
+            font-weight: bold;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+        }
+
+        /* Wrapper Konten (Gambar dan Input) */
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Bagian Gambar (Kiri) */
+        .image-section {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        /* Ukuran gambar default (mobile) */
+        .image-section img {
+            width: 180px;
+            height: auto;
+            max-width: 100%;
+            margin-top: 10px;
+        }
+
+        /* Bagian Input (Kanan) */
+        .input-section {
+            width: 100%;
+        }
+
+        /* Styling Custom Input */
+        .input-group-custom {
+            display: flex;
+            align-items: center;
+            background-color: #f7f7f7;
+            border-radius: 10px;
+            margin-bottom: 18px;
+            padding: 12px 18px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+            font-size: 1.05rem;
+            color: #333;
+            transition: background-color 0.2s;
+        }
+
+        .input-group-custom:focus-within {
+            background-color: #ffffff;
+            box-shadow: 0 0 0 2px #d4eb95;
+        }
+
+        .input-group-custom i {
+            color: #4a6c38;
+            margin-right: 12px;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .input-group-custom i.bi-info-circle {
+            cursor: pointer;
+            margin-right: 8px;
+            color: #176f4e;
+        }
+
+        .input-group-custom label {
+            flex-grow: 1;
+            text-align: left;
+            font-weight: 500;
+        }
+
+        /* Select Dropdown Styling */
+        .input-group-custom select {
+            border: none;
+            background: transparent;
+            width: auto;
+            text-align: right;
+            outline: none;
+            flex-shrink: 0;
+            font-weight: 600;
+            color: #333;
+            padding-right: 25px;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%234a6c38' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 5px center;
+        }
+
+        /* Input Teks/Angka Styling */
+        .input-group-custom input {
+            border: none;
+            background: transparent;
+            width: 80px;
+            text-align: right;
+            outline: none;
+            flex-shrink: 0;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Tombol Hitung */
+        .btn-hitung {
+            background-color: #176f4e;
+            color: white;
+            font-weight: bold;
+            font-size: 1.25rem;
+            padding: 15px 0;
+            border-radius: 12px;
+            width: 100%;
+            margin-top: 30px;
+            border: none;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        .btn-hitung:hover {
+            background-color: #12573d;
+            transform: translateY(-2px);
+        }
+
+        /* MEDIA QUERY: Desktop/Tablet (>= 768px) */
+        @media (min-width: 768px) {
+            .gizi-container h1 {
+                font-size: 2.2rem;
+            }
+
+            .content-wrapper {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: flex-start;
+                gap: 40px;
+            }
+
+            .image-section {
+                width: 40%;
+                justify-content: center;
+                text-align: center;
+                margin-bottom: 0;
+            }
+
+            .image-section img {
+                width: 200px;
+                margin-top: 80px;
+            }
+
+            .input-section {
+                width: 60%;
+            }
+        }
+
+        /* Styling Modal Hasil */
+        #hasilModal .modal-header {
+            background-color: #176f4e !important;
+        }
+
+        #kategoriHasil b {
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <a href="#" class="back-btn" onclick="alert('Ini adalah tombol kembali demo'); return false;">
+        <i class="bi bi-arrow-left"></i>
+    </a>
+
+    <div class="gizi-container">
+        <h1>Cek Status Gizi Anak</h1>
+
+        <div class="content-wrapper">
+
+            <div class="image-section">
+                <img src="img/bayi.png" alt="Ilustrasi Anak Sehat" class="img-fluid">
+            </div>
+
+            <div class="input-section">
+                <div class="input-group-custom">
+                    <label for="kategoriIndex">Kategori Index</label>
+                    <i class="bi bi-info-circle" data-bs-toggle="modal" data-bs-target="#indexInfoModal"></i>
+                    <select id="kategoriIndex" required>
+                        <option value="" disabled selected>Pilih Kategori Index</option>
+                        <option value="BB/U">BB/U (Berat Badan / Usia)</option>
+                        <option value="TB/U">TB/U (Tinggi Badan / Usia)</option>
+                        <option value="BB/TB">BB/TB (Berat Badan / Tinggi Badan)</option>
+                    </select>
+                </div>
+
+                <div class="input-group-custom">
+                    <label for="jenisKelamin">Jenis Kelamin</label>
+                    <i class="bi bi-person-circle"></i>
+                    <select id="jenisKelamin" required>
+                        <option value="" disabled selected>Pilih Jenis Kelamin</option>
+                        <option value="L">Laki-laki</option>
+                        <option value="P">Perempuan</option>
+                    </select>
+                </div>
+
+                <div class="input-group-custom">
+                    <label for="beratBadan">Berat Badan (kg)</label>
+                    <i class="bi bi-scale"></i>
+                    <input type="number" id="beratBadan" placeholder="0.0" min="0" step="0.1" required>
+                </div>
+
+                <div class="input-group-custom">
+                    <label for="tinggiBadan">Tinggi Badan (cm)</label>
+                    <i class="bi bi-rulers"></i>
+                    <input type="number" id="tinggiBadan" placeholder="0.0" min="0" step="0.1" required>
+                </div>
+
+                <div class="input-group-custom">
+                    <label for="usiaBulan">Usia (bulan)</label>
+                    <i class="bi bi-calendar-date"></i>
+                    <input type="number" id="usiaBulan" placeholder="0" min="0" max="60" step="1" required>
+                </div>
+
+                <button class="btn btn-hitung" onclick="hitungGizi()">HITUNG STATUS GIZI</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="indexInfoModal" tabindex="-1" aria-labelledby="indexInfoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="indexInfoModalLabel"><i class="bi bi-info-circle me-2"></i>Informasi
+                        Kategori Index Gizi</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-start">
+                    <p>Kategori Index Gizi digunakan untuk menentukan status gizi anak:</p>
+
+                    <ul>
+                        <li>
+                            <p><strong>BB/U (Berat Badan menurut Usia)</strong>: Mengukur kekurangan atau kelebihan
+                                berat badan (kurus atau gemuk) pada usia tertentu. Indikator status gizi umum.</p>
+                        </li>
+                        <li>
+                            <p><strong>TB/U (Tinggi Badan menurut Usia)</strong>: Menilai tinggi badan yang kurang
+                                (**stunting**) atau normal. Mencerminkan masalah gizi **kronis**.</p>
+                        </li>
+                        <li>
+                            <p><strong>BB/TB (Berat Badan menurut Tinggi Badan)</strong>: Menilai berat badan yang
+                                kurang (**wasting**) atau berlebihan (**obesitas**) untuk tinggi badannya.
+                                Mencerminkan masalah gizi **akut**.</p>
+                        </li>
+                    </ul>
+                    <small class="text-muted">Disarankan untuk menggunakan TB/U dan BB/TB secara bersamaan untuk
+                        diagnosa komprehensif.</small>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="hasilModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title"><i class="bi bi-graph-up"></i> Hasil Status Gizi Anak</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <h5 class="text-center fw-bold mb-4" id="kategoriHasil"></h5>
+
+                    <h6 class="text-start">Grafik Perbandingan Standar WHO vs. Data Anak:</h6>
+                    <canvas id="grafikZscore" height="350"></canvas>
+                    <small class="text-muted text-start mt-3 d-block">Garis tengah (Median) mewakili rata-rata populasi
+                        rujukan WHO.</small>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Selesai</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // ========================== DATA STANDAR WHO LENGKAP (0-60 BULAN) ==========================
+        // Data ini adalah SANGAT DISIMPELKAN dari standar WHO L-M-S untuk demonstrasi,
+        // menggunakan nilai-nilai Z-Score (-3, -2, -1, Median, +1, +2, +3 SD).
+        // Dalam implementasi nyata, seluruh data per bulan harus diimpor dari WHO.
+
+        const WHO_DATA = {
+            // Data BB/U (Berat Badan / Usia) Laki-laki
+            "BB/U_L": {
+                0: { m: 3.3, sd3neg: 2.4, sd2neg: 2.9, sd1neg: 3.8, median: 4.5, sd1: 5.2, sd2: 5.8, sd3: 6.5 },
+                12: { m: 9.6, sd3neg: 7.0, sd2neg: 7.8, sd1neg: 8.7, median: 10.2, sd1: 11.5, sd2: 12.8, sd3: 14.1 },
+                24: { m: 12.2, sd3neg: 9.0, sd2neg: 10.1, sd1neg: 11.2, median: 13.0, sd1: 14.8, sd2: 16.7, sd3: 18.5 },
+                36: { m: 14.3, sd3neg: 10.5, sd2neg: 11.8, sd1neg: 13.2, median: 15.5, sd1: 17.8, sd2: 20.0, sd3: 22.3 },
+                48: { m: 16.3, sd3neg: 12.0, sd2neg: 13.5, sd1neg: 15.0, median: 17.8, sd1: 20.5, sd2: 23.3, sd3: 26.0 },
+                60: { m: 18.3, sd3neg: 13.5, sd2neg: 15.2, sd1neg: 17.0, median: 20.2, sd1: 23.5, sd2: 26.8, sd3: 30.1 }
+            },
+            // Data BB/U (Berat Badan / Usia) Perempuan
+            "BB/U_P": {
+                0: { m: 3.2, sd3neg: 2.3, sd2neg: 2.8, sd1neg: 3.6, median: 4.2, sd1: 4.9, sd2: 5.5, sd3: 6.1 },
+                12: { m: 9.0, sd3neg: 6.5, sd2neg: 7.3, sd1neg: 8.2, median: 9.8, sd1: 11.1, sd2: 12.5, sd3: 13.8 },
+                24: { m: 11.5, sd3neg: 8.4, sd2neg: 9.5, sd1neg: 10.6, median: 12.5, sd1: 14.3, sd2: 16.1, sd3: 17.9 },
+                36: { m: 13.5, sd3neg: 9.8, sd2neg: 11.1, sd1neg: 12.5, median: 14.7, sd1: 17.0, sd2: 19.3, sd3: 21.6 },
+                48: { m: 15.4, sd3neg: 11.3, sd2neg: 12.7, sd1neg: 14.2, median: 17.0, sd1: 19.8, sd2: 22.5, sd3: 25.3 },
+                60: { m: 17.2, sd3neg: 12.6, sd2neg: 14.2, sd1neg: 15.9, median: 19.1, sd1: 22.3, sd2: 25.5, sd3: 28.7 }
+            },
+            // Data TB/U (Tinggi Badan / Usia) Laki-laki
+            "TB/U_L": {
+                0: { m: 49.9, sd3neg: 46.1, sd2neg: 47.4, sd1neg: 48.7, median: 51.0, sd1: 52.3, sd2: 53.6, sd3: 54.9 },
+                12: { m: 76.1, sd3neg: 69.8, sd2neg: 72.3, sd1neg: 74.5, median: 78.0, sd1: 80.8, sd2: 83.1, sd3: 85.3 },
+                24: { m: 87.1, sd3neg: 80.1, sd2neg: 82.8, sd1neg: 85.3, median: 89.2, sd1: 92.4, sd2: 95.1, sd3: 97.7 },
+                36: { m: 95.7, sd3neg: 88.0, sd2neg: 90.8, sd1neg: 93.4, median: 98.2, sd1: 101.4, sd2: 104.2, sd3: 107.0 },
+                48: { m: 102.6, sd3neg: 94.6, sd2neg: 97.5, sd1neg: 100.3, median: 105.4, sd1: 109.1, sd2: 112.1, sd3: 115.1 },
+                60: { m: 108.4, sd3neg: 100.0, sd2neg: 103.0, sd1neg: 105.9, median: 111.3, sd1: 115.3, sd2: 118.6, sd3: 121.8 }
+            },
+            // Data TB/U (Tinggi Badan / Usia) Perempuan
+            "TB/U_P": {
+                0: { m: 49.1, sd3neg: 45.4, sd2neg: 46.7, sd1neg: 47.9, median: 50.1, sd1: 51.4, sd2: 52.7, sd3: 54.0 },
+                12: { m: 74.5, sd3neg: 68.2, sd2neg: 70.7, sd1neg: 72.9, median: 76.5, sd1: 79.2, sd2: 81.6, sd3: 83.8 },
+                24: { m: 85.0, sd3neg: 78.1, sd2neg: 80.7, sd1neg: 83.1, median: 87.1, sd1: 90.2, sd2: 92.8, sd3: 95.3 },
+                36: { m: 93.6, sd3neg: 86.0, sd2neg: 88.8, sd1neg: 91.3, median: 96.0, sd1: 99.1, sd2: 101.8, sd3: 104.5 },
+                48: { m: 100.2, sd3neg: 92.3, sd2neg: 95.2, sd1neg: 97.9, median: 102.9, sd1: 106.5, sd2: 109.5, sd3: 112.4 },
+                60: { m: 105.9, sd3neg: 97.6, sd2neg: 100.5, sd1neg: 103.3, median: 108.5, sd1: 112.3, sd2: 115.4, sd3: 118.5 }
+            },
+            // Data BB/TB (Berat Badan / Tinggi Badan) Laki-laki
+            "BB/TB_L": {
+                // Contoh untuk Tinggi Badan 80 cm
+                80: { m: 9.3, sd3neg: 7.7, sd2neg: 8.2, sd1neg: 8.7, median: 9.9, sd1: 10.7, sd2: 11.4, sd3: 12.2 },
+                // Contoh untuk Tinggi Badan 90 cm
+                90: { m: 11.5, sd3neg: 9.3, sd2neg: 10.0, sd1neg: 10.7, median: 12.3, sd1: 13.3, sd2: 14.3, sd3: 15.3 },
+                // Contoh untuk Tinggi Badan 100 cm
+                100: { m: 14.3, sd3neg: 11.5, sd2neg: 12.4, sd1neg: 13.3, median: 15.4, sd1: 16.7, sd2: 18.0, sd3: 19.3 },
+                // Contoh untuk Tinggi Badan 110 cm
+                110: { m: 17.8, sd3neg: 14.2, sd2neg: 15.3, sd1neg: 16.5, median: 19.2, sd1: 20.8, sd2: 22.5, sd3: 24.2 }
+            },
+            // Data BB/TB (Berat Badan / Tinggi Badan) Perempuan
+            "BB/TB_P": {
+                // Contoh untuk Tinggi Badan 80 cm
+                80: { m: 9.1, sd3neg: 7.5, sd2neg: 8.0, sd1neg: 8.5, median: 9.6, sd1: 10.4, sd2: 11.1, sd3: 11.9 },
+                // Contoh untuk Tinggi Badan 90 cm
+                90: { m: 11.2, sd3neg: 9.1, sd2neg: 9.7, sd1neg: 10.4, median: 12.0, sd1: 13.0, sd2: 13.9, sd3: 14.9 },
+                // Contoh untuk Tinggi Badan 100 cm
+                100: { m: 13.9, sd3neg: 11.1, sd2neg: 11.9, sd1neg: 12.8, median: 15.0, sd1: 16.2, sd2: 17.5, sd3: 18.7 },
+                // Contoh untuk Tinggi Badan 110 cm
+                110: { m: 17.3, sd3neg: 13.7, sd2neg: 14.8, sd1neg: 15.9, median: 18.7, sd1: 20.2, sd2: 21.8, sd3: 23.4 }
+            }
+        };
+
+        // Fungsi untuk mencari data WHO terdekat (Interpolasi Sederhana)
+        // Di aplikasi nyata, dibutuhkan interpolasi linier atau data lengkap
+        function getWHOData(index, gender, key) {
+            const dataIndex = WHO_DATA[`${index}_${gender}`];
+            if (!dataIndex) return null;
+
+            // Jika index adalah BB/TB, key adalah Tinggi Badan
+            // Jika index adalah BB/U atau TB/U, key adalah Usia
+
+            const keys = Object.keys(dataIndex).map(Number).sort((a, b) => a - b);
+
+            // Cari data yang sesuai atau terdekat
+            for (let i = 0; i < keys.length; i++) {
+                if (key <= keys[i]) {
+                    // Cukup ambil data WHO pada bulan/tinggi terdekat (bulan/tinggi teratas)
+                    return dataIndex[keys[i]];
+                }
+            }
+
+            // Jika lebih dari 60 bulan (atau tinggi badan > max di data sample), ambil data max
+            return dataIndex[keys[keys.length - 1]];
+        }
+
+        // Fungsi untuk menghitung Z-Score
+        function hitungZScore(nilaiAnak, dataWHO) {
+            const median = dataWHO.median;
+
+            // Z-Score menggunakan formula (Nilai - Median) / SD
+            // SD riil = (SD+1 - SD-1) / 2
+            const sd_real = (dataWHO.sd1 - dataWHO.sd1neg) / 2.0;
+
+            if (sd_real === 0) return 999; // Hindari pembagian dengan nol
+
+            const zScore = (nilaiAnak - median) / sd_real;
+            return zScore;
+        }
+
+        function getKategori(index, z) {
+            let kategori, warna;
+
+            if (index === "BB/U" || index === "BB/TB") {
+                if (z < -3) { kategori = "Gizi Buruk / Sangat Kurus"; warna = "danger"; }
+                else if (z < -2) { kategori = "Gizi Kurang / Kurus"; warna = "warning"; }
+                else if (z <= 1) { kategori = "Gizi Baik"; warna = "success"; }
+                else if (z <= 2) { kategori = "Gizi Lebih / Risiko Lebih"; warna = "info"; }
+                else { kategori = "Obesitas"; warna = "primary"; }
+
+            } else if (index === "TB/U") {
+                if (z < -3) { kategori = "Sangat Pendek / Severe Stunting"; warna = "danger"; }
+                else if (z < -2) { kategori = "Pendek / Stunting"; warna = "warning"; }
+                else { kategori = "Tinggi Badan Normal"; warna = "success"; }
+            } else {
+                kategori = "Index Tidak Dikenal"; warna = "secondary";
+            }
+            return { kategori, warna };
+        }
+
+        // Fungsi untuk menampilkan grafik Z-Score menggunakan Chart.js
+        function tampilkanGrafik(dataWHO, index, usia, nilaiAnak) {
+
+            const labels = ["-3 SD", "-2 SD", "-1 SD", "Median", "+1 SD", "+2 SD", "+3 SD"];
+            const values = [
+                dataWHO.sd3neg,
+                dataWHO.sd2neg,
+                dataWHO.sd1neg,
+                dataWHO.median,
+                dataWHO.sd1,
+                dataWHO.sd2,
+                dataWHO.sd3,
+            ];
+
+            const ctx = document.getElementById("grafikZscore").getContext("2d");
+
+            if (window.grafikZ) window.grafikZ.destroy(); // Hancurkan chart lama jika ada
+
+            const dataAnak = new Array(values.length).fill(null);
+
+            // Kita tempatkan nilai anak di posisi Median (Index 3)
+            dataAnak[3] = nilaiAnak;
+
+            // Tentukan min dan max Y untuk skala grafik
+            const allValues = values.filter(v => v !== null).concat([nilaiAnak]);
+            const minChart = Math.min(...allValues) - 0.5;
+            const maxChart = Math.max(...allValues) + 0.5;
+
+            // Label Sumbu X/Y
+            const unit = (index === "BB/TB" || index === "BB/U") ? 'kg' : 'cm';
+            const titleX = (index === "BB/TB") ? `Tinggi Badan Rujukan (${unit})` : `Usia Rujukan (${unit})`;
+
+
+            window.grafikZ = new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: "Standar WHO (Garis Rujukan)",
+                            data: values,
+                            fill: false,
+                            borderWidth: 3,
+                            borderColor: "#176f4e", // Hijau gelap
+                            pointRadius: 0,
+                            tension: 0.2 // Kurva mulus
+                        },
+                        {
+                            label: "Posisi Anak",
+                            data: dataAnak,
+                            borderColor: "red",
+                            backgroundColor: "red",
+                            pointRadius: 8,
+                            pointStyle: 'crossRot', // Tanda X untuk membedakan
+                            type: "scatter" // Plot sebagai titik
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: `Index ${index} (Nilai Anak: ${nilaiAnak.toFixed(1)} ${unit})`,
+                        },
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: `Nilai (${unit})`
+                            },
+                            min: minChart,
+                            max: maxChart,
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Nilai Z-Score Rujukan'
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+
+        // Fungsi utama yang dipanggil saat tombol HITUNG ditekan
+        function hitungGizi() {
+
+            const index = document.getElementById('kategoriIndex').value;
+            const gender = document.getElementById('jenisKelamin').value;
+            const berat = parseFloat(document.getElementById('beratBadan').value);
+            const tinggi = parseFloat(document.getElementById('tinggiBadan').value);
+            const usia = parseInt(document.getElementById('usiaBulan').value);
+
+            // Validasi Input
+            if (!index || !gender || isNaN(berat) || isNaN(tinggi) || isNaN(usia) || berat <= 0 || tinggi <= 0 || usia < 0) {
+                alert("Semua input (Index, Jenis Kelamin, Berat, Tinggi, Usia) wajib diisi dengan angka valid.");
+                return;
+            }
+            if (usia > 60 && (index === "BB/U" || index === "TB/U")) {
+                alert("Perhitungan BB/U dan TB/U di sistem ini dibatasi hingga 60 bulan (5 tahun) sesuai standar WHO.");
+                return;
+            }
+
+            let dataWHO;
+            let nilaiAnak;
+            let keyPencarian;
+            let indexString = `${index}_${gender}`;
+
+            // Tentukan Nilai Anak dan Kunci Pencarian WHO
+            if (index === "BB/U") {
+                nilaiAnak = berat;
+                keyPencarian = usia;
+            } else if (index === "TB/U") {
+                nilaiAnak = tinggi;
+                keyPencarian = usia;
+            } else if (index === "BB/TB") {
+                nilaiAnak = berat;
+                keyPencarian = tinggi; // BB/TB diukur berdasarkan tinggi badan, bukan usia
+            } else {
+                alert("Kategori Index tidak valid.");
+                return;
+            }
+
+            dataWHO = getWHOData(index, gender, keyPencarian);
+
+            if (!dataWHO) {
+                alert(`Data WHO untuk Index ${index} usia/tinggi ${keyPencarian} tidak tersedia dalam data sample yang disederhanakan.`);
+                return;
+            }
+
+            // Lakukan Perhitungan Z-Score
+            const z = hitungZScore(nilaiAnak, dataWHO);
+            const { kategori, warna } = getKategori(index, z);
+
+            // Tampilkan hasil di Modal
+            document.getElementById("kategoriHasil").innerHTML =
+                `Status Gizi Anak: <span class="text-${warna}"><b>${kategori}</b></span> (Z-Score: ${z.toFixed(2)})`;
+
+            // Tampilkan Grafik
+            tampilkanGrafik(dataWHO, index, usia, nilaiAnak);
+
+            // Tampilkan Modal
+            const hasilModal = new bootstrap.Modal(document.getElementById("hasilModal"));
+            hasilModal.show();
+        }
+    </script>
+</body>
+
+</html>
