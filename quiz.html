@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,18 +12,28 @@
         body {
             background-color: #badc84;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
         }
+
+        .main-header {
+            width: 100%;
+            position: relative;
+            z-index: 1000;
+        }
+
+        .main-header .navbar {
+            width: 100%;
+        }
+
 
         .quiz-container {
             max-width: 700px;
             background-color: white;
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             margin: auto;
             position: relative;
+            margin-top: 80px;
         }
 
         .form-check-label {
@@ -35,7 +46,7 @@
             display: block;
         }
 
-        .form-check-input:checked + .form-check-label {
+        .form-check-input:checked+.form-check-label {
             background-color: #d1e7dd;
             border-color: #badc84;
         }
@@ -48,13 +59,36 @@
 </head>
 
 <body>
+    <header class="main-header">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm py-2">
+            <div class="container d-flex align-items-center">
+
+                <!-- Logo + Text Brand -->
+                <div class="d-flex align-items-center">
+                    <img src="img/logo-djkn.png" alt="DJKN CARE Logo" height="70" class="me-0"
+                        style="margin-right: 6px;">
+
+                    <span style="font-size: 1.7rem; font-weight: 700;">
+                        <span style="color: #006838;">DJKN</span>
+                        <span style="color: #8cc342;">-CARE</span>
+                    </span>
+                </div>
+
+                <!-- Logo STIKES -->
+                <img src="img/logo-stikes.png" alt="Logo STIKES" height="55" class="ms-auto">
+
+            </div>
+        </nav>
+    </header>
+
     <div class="container">
+
         <div class="quiz-container mx-auto">
             <a href="home.html" class="btn btn-outline-secondary btn-sm mb-3">
-                ← Kembali ke Halaman Home
+                ← Back
             </a>
 
-            <h2 class="text-center text-primary mb-4">Uji Pengetahuan Anda! 🧠</h2>
+            <h2 class="text-center text-success mb-4">Uji Pengetahuan Anda!</h2>
 
             <p class="text-center text-muted mb-4">Soal <span id="current-question">1</span> dari 15</p>
 
@@ -89,8 +123,8 @@
         // DATA SOAL
         // ========================
         const questions = [
-            { question: "Apa definisi dari Stunting?", options: ["Anak yang terlalu kurus", "Gangguan tumbuh kembang akibat kekurangan gizi kronis", "Anak yang sering sakit", "Anak yang tidak mau makan sayur"], answer: 1 },
-            { question: "Manakah ciri-ciri utama stunting?", options: ["Sering muntah", "Perlambatan pertumbuhan tulang", "Wajah pucat", "Tubuh terlalu gemuk"], answer: 1 },
+            { question: "Apa itu picky eater?", options: ["Anak yang suka pilih-pilih makanan", "Anak yang makan banyak", "Anak yang suka semua makanan"], answer: 1 },
+            { question: "Ciri-ciri picky eater adalah", options: ["Mau mencoba semua makanan", "Hanya mau makan makanan tertentu", "Selalu makan tepat waktu"], answer: 2 },
             { question: "Salah satu penyebab utama stunting adalah...", options: ["Kurangnya tidur", "Kurangnya gizi pada 1000 hari pertama kehidupan", "Terlalu banyak bermain gadget", "Anak terlalu aktif"], answer: 1 },
             { question: "Apa yang dimaksud dengan Picky Eater?", options: ["Anak yang alergi makanan", "Anak yang sangat selektif memilih makanan", "Anak yang suka jajan", "Anak yang makan terlalu banyak"], answer: 1 },
             { question: "Manakah tips yang efektif untuk mengatasi Picky Eater?", options: ["Memaksa anak menghabiskan makanan", "Menyajikan makanan dengan porsi kecil dan menarik", "Memberikan makanan cepat saji", "Membiarkan anak makan sambil menonton TV"], answer: 1 },
@@ -236,4 +270,5 @@
         });
     </script>
 </body>
+
 </html>
