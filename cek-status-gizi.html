@@ -4,12 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cek Status Gizi Anak Lengkap - WHO Z-Score</title>
+    <title>Cek Status Gizi Anak - DJKN Care</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-
 
     <style>
         /* ========================================================================= */
@@ -197,7 +196,7 @@
                 text-align: center;
                 margin-bottom: 0;
                 /* Tambahkan sedikit ruang atas agar ilustrasi lebih baik */
-                padding-top: 50px;
+                padding-top: 100px;
             }
 
             .image-section img {
@@ -216,7 +215,17 @@
         /* ========================================================================= */
 
         /* Style Modal Hasil */
-        #hasilModal .modal-header {
+        /* Warna header modal akan diubah melalui JS */
+        .modal-header.bg-laki-laki {
+            background-color: #0d6efd !important;
+        }
+
+        .modal-header.bg-perempuan {
+            background-color: #e83e8c !important;
+        }
+
+        .modal-header.bg-success {
+            /* Untuk Info Modal */
             background-color: #176f4e !important;
         }
 
@@ -278,7 +287,6 @@
         <div class="content-wrapper">
 
             <div class="image-section">
-
 
                 <img src="img/bayi.png" alt="Ilustrasi Anak Sehat" class="img-fluid">
 
@@ -369,15 +377,17 @@
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
 
-                <div class="modal-header bg-success text-white">
-                    <h5 class="modal-title"><i class="bi bi-graph-up"></i> Hasil Status Gizi Anak</h5>
+                <div class="modal-header text-white" id="hasilModalHeader">
+                    <h5 class="modal-title"><i class="bi bi-graph-up"></i> Hasil Status Gizi Anak
+                        <span id="jenisKelaminJudul"></span>
+                    </h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
 
                 <div class="modal-body">
                     <h5 class="text-center fw-bold mb-4" id="kategoriHasil"></h5>
 
-                    <h6 class="text-start">Grafik Perbandingan Standar WHO vs. Data Anak:</h6>
+                    <h6 class="text-start" id="grafikSubjudul"></h6>
                     <div class="chart-container">
                         <canvas id="grafikZscore"></canvas>
                     </div>
@@ -393,12 +403,31 @@
         </div>
     </div>
 
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="errorModalLabel"><i class="bi bi-x-octagon me-2"></i>Kesalahan Input
+                        Data</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-start">
+                    <p id="errorMessage"></p>
+                    <p class="text-muted"><small>Silakan periksa kembali semua kolom input.</small></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">OK, Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // ========================== DATA STANDAR WHO LENGKAP (0-60 BULAN) ==========================
-        // Data tidak diubah, tetap sama seperti script sebelumnya.
-
         const WHO_DATA = {
+            // Data WHO yang telah disediakan
             "BB/U_L": { 0: { m: 3.3, sd3neg: 2.4, sd2neg: 2.9, sd1neg: 3.8, median: 4.5, sd1: 5.2, sd2: 5.8, sd3: 6.5 }, 12: { m: 9.6, sd3neg: 7.0, sd2neg: 7.8, sd1neg: 8.7, median: 10.2, sd1: 11.5, sd2: 12.8, sd3: 14.1 }, 24: { m: 12.2, sd3neg: 9.0, sd2neg: 10.1, sd1neg: 11.2, median: 13.0, sd1: 14.8, sd2: 16.7, sd3: 18.5 }, 36: { m: 14.3, sd3neg: 10.5, sd2neg: 11.8, sd1neg: 13.2, median: 15.5, sd1: 17.8, sd2: 20.0, sd3: 22.3 }, 48: { m: 16.3, sd3neg: 12.0, sd2neg: 13.5, sd1neg: 15.0, median: 17.8, sd1: 20.5, sd2: 23.3, sd3: 26.0 }, 60: { m: 18.3, sd3neg: 13.5, sd2neg: 15.2, sd1neg: 17.0, median: 20.2, sd1: 23.5, sd2: 26.8, sd3: 30.1 } },
             "BB/U_P": { 0: { m: 3.2, sd3neg: 2.3, sd2neg: 2.8, sd1neg: 3.6, median: 4.2, sd1: 4.9, sd2: 5.5, sd3: 6.1 }, 12: { m: 9.0, sd3neg: 6.5, sd2neg: 7.3, sd1neg: 8.2, median: 9.8, sd1: 11.1, sd2: 12.5, sd3: 13.8 }, 24: { m: 11.5, sd3neg: 8.4, sd2neg: 9.5, sd1neg: 10.6, median: 12.5, sd1: 14.3, sd2: 16.1, sd3: 17.9 }, 36: { m: 13.5, sd3neg: 9.8, sd2neg: 11.1, sd1neg: 12.5, median: 14.7, sd1: 17.0, sd2: 19.3, sd3: 21.6 }, 48: { m: 15.4, sd3neg: 11.3, sd2neg: 12.7, sd1neg: 14.2, median: 17.0, sd1: 19.8, sd2: 22.5, sd3: 25.3 }, 60: { m: 17.2, sd3neg: 12.6, sd2neg: 14.2, sd1neg: 15.9, median: 19.1, sd1: 22.3, sd2: 25.5, sd3: 28.7 } },
             "TB/U_L": { 0: { m: 49.9, sd3neg: 46.1, sd2neg: 47.4, sd1neg: 48.7, median: 51.0, sd1: 52.3, sd2: 53.6, sd3: 54.9 }, 12: { m: 76.1, sd3neg: 69.8, sd2neg: 72.3, sd1neg: 74.5, median: 78.0, sd1: 80.8, sd2: 83.1, sd3: 85.3 }, 24: { m: 87.1, sd3neg: 80.1, sd2neg: 82.8, sd1neg: 85.3, median: 89.2, sd1: 92.4, sd2: 95.1, sd3: 97.7 }, 36: { m: 95.7, sd3neg: 88.0, sd2neg: 90.8, sd1neg: 93.4, median: 98.2, sd1: 101.4, sd2: 104.2, sd3: 107.0 }, 48: { m: 102.6, sd3neg: 94.6, sd2neg: 97.5, sd1neg: 100.3, median: 105.4, sd1: 109.1, sd2: 112.1, sd3: 115.1 }, 60: { m: 108.4, sd3neg: 100.0, sd2neg: 103.0, sd1neg: 105.9, median: 111.3, sd1: 115.3, sd2: 118.6, sd3: 121.8 } },
@@ -407,194 +436,279 @@
             "BB/TB_P": { 80: { m: 9.1, sd3neg: 7.5, sd2neg: 8.0, sd1neg: 8.5, median: 9.6, sd1: 10.4, sd2: 11.1, sd3: 11.9 }, 90: { m: 11.2, sd3neg: 9.1, sd2neg: 9.7, sd1neg: 10.4, median: 12.0, sd1: 13.0, sd2: 13.9, sd3: 14.9 }, 100: { m: 13.9, sd3neg: 11.1, sd2neg: 11.9, sd1neg: 12.8, median: 15.0, sd1: 16.2, sd2: 17.5, sd3: 18.7 }, 110: { m: 17.3, sd3neg: 13.7, sd2neg: 14.8, sd1neg: 15.9, median: 18.7, sd1: 20.2, sd2: 21.8, sd3: 23.4 } }
         };
 
-        function getWHOData(index, gender, key) {
-            const dataIndex = WHO_DATA[`${index}_${gender}`];
-            if (!dataIndex) return null;
-            const keys = Object.keys(dataIndex).map(Number).sort((a, b) => a - b);
+        let myChart; // Variabel global untuk instance chart
 
-            for (let i = 0; i < keys.length; i++) {
-                if (key <= keys[i]) {
-                    return dataIndex[keys[i]];
+        // Fungsi interpolasi linear sederhana
+        function interpolate(x, x1, y1, x2, y2) {
+            if (x1 === x2) return y1;
+            return y1 + (x - x1) * (y2 - y1) / (x2 - x1);
+        }
+
+        // Fungsi untuk mendapatkan data WHO yang diinterpolasi
+        function getWhoData(indexKey, paramValue) {
+            const data = WHO_DATA[indexKey];
+            const keys = Object.keys(data).map(Number).sort((a, b) => a - b);
+
+            // Cek apakah nilai di luar batas data (WHO hanya sampai 60 bulan)
+            if (paramValue < keys[0]) return data[keys[0]];
+            if (paramValue > keys[keys.length - 1]) return data[keys[keys.length - 1]];
+
+            // Cari dua titik data terdekat
+            let lowerKey = keys[0];
+            let upperKey = keys[keys.length - 1];
+
+            for (let i = 0; i < keys.length - 1; i++) {
+                if (keys[i] <= paramValue && keys[i + 1] >= paramValue) {
+                    lowerKey = keys[i];
+                    upperKey = keys[i + 1];
+                    break;
                 }
             }
-            return dataIndex[keys[keys.length - 1]];
+
+            // Jika nilai sama dengan salah satu titik kunci, kembalikan data tersebut
+            if (lowerKey === upperKey) return data[lowerKey];
+
+            const d1 = data[lowerKey];
+            const d2 = data[upperKey];
+            const interpolatedData = {};
+
+            // Interpolasi untuk setiap nilai z-score
+            for (const key in d1) {
+                interpolatedData[key] = interpolate(paramValue, lowerKey, d1[key], upperKey, d2[key]);
+            }
+
+            return interpolatedData;
         }
 
-        function hitungZScore(nilaiAnak, dataWHO) {
-            const median = dataWHO.median;
-            const sd_real = (dataWHO.sd1 - dataWHO.sd1neg) / 2.0;
-
-            if (sd_real === 0) return 999;
-            const zScore = (nilaiAnak - median) / sd_real;
-            return zScore;
-        }
-
+        // Fungsi perhitungan Z-Score (Disederhanakan untuk data rujukan WHO)
         function getKategori(index, z) {
             let kategori, warna;
+            let zScoreText = z.toFixed(2);
+
             if (index === "BB/U" || index === "BB/TB") {
-                if (z < -3) { kategori = "Gizi Buruk / Sangat Kurus"; warna = "danger"; }
-                else if (z < -2) { kategori = "Gizi Kurang / Kurus"; warna = "warning"; }
-                else if (z <= 1) { kategori = "Gizi Baik"; warna = "success"; }
-                else if (z <= 2) { kategori = "Gizi Lebih / Risiko Lebih"; warna = "info"; }
-                else { kategori = "Obesitas"; warna = "primary"; }
+                if (z < -3) { kategori = `Gizi Buruk / Sangat Kurus (Z: ${zScoreText})`; warna = "text-danger"; }
+                else if (z < -2) { kategori = `Gizi Kurang / Kurus (Z: ${zScoreText})`; warna = "text-warning"; }
+                else if (z <= 1) { kategori = `Gizi Baik (Z: ${zScoreText})`; warna = "text-success"; }
+                else if (z <= 2) { kategori = `Gizi Lebih / Risiko Lebih (Z: ${zScoreText})`; warna = "text-info"; }
+                else { kategori = `Obesitas (Z: ${zScoreText})`; warna = "text-primary"; }
             } else if (index === "TB/U") {
-                if (z < -3) { kategori = "Sangat Pendek / Severe Stunting"; warna = "danger"; }
-                else if (z < -2) { kategori = "Pendek / Stunting"; warna = "warning"; }
-                else { kategori = "Tinggi Badan Normal"; warna = "success"; }
+                if (z < -3) { kategori = `Sangat Pendek / Severe Stunting (Z: ${zScoreText})`; warna = "text-danger"; }
+                else if (z < -2) { kategori = `Pendek / Stunting (Z: ${zScoreText})`; warna = "text-warning"; }
+                else { kategori = `Tinggi Badan Normal (Z: ${zScoreText})`; warna = "text-success"; }
             } else {
-                kategori = "Index Tidak Dikenal"; warna = "secondary";
+                kategori = "Index Tidak Dikenal"; warna = "text-secondary";
             }
-            return { kategori, warna };
+            return { kategori, warna, zScore: z };
         }
 
-        // FUNGSI INI DITINGKATKAN UNTUK RASIO ASPEK CHART YANG LEBIH BAIK
-        function tampilkanGrafik(dataWHO, index, usia, nilaiAnak) {
 
-            const labels = ["-3 SD", "-2 SD", "-1 SD", "Median", "+1 SD", "+2 SD", "+3 SD"];
-            const values = [
-                dataWHO.sd3neg,
-                dataWHO.sd2neg,
-                dataWHO.sd1neg,
-                dataWHO.median,
-                dataWHO.sd1,
-                dataWHO.sd2,
-                dataWHO.sd3,
+        /**
+         * Fungsi untuk menampilkan modal error.
+         * @param {string} message Pesan kesalahan yang akan ditampilkan.
+         */
+        function showErrorModal(message) {
+            const errorMessageElement = document.getElementById('errorMessage');
+            errorMessageElement.innerHTML = message;
+
+            const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+            errorModal.show();
+        }
+
+
+        function hitungGizi() {
+            const index = document.getElementById('kategoriIndex').value;
+            const jenisKelamin = document.getElementById('jenisKelamin').value;
+            const bb = parseFloat(document.getElementById('beratBadan').value);
+            const tb = parseFloat(document.getElementById('tinggiBadan').value);
+            const usia = parseInt(document.getElementById('usiaBulan').value);
+
+            // Deklarasi variabel error di awal
+            let errorMessage = '';
+
+            // 1. Validasi Input Kosong/NaN
+            if (!index || !jenisKelamin || isNaN(bb) || isNaN(tb) || isNaN(usia)) {
+                errorMessage = "Harap lengkapi semua data input: Kategori Index, Jenis Kelamin, Berat Badan (kg), Tinggi Badan (cm), dan Usia (bulan).";
+                showErrorModal(errorMessage);
+                return;
+            }
+
+            let value, dataParam, dataWHOKey;
+
+            if (index === "BB/U") {
+                dataWHOKey = `${index}_${jenisKelamin}`;
+                dataParam = usia;
+                value = bb;
+                if (usia < 0 || usia > 60) {
+                    errorMessage = "BB/U hanya didukung untuk usia **0 hingga 60 bulan**.";
+                    showErrorModal(errorMessage);
+                    return;
+                }
+            } else if (index === "TB/U") {
+                dataWHOKey = `${index}_${jenisKelamin}`;
+                dataParam = usia;
+                value = tb;
+                if (usia < 0 || usia > 60) {
+                    errorMessage = "TB/U hanya didukung untuk usia **0 hingga 60 bulan**.";
+                    showErrorModal(errorMessage);
+                    return;
+                }
+            } else if (index === "BB/TB") {
+                dataWHOKey = `${index}_${jenisKelamin}`;
+                dataParam = tb;
+                value = bb;
+                // Batasan yang lebih realistis
+                if (tb < 45 || tb > 120) {
+                    errorMessage = "BB/TB hanya didukung untuk Tinggi Badan **45 cm hingga 120 cm**.";
+                    showErrorModal(errorMessage);
+                    return;
+                }
+            } else {
+                errorMessage = "Kategori Index tidak valid.";
+                showErrorModal(errorMessage);
+                return;
+            }
+
+            // Dapatkan data rujukan WHO yang sudah diinterpolasi
+            const whoData = getWhoData(dataWHOKey, dataParam);
+
+            // Hitung Z-Score 
+            let zScore;
+            if (value >= whoData.median) {
+                zScore = (value - whoData.median) / (whoData.sd1 - whoData.median);
+            } else {
+                zScore = (value - whoData.median) / (whoData.median - whoData.sd1neg);
+            }
+
+
+            // Ambil Kategori dan Warna
+            const { kategori, warna } = getKategori(index, zScore);
+
+            // --- Tampilkan Hasil di Modal ---
+            const jkDisplay = jenisKelamin === 'L' ? 'Laki-laki' : 'Perempuan';
+            const modalHeader = document.getElementById('hasilModalHeader');
+            const modalTitleSpan = document.getElementById('jenisKelaminJudul');
+            const kategoriHasil = document.getElementById('kategoriHasil');
+            const grafikSubjudul = document.getElementById('grafikSubjudul');
+
+            // Atur Warna Header Modal
+            modalHeader.className = `modal-header text-white ${jenisKelamin === 'L' ? 'bg-laki-laki' : 'bg-perempuan'}`;
+            modalTitleSpan.textContent = `- ${jkDisplay}`;
+
+            // Atur Teks Hasil
+            kategoriHasil.innerHTML = `Status Gizi Anak Anda (<span class="${warna}">${index}</span>) adalah: <br> <b class="${warna}">${kategori}</b>`;
+
+            // Atur Subjudul Grafik
+            const xLabel = index === "BB/TB" ? "Tinggi Badan (cm)" : "Usia (Bulan)";
+            const yLabel = index === "TB/U" ? "Tinggi Badan (cm)" : "Berat Badan (kg)";
+            grafikSubjudul.innerHTML = `Grafik Status Gizi Anak (<b>${index}</b>) berdasarkan ${xLabel}:`;
+
+            // Tampilkan Grafik
+            tampilkanGrafik(index, dataParam, whoData, value, xLabel, yLabel, jenisKelamin);
+
+            const hasilModal = new bootstrap.Modal(document.getElementById('hasilModal'));
+            hasilModal.show();
+        }
+
+
+        // Fungsi untuk menampilkan grafik Z-Score
+        function tampilkanGrafik(index, dataParam, whoData, value, xLabel, yLabel, jenisKelamin) {
+            const ctx = document.getElementById('grafikZscore').getContext('2d');
+
+            if (myChart) {
+                myChart.destroy(); // Hancurkan chart lama jika ada
+            }
+
+            // Data untuk kurva Z-Score
+            const labels = [
+                `<-3 SD`, `-3 SD`, `-2 SD`, `-1 SD`,
+                `Median`, // Z-Score 0
+                `+1 SD`, `+2 SD`, `+3 SD`, `>+3 SD`
             ];
 
-            const ctx = document.getElementById("grafikZscore").getContext("2d");
+            const dataPoints = [
+                whoData.sd3neg, whoData.sd3neg, whoData.sd2neg, whoData.sd1neg,
+                whoData.median,
+                whoData.sd1, whoData.sd2, whoData.sd3, whoData.sd3
+            ];
 
-            if (window.grafikZ) window.grafikZ.destroy();
-
-            const dataAnak = new Array(values.length).fill(null);
-            dataAnak[3] = nilaiAnak;
-
-            const allValues = values.filter(v => v !== null).concat([nilaiAnak]);
-            const minChart = Math.min(...allValues) - 0.5;
-            const maxChart = Math.max(...allValues) + 0.5;
-
-            const unit = (index === "BB/TB" || index === "BB/U") ? 'kg' : 'cm';
-
-            window.grafikZ = new Chart(ctx, {
-                type: "line",
+            // Konfigurasi Chart
+            myChart = new Chart(ctx, {
+                type: 'line',
                 data: {
                     labels: labels,
                     datasets: [
+                        // Garis WHO Standard
                         {
-                            label: "Standar WHO (Garis Rujukan)",
-                            data: values,
-                            fill: false,
-                            borderWidth: 3,
-                            borderColor: "#176f4e",
-                            pointRadius: 5, /* Ditingkatkan untuk titik yang lebih jelas */
-                            pointBackgroundColor: "#176f4e",
-                            pointBorderColor: "#fff",
-                            pointHoverRadius: 7,
-                            tension: 0.3 /* Sedikit lebih mulus */
+                            label: `Rujukan WHO (${index})`,
+                            data: dataPoints,
+                            borderColor: '#8d8d8d',
+                            backgroundColor: 'rgba(141, 141, 141, 0.1)',
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            fill: true,
+                            tension: 0.2 // Untuk kurva yang lebih halus
                         },
+                        // Titik Data Anak
                         {
-                            label: "Posisi Anak",
-                            data: dataAnak,
-                            borderColor: "red",
-                            backgroundColor: "red",
-                            pointRadius: 10, /* Ditingkatkan */
-                            pointStyle: 'crossRot',
-                            type: "scatter"
+                            label: `Data Anak (Z-Score ${getKategori(index, value >= whoData.median ? (value - whoData.median) / (whoData.sd1 - whoData.median) : (value - whoData.median) / (whoData.median - whoData.sd1neg)).zScore.toFixed(2)})`,
+                            data: [
+                                // Menemukan posisi horizontal yang paling mendekati nilai anak di sumbu Y
+                                // Kita akan membuat titik anak sebagai Scatter-Plot di tengah, dan menggunakan anotasi
+                                // untuk menunjukkan posisi vertikal anak
+                            ],
+                            type: 'scatter',
+                            pointBackgroundColor: jenisKelamin === 'L' ? '#0d6efd' : '#e83e8c',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2,
+                            pointRadius: 8,
+                            data: [{
+                                x: 'Median', // Posisikan di label "Median" atau di tengah grafik
+                                y: value
+                            }],
+                            showLine: false,
                         }
                     ]
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false, // **PENTING: Memungkinkan kontrol rasio aspek melalui CSS Container**
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: `Index ${index} (Nilai Anak: ${nilaiAnak.toFixed(1)} ${unit})`,
-                        },
-                        legend: {
-                            display: true,
-                            position: 'bottom',
-                        }
-                    },
+                    maintainAspectRatio: false,
                     scales: {
                         y: {
                             title: {
                                 display: true,
-                                text: `Nilai (${unit})`
+                                text: yLabel
                             },
-                            min: minChart,
-                            max: maxChart,
-                            ticks: {
-                                stepSize: 1
-                            }
+                            // Atur rentang Y agar titik anak terlihat jelas
+                            min: Math.min(...dataPoints, value) * 0.9,
+                            max: Math.max(...dataPoints, value) * 1.1,
                         },
                         x: {
                             title: {
                                 display: true,
-                                text: 'Nilai Z-Score Rujukan'
+                                text: `Kurva Standar WHO Berdasarkan Z-Score (${xLabel}: ${dataParam} ${xLabel.includes("Bulan") ? 'bulan' : 'cm'})`
                             },
                             grid: {
                                 display: false
                             }
                         }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    if (context.datasetIndex === 1) { // Titik data anak
+                                        return `Nilai Anak: ${context.parsed.y.toFixed(2)} ${yLabel.includes("Berat") ? 'kg' : 'cm'}`;
+                                    }
+                                    return `Nilai Rujukan (${context.label}): ${context.parsed.y.toFixed(2)} ${yLabel.includes("Berat") ? 'kg' : 'cm'}`;
+                                }
+                            }
+                        }
                     }
                 }
             });
-        }
-
-        // Fungsi utama yang dipanggil saat tombol HITUNG ditekan (Tidak ada perubahan signifikan)
-        function hitungGizi() {
-
-            const index = document.getElementById('kategoriIndex').value;
-            const gender = document.getElementById('jenisKelamin').value;
-            const berat = parseFloat(document.getElementById('beratBadan').value);
-            const tinggi = parseFloat(document.getElementById('tinggiBadan').value);
-            const usia = parseInt(document.getElementById('usiaBulan').value);
-
-            if (!index || !gender || isNaN(berat) || isNaN(tinggi) || isNaN(usia) || berat <= 0 || tinggi <= 0 || usia < 0) {
-                alert("Semua input (Index, Jenis Kelamin, Berat, Tinggi, Usia) wajib diisi dengan angka valid.");
-                return;
-            }
-            if (usia > 60 && (index === "BB/U" || index === "TB/U")) {
-                alert("Perhitungan BB/U dan TB/U di sistem ini dibatasi hingga 60 bulan (5 tahun) sesuai standar WHO.");
-                return;
-            }
-
-            let dataWHO;
-            let nilaiAnak;
-            let keyPencarian;
-            let indexString = `${index}_${gender}`;
-
-            if (index === "BB/U") {
-                nilaiAnak = berat;
-                keyPencarian = usia;
-            } else if (index === "TB/U") {
-                nilaiAnak = tinggi;
-                keyPencarian = usia;
-            } else if (index === "BB/TB") {
-                nilaiAnak = berat;
-                keyPencarian = tinggi;
-            } else {
-                alert("Kategori Index tidak valid.");
-                return;
-            }
-
-            dataWHO = getWHOData(index, gender, keyPencarian);
-
-            if (!dataWHO) {
-                alert(`Data WHO untuk Index ${index} usia/tinggi ${keyPencarian} tidak tersedia dalam data sample yang disederhanakan.`);
-                return;
-            }
-
-            const z = hitungZScore(nilaiAnak, dataWHO);
-            const { kategori, warna } = getKategori(index, z);
-
-            document.getElementById("kategoriHasil").innerHTML =
-                `Status Gizi Anak: <span class="text-${warna}"><b>${kategori}</b></span> (Z-Score: ${z.toFixed(2)})`;
-
-            tampilkanGrafik(dataWHO, index, usia, nilaiAnak);
-
-            const hasilModal = new bootstrap.Modal(document.getElementById("hasilModal"));
-            hasilModal.show();
         }
     </script>
 </body>
