@@ -20,6 +20,55 @@
             cursor: pointer;
         }
 
+        /* Efek hover elegan untuk card */
+        .article-promo-section .card {
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            border: 1px solid #84b66b !important;
+            background: #ffffff;
+            opacity: 0;
+            animation: fadeSlideIn 0.8s ease forwards;
+        }
+
+        .article-promo-section .card:hover {
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border-color: #006838 !important;
+        }
+
+        /* Efek pada gambar */
+        .article-promo-section .card img {
+            transition: transform 0.3s ease;
+        }
+
+        .article-promo-section .card:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Efek teks menguat saat hover */
+        .article-promo-section .card:hover p {
+            color: #004d2f !important;
+        }
+
+        /* Smooth hover background */
+        .article-promo-section .card:hover {
+            background: #f3ffe5;
+        }
+
+        @keyframes fadeSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 
         .card-hover-link {
             border-left: 5px solid #006838;
             transition: all 0.25s ease;
@@ -34,7 +83,7 @@
 
         .card-hover-link .card-title {
             color: #006838 !important;
-        }
+        } */
     </style>
 </head>
 
@@ -207,59 +256,70 @@
 
         <section id="article-promo" class="article-promo-section py-5" style="background-color: #badc84;">
             <div class="container text-center">
-                <h3 class="mb-4 text-white">Artikel</h3>
+                <h3 class="mb-4 text-success">Artikel</h3>
                 <div class="row justify-content-center g-4">
 
+                    <!-- 1. Tips Makanan Sehat -->
                     <div class="col-6 col-md-3">
-                        <a href="#tips-makan-sehat" class="card h-100 text-decoration-none shadow-sm border-success">
+                        <a href="https://www.alodokter.com/bunda-ini-penyebab-dan-tips-menghadapi-anak-picky-eater"
+                            target="_blank" class="card h-100 text-decoration-none shadow-sm border-success">
                             <div class="card-body text-center">
-                                <img src="img/makan-sehat.png" alt="Tips Makanan Sehat" class="img-fluid mb-2"
-                                    style="height: 60px;">
-                                <p class="card-text fw-bold text-success small">5 Tips Seru Agar Anak Suka Makanan Sehat
+                                <img src="img/makan-sehat.png" class="img-fluid mb-2" style="height: 60px;">
+                                <p class="card-text fw-bold text-success small">
+                                    5 Tips Seru Agar Anak Suka Makanan Sehat
                                 </p>
                             </div>
                         </a>
                     </div>
 
+                    <!-- 2. Tips Mengatasi Picky Eater -->
                     <div class="col-6 col-md-3">
-                        <a href="#tips-picky-eater" class="card h-100 text-decoration-none shadow-sm border-success">
+                        <a href="https://www.alodokter.com/bunda-ini-penyebab-dan-tips-menghadapi-anak-picky-eater"
+                            target="_blank" class="card h-100 text-decoration-none shadow-sm border-success">
                             <div class="card-body text-center">
-                                <img src="img/mengatasi.png" alt="Mengatasi Picky Eater" class="img-fluid mb-2"
-                                    style="height: 60px;">
-                                <p class="card-text fw-bold text-success small">Tips Mengatasi Anak Picky Eater</p>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-6 col-md-3">
-                        <a href="#peran-orangtua" class="card h-100 text-decoration-none shadow-sm border-success">
-                            <div class="card-body text-center">
-                                <img src="img/picky-eater.png" alt="Peran Orang Tua" class="img-fluid mb-2"
-                                    style="height: 60px;">
-                                <p class="card-text fw-bold text-success small">Peran Orangtua Menghadapi Anak Picky
-                                    Eater
+                                <img src="img/mengatasi.png" class="img-fluid mb-2" style="height: 60px;">
+                                <p class="card-text fw-bold text-success small">
+                                    Tips Mengatasi Anak Picky Eater
                                 </p>
                             </div>
                         </a>
                     </div>
 
+                    <!-- 3. Peran Orangtua -->
                     <div class="col-6 col-md-3">
-                        <a href="#pencegah-stunting" class="card h-100 text-decoration-none shadow-sm border-success">
+                        <a href="https://rsjrw.id/artikel/peran-orang-tua-menghadapi-anak-picky-eater" target="_blank"
+                            class="card h-100 text-decoration-none shadow-sm border-success">
                             <div class="card-body text-center">
-                                <img src="img/stunting.png" alt="Pencegah Stunting" class="img-fluid mb-2"
-                                    style="height: 60px;">
-                                <p class="card-text fw-bold text-success small">3 Tips Pencegah Stunting</p>
+                                <img src="img/picky-eater.png" class="img-fluid mb-2" style="height: 60px;">
+                                <p class="card-text fw-bold text-success small">
+                                    Peran Orangtua Menghadapi Anak Picky Eater
+                                </p>
                             </div>
                         </a>
                     </div>
 
+                    <!-- 4. 3 Tips Pencegah Stunting -->
                     <div class="col-6 col-md-3">
-                        <a href="#faktor" class="card h-100 text-decoration-none shadow-sm border-success">
+                        <a href="https://ayosehat.kemkes.go.id/mengenal-3-tips-pencegahan-stunting" target="_blank"
+                            class="card h-100 text-decoration-none shadow-sm border-success">
                             <div class="card-body text-center">
-                                <img src="img/picky-eater2.png" alt="Faktor Picky Eater" class="img-fluid mb-2"
-                                    style="height: 60px;">
-                                <p class="card-text fw-bold text-success small">Faktor yang memengaruhi kejadian picky
-                                    eater</p>
+                                <img src="img/stunting.png" class="img-fluid mb-2" style="height: 60px;">
+                                <p class="card-text fw-bold text-success small">
+                                    3 Tips Pencegah Stunting
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- 5. Faktor Picky Eater -->
+                    <div class="col-6 col-md-3">
+                        <a href="https://jurnalsandihusada.polsaka.ac.id/JIKSH/article/download/158/130/"
+                            target="_blank" class="card h-100 text-decoration-none shadow-sm border-success">
+                            <div class="card-body text-center">
+                                <img src="img/picky-eater2.png" class="img-fluid mb-2" style="height: 60px;">
+                                <p class="card-text fw-bold text-success small">
+                                    Faktor yang Memengaruhi Kejadian Picky Eater
+                                </p>
                             </div>
                         </a>
                     </div>
@@ -268,7 +328,8 @@
             </div>
         </section>
 
-        <section class="article-section py-5">
+
+        <!-- <section class="article-section py-5">
             <div class="container">
                 <h2 class="text-center mb-5" style="color: #006838;">
                     ISI FITUR ARTIKEL
@@ -287,7 +348,6 @@
                     </div>
                 </div>
 
-                <!-- CARD 1 -->
                 <a href="https://www.alodokter.com/bunda-ini-penyebab-dan-tips-menghadapi-anak-picky-eater"
                     target="_blank" class="text-decoration-none text-dark">
 
@@ -310,7 +370,7 @@
                     </div>
                 </a>
 
-                <!-- CARD 2 -->
+            
                 <a href="https://rsjrw.id/artikel/peran-orang-tua-menghadapi-anak-picky-eater" target="_blank"
                     class="text-decoration-none text-dark">
 
@@ -340,7 +400,7 @@
                     </div>
                 </a>
 
-                <!-- CARD 3 -->
+               
                 <a href="https://ayosehat.kemkes.go.id/mengenal-3-tips-pencegahan-stunting" target="_blank"
                     class="text-decoration-none text-dark">
 
@@ -359,7 +419,6 @@
                     </div>
                 </a>
 
-                <!-- CARD 4 -->
                 <a href="https://jurnalsandihusada.polsaka.ac.id/JIKSH/article/download/158/130/" target="_blank"
                     class="text-decoration-none text-dark">
 
@@ -389,10 +448,10 @@
                 </a>
 
             </div>
-        </section>
+        </section> -->
     </main>
 
-    <footer class="bg-dark text-white py-4">
+    <footer class="bg-light text-black py-4">
         <div class="container text-center">
             <p>&copy; 2025 DJKN CARE. All Rights Reserved.</p>
         </div>
