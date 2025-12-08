@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="img/logo-djkn.png">
     <title>Cek Status Gizi Anak - DJKN Care</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -15,30 +16,44 @@
         /* BASE & LAYOUT STYLES */
         /* ========================================================================= */
 
+        /* Variabel Warna Utama */
+        :root {
+            --color-primary: #006838;
+            /* Hijau Tua DJKN */
+            --color-secondary: #8cc342;
+            /* Hijau Muda */
+            --color-success-dark: #176f4e;
+            /* Warna Tombol Hitung */
+            --color-bg-light: #f7f7f7;
+            /* Background input */
+        }
+
         /* Latar Belakang Gradien */
         body {
             background: linear-gradient(to top, #badc84 50%, #d4eb95 100%);
             min-height: 100vh;
             margin: 0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            /* Ubah ke kolom untuk menampung navbar dan konten */
             align-items: center;
-            padding: 20px 0;
-            /* Padding vertikal untuk ruang di atas/bawah */
+            padding-bottom: 20px;
+            /* Padding di bagian bawah */
+            padding-top: 80px;
+            /* Jarak dari navbar fixed */
         }
 
         /* Container Utama */
         .gizi-container {
             max-width: 800px;
-            /* Lebar maksimum ditingkatkan */
             width: 95%;
             background-color: #fff;
             padding: 30px 20px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             text-align: center;
-            margin: 0 auto;
-            /* Margin diatur agar centering lebih baik */
+            margin: 20px auto 0 auto;
+            /* Margin atas agar tidak menempel di navbar */
         }
 
         /* Header */
@@ -53,7 +68,6 @@
         .content-wrapper {
             display: flex;
             flex-direction: column;
-            /* Default: Kolom untuk mobile */
             align-items: center;
         }
 
@@ -64,7 +78,6 @@
             align-items: center;
             margin-bottom: 30px;
             padding-top: 20px;
-            /* <<< gambar jadi lebih turun */
         }
 
         .image-section img {
@@ -79,13 +92,42 @@
         }
 
         /* ========================================================================= */
-        /* INPUT STYLES */
+        /* NAVBAR STYLES (DIPERBAIKI & RESPONSIVE) */
         /* ========================================================================= */
+
+        .navbar {
+            width: 100%;
+            /* Pastikan navbar mengambil lebar penuh */
+            z-index: 1030;
+            /* Z-index standar untuk navbar tetap di atas */
+        }
+
+        .brand-logo {
+            height: 45px;
+            /* Diperkecil sedikit untuk mobile */
+            transition: height 0.3s;
+        }
+
+        .brand-text {
+            font-size: 1.3rem;
+            /* Diperkecil untuk mobile */
+            font-weight: 700;
+            transition: font-size 0.3s;
+        }
+
+        .stikes-logo {
+            height: 35px;
+            /* Diperkecil sedikit untuk mobile */
+            width: auto;
+            transition: height 0.3s;
+        }
+
+        /* --- Input Styles (Disederhanakan) --- */
 
         .input-group-custom {
             display: flex;
             align-items: center;
-            background-color: #f7f7f7;
+            background-color: var(--color-bg-light);
             border-radius: 10px;
             margin-bottom: 18px;
             padding: 12px 18px;
@@ -97,22 +139,15 @@
 
         .input-group-custom:focus-within {
             background-color: #ffffff;
-            box-shadow: 0 0 0 2px #d4eb95;
+            box-shadow: 0 0 0 2px var(--color-secondary);
         }
 
         .input-group-custom i {
             color: #4a6c38;
             margin-right: 15px;
-            /* <<< sebelumnya 12px */
             margin-left: 5px;
-            /* <<< icon agak dimajukan */
             font-size: 1.3rem;
             flex-shrink: 0;
-        }
-
-        .input-group-custom i.bi-info-circle {
-            margin-right: 10px;
-            margin-left: 3px;
         }
 
         .input-group-custom label {
@@ -120,7 +155,6 @@
             text-align: left;
             font-weight: 500;
             margin-left: 5px;
-            /* <<< tambahan agar lebih rapi */
         }
 
         .input-group-custom select,
@@ -133,9 +167,9 @@
             font-weight: 600;
             color: #333;
             padding-right: 8px;
-            /* <<< kurangi space kanan */
         }
 
+        /* Style Select Dropdown */
         .input-group-custom select {
             width: auto;
             padding-right: 25px;
@@ -146,13 +180,9 @@
             background-position: right 5px center;
         }
 
-        .input-group-custom input {
-            width: 80px;
-        }
-
         /* Tombol Hitung */
         .btn-hitung {
-            background-color: #176f4e;
+            background-color: var(--color-success-dark);
             color: white;
             font-weight: bold;
             font-size: 1.25rem;
@@ -174,6 +204,21 @@
         /* ========================================================================= */
 
         @media (min-width: 768px) {
+
+            /* Navbar Desktop Adjustments */
+            .brand-logo {
+                height: 60px;
+            }
+
+            .brand-text {
+                font-size: 1.8rem;
+            }
+
+            .stikes-logo {
+                height: 40px;
+            }
+
+            /* Content Layout Desktop */
             .gizi-container {
                 padding: 45px 50px;
             }
@@ -184,7 +229,6 @@
 
             .content-wrapper {
                 flex-direction: row;
-                /* Ubah menjadi baris untuk desktop */
                 justify-content: space-between;
                 align-items: flex-start;
                 gap: 40px;
@@ -195,14 +239,12 @@
                 justify-content: center;
                 text-align: center;
                 margin-bottom: 0;
-                /* Tambahkan sedikit ruang atas agar ilustrasi lebih baik */
-                padding-top: 100px;
+                /* Padding disesuaikan agar gambar terlihat seimbang */
+                padding-top: 50px;
             }
 
             .image-section img {
                 width: 240px;
-                /* Ukuran gambar sedikit diperbesar */
-                margin-top: 0;
             }
 
             .input-section {
@@ -214,8 +256,6 @@
         /* MODAL & CHART STYLES */
         /* ========================================================================= */
 
-        /* Style Modal Hasil */
-        /* Warna header modal akan diubah melalui JS */
         .modal-header.bg-laki-laki {
             background-color: #0d6efd !important;
         }
@@ -225,19 +265,16 @@
         }
 
         .modal-header.bg-success {
-            /* Untuk Info Modal */
-            background-color: #176f4e !important;
+            background-color: var(--color-success-dark) !important;
         }
 
         #kategoriHasil b {
             font-size: 1.5rem;
         }
 
-        /* Tambahan style untuk Chart agar lebih responsif di modal */
         .chart-container {
             position: relative;
             height: 40vh;
-            /* Tinggi relatif untuk mobile */
             width: 100%;
             margin: 0 auto;
         }
@@ -245,41 +282,36 @@
         @media (min-width: 768px) {
             .chart-container {
                 height: 50vh;
-                /* Tinggi relatif untuk desktop */
                 max-height: 450px;
             }
-        }
-
-        /* Tombol Back */
-        .back-btn {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 9999;
-            background: #ffffff;
-            border-radius: 50%;
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            text-decoration: none;
-            color: #333;
-            transition: transform 0.2s;
-        }
-
-        .back-btn:hover {
-            transform: scale(1.05);
         }
     </style>
 </head>
 
 <body>
 
-    <a href="home.html" class="back-btn">
-        <i class="bi bi-arrow-left"></i>
-    </a>
+    <nav class="navbar navbar-light bg-light fixed-top shadow-sm">
+        <div class="container-fluid">
+            <div class="d-flex align-items-center">
+
+                <a href="home.html" class="back-link me-3" title="Kembali">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
+
+                <a class="navbar-brand d-flex align-items-center" href="home.html">
+                    <img src="img/logo-djkn.png" alt="DJKN Logo" class="brand-logo me-2">
+                    <span class="brand-text">
+                        <span style="color:var(--color-primary)">DJKN</span>
+                        <span style="color:var(--color-secondary)">-CARE</span>
+                    </span>
+                </a>
+            </div>
+
+            <div class="d-flex align-items-center">
+                <img src="img/logo-stikes.png" alt="STIKES Logo" class="stikes-logo">
+            </div>
+        </div>
+    </nav>
 
     <div class="gizi-container">
         <h1>Cek Status Gizi Anak</h1>
@@ -287,12 +319,11 @@
         <div class="content-wrapper">
 
             <div class="image-section">
-
                 <img src="img/bayi.png" alt="Ilustrasi Anak Sehat" class="img-fluid">
-
             </div>
 
             <div class="input-section">
+
                 <div class="input-group-custom">
                     <label for="kategoriIndex">Kategori Index</label>
                     <i class="bi bi-info-circle" data-bs-toggle="modal" data-bs-target="#indexInfoModal"></i>
