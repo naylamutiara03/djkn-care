@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DJKN CARE - Home</title>
+    <link rel="icon" type="image/png" href="img/logo-djkn.png">
+    <title>Home - DJKN CARE</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
@@ -17,6 +18,22 @@
             transform: translateY(-8px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
             cursor: pointer;
+        }
+
+        .card-hover-link {
+            border-left: 5px solid #006838;
+            transition: all 0.25s ease;
+            cursor: pointer;
+        }
+
+        .card-hover-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+            background-color: #f8fff3;
+        }
+
+        .card-hover-link .card-title {
+            color: #006838 !important;
         }
     </style>
 </head>
@@ -270,82 +287,107 @@
                     </div>
                 </div>
 
-                <div id="tips-picky-eater" class="card mb-4 shadow-sm" style="border-left: 5px solid #006838;">
-                    <div class="card-body">
-                        <h3 class="card-title h5" style="color: #006838;">Tips Mengatasi Anak Picky Eater</h3>
-                        <p>https://www.alodokter.com/bunda-ini-penyebab-dan-tips-menghadapi-anak-picky-eater</p>
-                        <ul>
-                            <li>Hindari memaksa anak untuk makan.</li>
-                            <li>Sajikan makanan dengan variasi yang menarik.</li>
-                            <li>Perbolehkan anak menyentuh makanannya.</li>
-                            <li>Buat suasana makan jadi menyenangkan.</li>
-                            <li>Berikan contoh (Anak adalah pencontoh yang baik. Oleh karena itu, untuk membuat si
-                                Kecil tertarik dengan makanan barunya, cobalah untuk mengonsumsi makanan tersebut di
-                                depannya sesering mungkin).</li>
-                        </ul>
-                    </div>
-                </div>
+                <!-- CARD 1 -->
+                <a href="https://www.alodokter.com/bunda-ini-penyebab-dan-tips-menghadapi-anak-picky-eater"
+                    target="_blank" class="text-decoration-none text-dark">
 
-                <div id="peran-orangtua" class="card mb-4 shadow-sm" style="border-left: 5px solid #006838;">
-                    <div class="card-body">
-                        <h3 class="card-title h5" style="color: #006838;">Peran Orangtua Menghadapi Anak Picky Eater
-                        </h3>
-                        <p>https://rsjrw.id/artikel/peran-orang-tua-menghadapi-anak-picky-eater</p>
-                        <ul>
-                            <li>Menyajikan makanan dalam porsi kecil agar tidak terlalu banyak atau enek. Lebih baik
-                                menambah lagi jika kurang, daripada membuang sisanya.</li>
-                            <li>Berikan contoh teladan ke anak. Anak biasanya melihat kebiasaan orang tua. Ketika
-                                seorang anak melihat orang tuanya tidak suka sayur dan buah, maka ada kecenderungan anak
-                                untuk mencontoh kebiasaan orang tuanya.</li>
-                            <li>Memberikan akses yang mudah ke anak untuk mengambil makanan, misalkan menaruh
-                                makanan di meja yang tidak tinggi dan terlihat.</li>
-                            <li>Mengenalkan makanan baru harus sabar dan berkali-kali. Jika terjadi penolakan,
-                                harus terus dicoba (misalnya, tawarkan hingga 10-15 kali).</li>
-                            <li>Mengikutsertakan anak dalam pemilihan dan memasak makanan.</li>
-                            <li>Memodifikasi makanan agar menarik, misalkan pepaya dibuat puding, atau tahu dibuat
-                                bola-bola yang dicampur wortel dan ayam.</li>
-                            <li>Konsultasi ke dokter anak atau ahli gizi.</li>
-                        </ul>
-                    </div>
-                </div>
+                    <div id="tips-picky-eater" class="card mb-4 shadow-sm card-hover-link">
+                        <div class="card-body">
+                            <h3 class="card-title h5">Tips Mengatasi Anak Picky Eater</h3>
 
-                <div id="pencegah-stunting" class="card mb-4 shadow-sm" style="border-left: 5px solid #006838;">
-                    <div class="card-body">
-                        <h3 class="card-title h5" style="color: #006838;">3 Tips Pencegahan Stunting</h3>
-                        <p>https://ayosehat.kemkes.go.id/mengenal-3-tips-pencegahan-stunting</p>
-                        <ul>
-                            <li>Pola Makan: Mencakup pemenuhan gizi yang cukup sejak masa kehamilan hingga anak
-                                berusia dua tahun (1000 Hari Pertama Kehidupan).</li>
-                            <li>Pola Asuh: Mencakup praktik pengasuhan yang baik, seperti memberikan ASI eksklusif,
-                                memberikan MPASI yang tepat, dan stimulasi perkembangan anak.</li>
-                            <li>Sanitasi dan Akses Air Bersih: Lingkungan yang bersih dan akses air bersih sangat
-                                penting untuk mencegah penyakit infeksi yang dapat menghambat penyerapan gizi.</li>
-                        </ul>
-                    </div>
-                </div>
+                            <p class="small text-muted">Sumber: Alodokter</p>
 
-                <div id="faktor" class="card mb-4 shadow-sm" style="border-left: 5px solid #006838;">
-                    <div class="card-body">
-                        <h3 class="card-title h5" style="color: #006838;">Faktor yang Memengaruhi Kejadian Picky Eater
-                        </h3>
-                        <p>https://jurnalsandihusada.polsaka.ac.id/JIKSH/article/download/158/130/</p>
-                        <ul>
-                            <li>Pengaruh Genetik: Sering disebut pewarisan sifat, yaitu kombinasi kontribusi
-                                relatif dari gen dan lingkungan yang menentukan ciri atau sifat fenotipe pada suatu
-                                organisme (termasuk preferensi rasa dan kecenderungan berat badan).</li>
-                            <li>Pengaruh Prenatal: Ditemukan bukti bahwa pola makan ibu selama kehamilan dapat
-                                menjadi sebuah 'programming' yang dapat mempengaruhi perilaku dan pilihan makan anak
-                                yang dikandungnya setelah lahir.</li>
-                            <li>Pengaruh Pemberian Makanan Dini Postnatal (periode setelah melahirkan): Bagaimana
-                                dan apa yang diberikan kepada anak pada masa bayi dan balita sangat membentuk kebiasaan
-                                makan jangka panjang (misalnya, pengenalan variasi rasa pada MPASI).</li>
-                            <li>Pola Makan Orang Tua: Kebiasaan diet orang tua secara langsung memengaruhi makanan
-                                yang tersedia di rumah dan menjadi contoh yang ditiru oleh anak.</li>
-                            <li>Lingkungan Keluarga: Mencakup suasana saat makan, tekanan untuk makan, jadwal makan
-                                yang teratur, dan ketersediaan makanan sehat di rumah.</li>
-                        </ul>
+                            <ul>
+                                <li>Hindari memaksa anak untuk makan.</li>
+                                <li>Sajikan makanan dengan variasi yang menarik.</li>
+                                <li>Perbolehkan anak menyentuh makanannya.</li>
+                                <li>Buat suasana makan jadi menyenangkan.</li>
+                                <li>Berikan contoh (Anak adalah pencontoh yang baik. Oleh karena itu, untuk membuat si
+                                    Kecil tertarik dengan makanan barunya, cobalah untuk mengonsumsi makanan tersebut di
+                                    depannya sesering mungkin).</li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
+                </a>
+
+                <!-- CARD 2 -->
+                <a href="https://rsjrw.id/artikel/peran-orang-tua-menghadapi-anak-picky-eater" target="_blank"
+                    class="text-decoration-none text-dark">
+
+                    <div id="peran-orangtua" class="card mb-4 shadow-sm card-hover-link">
+                        <div class="card-body">
+                            <h3 class="card-title h5">Peran Orangtua Menghadapi Anak Picky Eater</h3>
+
+                            <p class="small text-muted">Sumber: RSJRW.id</p>
+
+                            <ul>
+                                <li>Menyajikan makanan dalam porsi kecil agar tidak terlalu banyak atau enek. Lebih baik
+                                    menambah lagi jika kurang, daripada membuang sisanya.</li>
+                                <li>Berikan contoh teladan ke anak. Anak biasanya melihat kebiasaan orang tua. Ketika
+                                    seorang anak melihat orang tuanya tidak suka sayur dan buah, maka ada kecenderungan
+                                    anak
+                                    untuk mencontoh kebiasaan orang tuanya.</li>
+                                <li>Memberikan akses yang mudah ke anak untuk mengambil makanan, misalkan menaruh
+                                    makanan di meja yang tidak tinggi dan terlihat.</li>
+                                <li>Mengenalkan makanan baru harus sabar dan berkali-kali. Jika terjadi penolakan,
+                                    harus terus dicoba (misalnya, tawarkan hingga 10-15 kali).</li>
+                                <li>Mengikutsertakan anak dalam pemilihan dan memasak makanan.</li>
+                                <li>Memodifikasi makanan agar menarik, misalkan pepaya dibuat puding, atau tahu dibuat
+                                    bola-bola yang dicampur wortel dan ayam.</li>
+                                <li>Konsultasi ke dokter anak atau ahli gizi.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- CARD 3 -->
+                <a href="https://ayosehat.kemkes.go.id/mengenal-3-tips-pencegahan-stunting" target="_blank"
+                    class="text-decoration-none text-dark">
+
+                    <div id="pencegah-stunting" class="card mb-4 shadow-sm card-hover-link">
+                        <div class="card-body">
+                            <h3 class="card-title h5">3 Tips Pencegahan Stunting</h3>
+
+                            <p class="small text-muted">Sumber: Kemkes</p>
+
+                            <ul class="mt-3">
+                                <li>Pola makan.</li>
+                                <li>Pola asuh.</li>
+                                <li>Sanitasi & akses air bersih.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- CARD 4 -->
+                <a href="https://jurnalsandihusada.polsaka.ac.id/JIKSH/article/download/158/130/" target="_blank"
+                    class="text-decoration-none text-dark">
+
+                    <div id="faktor" class="card mb-4 shadow-sm card-hover-link">
+                        <div class="card-body">
+                            <h3 class="card-title h5">Faktor yang Memengaruhi Kejadian Picky Eater</h3>
+
+                            <p class="small text-muted">Sumber: Jurnal Sandihusada</p>
+                            <ul>
+                                <li>Pengaruh Genetik: Sering disebut pewarisan sifat, yaitu kombinasi kontribusi
+                                    relatif dari gen dan lingkungan yang menentukan ciri atau sifat fenotipe pada suatu
+                                    organisme (termasuk preferensi rasa dan kecenderungan berat badan).</li>
+                                <li>Pengaruh Prenatal: Ditemukan bukti bahwa pola makan ibu selama kehamilan dapat
+                                    menjadi sebuah 'programming' yang dapat mempengaruhi perilaku dan pilihan makan anak
+                                    yang dikandungnya setelah lahir.</li>
+                                <li>Pengaruh Pemberian Makanan Dini Postnatal (periode setelah melahirkan): Bagaimana
+                                    dan apa yang diberikan kepada anak pada masa bayi dan balita sangat membentuk
+                                    kebiasaan
+                                    makan jangka panjang (misalnya, pengenalan variasi rasa pada MPASI).</li>
+                                <li>Pola Makan Orang Tua: Kebiasaan diet orang tua secara langsung memengaruhi makanan
+                                    yang tersedia di rumah dan menjadi contoh yang ditiru oleh anak.</li>
+                                <li>Lingkungan Keluarga: Mencakup suasana saat makan, tekanan untuk makan, jadwal makan
+                                    yang teratur, dan ketersediaan makanan sehat di rumah.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+
             </div>
         </section>
     </main>
