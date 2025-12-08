@@ -2,197 +2,587 @@
 <html lang="id">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="img/logo-djkn.png">
     <title>Isi Piringku - DJKN CARE</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-        /* Gaya Dasar */
+        /* Warna utama dan latar belakang sesuai gambar */
+        :root {
+            --color-primary: #006838;
+            /* Hijau Tua */
+            --color-secondary: #8cc342;
+            /* Hijau Muda */
+            --color-bg: #badc84;
+            /* Hijau Latar Belakang */
+            --color-section-bg: #e8f5e9;
+            /* Latar Belakang Bagian Konten */
+        }
+
+        /* --- Layout dasar --- */
         body {
-            background-color: #badc84;
+            background-color: var(--color-bg);
+            /* Latar belakang hijau */
+            color: #333;
         }
 
-        .navbar-custom {
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        /* Navbar */
+        .brand-logo {
+            height: 60px;
         }
 
-        .back-btn {
-            position: fixed;
-            top: 80px;
-            left: 25px;
-            z-index: 9999;
-            background: #ffffff;
-            border-radius: 50%;
-            width: 48px;
-            height: 48px;
+        .brand-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: inherit;
             display: flex;
             align-items: center;
-            justify-content: center;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+            gap: 8px;
         }
 
-        /* Container Piring & Gambar */
-        .plate-container {
-            max-width: 1200px; /* Diperbesar untuk menampung gambar yang lebih besar */
-            margin: 60px auto;
+        /* Container utama */
+        .main-content-container {
+            padding-top: 20px;
+            padding-bottom: 40px;
+            max-width: 1000px;
+        }
+
+        /* Kartu Bahan Makanan (sesuai tema warna gambar) */
+        .food-section-card {
+            background-color: var(--color-section-bg);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            padding: 20px 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-header {
+            background-color: var(--color-secondary);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .food-item {
             text-align: center;
-            padding: 0 15px;
+            padding: 10px;
         }
 
-        .plate-image-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            /* Mengurangi jarak agar 5 elemen (Piring, Panah, Piring, Panah, ASI) muat dengan baik */
-            gap: 25px; 
-            margin-bottom: 40px;
+        .food-item img {
+            height: 70px;
+            /* Ukuran gambar item makanan */
+            margin-bottom: 5px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        /* Ukuran Gambar */
-        .plate-image {
-            width: 250px; /* Ukuran piring disesuaikan agar muat */
+        .food-item p {
+            font-size: 0.9rem;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        /* Bagian Kebutuhan Harian */
+        .daily-need-bar {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        /* Top Section: Piring & Komposisi */
+        .top-plate-section {
+            background-color: white;
+            padding: 30px 15px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Wadah untuk piring default/usia */
+        #plateVisualWrapper {
+            position: relative;
+            /* Penting untuk penempatan gambar default */
+            min-height: 200px;
+            /* Jaga agar tidak collapse saat kosong */
+        }
+
+        .plate-composition-img {
+            max-width: 500px;
+            /* Ukuran agar komposisi piring tetap fokus */
+            width: 100%;
             height: auto;
-            cursor: pointer; /* Menunjukkan ada interaksi (tooltip) */
         }
 
-        .arrow-img {
-            width: 60px; /* Ukuran panah disesuaikan */
-            height: auto;
+        /* Responsive */
+        @media (max-width: 576px) {
+            .brand-logo {
+                height: 44px;
+            }
+
+            .brand-text {
+                font-size: 1.4rem;
+            }
+
+            .section-header {
+                font-size: 1.2rem;
+            }
+
+            .food-item img {
+                height: 50px;
+            }
+
+            .food-item p {
+                font-size: 0.8rem;
+            }
+
+            .food-section-card {
+                padding: 15px 10px;
+            }
+
+            .daily-need-bar {
+                font-size: 0.85rem;
+            }
         }
 
-        .asi-img {
-            width: 120px; /* Ukuran gambar ASI disesuaikan */
-            height: auto;
-            margin-top: -15px;
-        }
-
-        .default-plate {
-            width: 70%;
-            max-width: 450px;
+        /* Kembalikan cursor pointer untuk dropdown usia */
+        #usiaDropdown,
+        .dropdown-menu .dropdown-item {
+            cursor: pointer !important;
+            user-select: none;
+            /* biar tidak bisa diseleksi text */
         }
     </style>
 </head>
 
 <body>
 
-    <a href="home.html" class="back-btn">
-        <i class="bi bi-arrow-left"></i>
-    </a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm">
+        <div class="container">
 
-    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
-        <div class="container-fluid">
-            <a class="navbar-brand d-flex align-items-center" href="home.html">
-                <img src="DJKN_Logo.png" alt="logo" height="30" class="me-2"> 
-                DJKN-CARE
-            </a>
+            <div class="d-flex align-items-center">
+                <a href="home.html" class="me-3 back-link" title="Kembali">
+                    <i class="bi bi-arrow-left" style="font-size:1.4rem; color:var(--color-primary)"></i>
+                </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <a class="navbar-brand d-flex align-items-center" href="home.html">
+                    <img src="img/logo-djkn.png" alt="DJKN Logo" class="brand-logo me-2">
+                    <span class="brand-text"><span style="color:var(--color-primary)">DJKN</span><span
+                            style="color:var(--color-secondary)">-CARE</span></span>
+                </a>
+            </div>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTop">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-
-                    <li class="nav-item dropdown">
-                        <a id="usiaDropdown" class="btn btn-success dropdown-toggle me-2" href="#" role="button"
-                            data-bs-toggle="dropdown">
+            <div class="collapse navbar-collapse" id="navbarTop">
+                <ul class="navbar-nav ms-auto align-items-lg-center mt-3 mt-lg-0">
+                    <li class="nav-item dropdown me-lg-3">
+                        <button id="usiaDropdown" class="btn btn-success dropdown-toggle"
+                            style="background-color:var(--color-primary); border-color:var(--color-primary);"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             Pilih Usia
-                        </a>
-
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" onclick="changePlate('12-24')">Usia 12–23 Bulan</a></li>
-                            <li><a class="dropdown-item" onclick="changePlate('2-5')">Usia 2–5 Tahun</a></li>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm rounded-3">
+                            <li><a class="dropdown-item" data-age="12-24">Usia 12–23 Bulan</a></li>
+                            <li><a class="dropdown-item" data-age="2-5">Usia 2–5 Tahun</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-danger fw-semibold" id="resetPlateBtn">Reset Piring</a>
+                            </li>
                         </ul>
                     </li>
-
                 </ul>
             </div>
+
         </div>
     </nav>
 
-    <div class="container plate-container">
-        <h2 class="text-success mb-4">Rencanakan Piring Sehatmu!</h2>
+    <div class="container main-content-container">
+        <h2 class="text-center" style="color:var(--color-primary);">Rencanakan Piring Sehatmu!</h2>
+        <p class="lead text-center" id="usia-indicator">Silakan pilih usia untuk melihat komposisi piring.</p>
 
-        <p class="lead" id="usia-indicator">Silakan pilih usia untuk melihat komposisi piring.</p>
-
-        <div class="plate-image-wrapper" id="plateContainer">
-            <img src="img/isi-piring-removebg.png" class="default-plate" alt="Isi Piringku Default">
+        <div class="top-plate-section text-center">
+            <div id="plateVisualWrapper">
+            </div>
+            <p class="text-secondary mt-3 mb-0" style="font-weight: 600;" id="plateNote"></p>
         </div>
+
+        <div id="foodCategoriesContainer" class="d-none">
+
+            <div class="food-section-card">
+                <div class="text-center">
+                    <span class="section-header">Protein</span>
+                </div>
+                <div class="daily-need-bar text-center">
+                    Kebutuhan Harian Balita
+                </div>
+                <div class="row">
+                </div>
+            </div>
+
+            <div class="food-section-card">
+                <div class="text-center">
+                    <span class="section-header">Karbohidrat</span>
+                </div>
+                <div class="daily-need-bar text-center">
+                    Kebutuhan Harian Balita
+                </div>
+                <div class="row">
+                </div>
+            </div>
+
+            <div class="food-section-card">
+                <div class="text-center">
+                    <span class="section-header">Lemak</span>
+                </div>
+                <div class="daily-need-bar text-center">
+                    Kebutuhan Harian Balita
+                </div>
+                <div class="row">
+                </div>
+            </div>
+
+            <div class="food-section-card">
+                <div class="text-center">
+                    <span class="section-header">Serat</span>
+                </div>
+                <div class="daily-need-bar text-center">
+                    Kebutuhan Harian Balita
+                </div>
+                <div class="row">
+                </div>
+            </div>
+
+            <div class="food-section-card">
+                <div class="text-center">
+                    <span class="section-header">Cair</span>
+                </div>
+                <div class="daily-need-bar text-center">
+                    Kebutuhan Harian Balita
+                </div>
+                <div class="row justify-content-center">
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
     <script>
-        // Data gambar yang akan ditampilkan per usia
-        const plateImages = {
-            // ⭐ Urutan baru untuk 12-24 Bulan: Piring 1 -> Panah 1 -> Piring 2 -> Panah 2 -> ASI
-            "12-24": [
-                { type: "plate1", src: "img/piring1(12-24).png" }, // Piring 1: Bahan/Takaran (dengan Tooltip)
-                { type: "arrow", src: "img/right-arrow.png" },    // Panah 1
-                { type: "plate2", src: "img/piring2(12-24).png" }, // Piring 2: Hasil Jadi
-                { type: "arrow2", src: "img/right-arrow.png" },   // Panah 2
-                { type: "asi", src: "img/asi.png" }              // Kebutuhan ASI (di paling kanan)
-            ],
-            // Asumsi: img/isi-piring-2-5.png adalah gambar tunggal untuk usia 2-5 tahun
-            "2-5": [
-                { type: "single", src: "img/isi-piring-2-5.png" } 
-            ]
+        // Data sederhana untuk simulasi perubahan konten
+
+        // 🟢 Variabel Gambar Piring (Disesuaikan dengan permintaan baru)
+        // Asumsi: Anda akan mengganti DJKN CARE (3).jpg menjadi piring1(12-24).png
+        const plate12to24Img1 = 'img/piring1(12-24).png';
+        const plate12to24Img2 = 'img/piring2(12-24).png'; // Asumsi nama file piring kedua
+        const rightArrowImg = 'img/right-arrow.png';     // Asumsi nama file panah
+        const asiImg = 'img/asi.png';                     // Asumsi nama file ASI
+
+        const plate2to5Img = 'img/piring2(2-5).png';
+        const emptyPlateImg = 'img/isi-piring-removebg.png';
+
+        // Data Kebutuhan Harian (teks indikator utama)
+        const dailyNeeds = {
+            "default": "Silakan pilih usia untuk melihat komposisi piring.",
+            "12-24": "Kebutuhan Harian Balita 12–23 Bulan",
+            "2-5": "Kebutuhan Harian Balita 2–5 Tahun"
         };
 
-        // Tooltip Content
-        const tooltipContent = "Nasi putih 5sdm=55 gram, Bayam dan wortel 20 gram, Minyak 7,5 gram, Garam 1/8 sdt=0,1gram, Ati 55 gram";
+        // Data kebutuhan harian per kategori (teks di daily-need-bar)
+        const categoryNeeds = {
+            "Protein": {
+                "12-24": "Contoh Bahan Makanan",
+                "2-5": "Kebutuhan Harian Balita 2–5 Tahun (Contoh: Daging 35-40g)"
+            },
+            "Karbohidrat": {
+                "12-24": "Contoh Bahan Makanan",
+                "2-5": "Kebutuhan Harian Balita 2–5 Tahun (Contoh: Nasi 100g)"
+            },
+            "Lemak": {
+                "12-24": "Contoh Bahan Makanan",
+                "2-5": "Kebutuhan Harian Balita 2–5 Tahun (Contoh: Minyak 3 sdm)"
+            },
+            "Serat": {
+                "12-24": "Contoh Bahan Makanan",
+                "2-5": "Kebutuhan Harian Balita 2–5 Tahun (Contoh: Buah 150g, Sayur 120g)"
+            },
+            "Cair": {
+                "12-24": "Contoh Bahan Makanan",
+                "2-5": "Kebutuhan Harian Balita 2–5 Tahun (Contoh: 1000–1200 ml)"
+            }
+        };
 
-        function changePlate(ageKey) {
-            const indicator = document.getElementById("usia-indicator");
-            const dropdownText = document.getElementById("usiaDropdown");
-            const container = document.getElementById("plateContainer");
+        // 🟢 Data Makanan Terperinci per Usia (Tetap sama dengan yang Anda berikan sebelumnya)
+        const dailyFoodItems = {
+            "Protein": {
+                "12-24": [
+                    { img: "img/chicken.png", alt: "Ayam", text: "Ayam 60 gr<br>(6 sdm)" },
+                    { img: "img/chicken-liver.png", alt: "Hati Ayam", text: "Hati Ayam 55 gr<br>(5.5 sdm)" },
+                    { img: "img/fish.png", alt: "Ikan", text: "Ikan 60 gr<br>(6 sdm)" },
+                    { img: "img/beef.png", alt: "Daging Sapi", text: "Daging Sapi 50 gr<br>(5 sdm)" },
+                    { img: "img/egg.png", alt: "Telur", text: "Telur 60 gr<br>(1 butir besar)" },
+                    { img: "img/milk.png", alt: "Susu", text: "Susu 180-240 ml<br>(1–2 gelas)" }
+                ],
+                "2-5": [
+                    { img: "img/chicken.png", alt: "Ayam", text: "Ayam 80 gr<br>(8 sdm.)" },
+                    { img: "img/beef.png", alt: "Daging Sapi", text: "Daging Sapi 75 gr<br>(7-8 sdm.)" },
+                    { img: "img/tofu.png", alt: "Tahu", text: "Tahu 100 gr<br>(2 potong besar)" },
+                    { img: "img/tempeh.png", alt: "Tempe", text: "Tempe 100 gr<br>(2 potong besar)" },
+                    { img: "img/egg.png", alt: "Telur", text: "Telur 60 gr<br>(1 butir besar)" },
+                    { img: "img/fish.png", alt: "Ikan", text: "Ikan 80 gr<br>(8 sdm.)" }
+                ]
+            },
+            "Karbohidrat": {
+                "12-24": [
+                    { img: "img/rice.png", alt: "Nasi", text: "Nasi 60 gr<br>(3–4 sdm penuh)" },
+                    { img: "img/corn.png", alt: "Jagung", text: "Jagung 1/2<br>gelas kecil" },
+                    { img: "img/bread.png", alt: "Roti Tawar", text: "Roti Tawar<br>1 lembar" },
+                    { img: "img/sweet-potato.png", alt: "Ubi Jalar", text: "Ubi Jalar 66 gr<br>(4–5 sdm)" },
+                    { img: "img/potato.png", alt: "Kentang", text: "Kentang 1<br>buah kecil" }
+                ],
+                "2-5": [
+                    { img: "img/rice.png", alt: "Nasi", text: "Nasi 120 gr<br>(5–6 sdm penuh)" },
+                    { img: "img/sweet-potato.png", alt: "Ubi Jalar", text: "Ubi Jalar 100 gr<br>(1 buah sedang)" },
+                    { img: "img/noodle.png", alt: "Mi", text: "Mi Kering 50 gr<br>(1/2 bungkus)" },
+                    { img: "img/oat.png", alt: "Oatmeal", text: "Oatmeal 3 sdm<br>(Setara 1 mangkuk)" }
+                ]
+            },
+            "Lemak": {
+                "12-24": [
+                    { img: "img/cheese.png", alt: "Keju", text: "Keju 1 sdm perhari" },
+                    { img: "img/margarine.png", alt: "Margarin", text: "Margarin 1 sdt" },
+                    { img: "img/oil.png", alt: "Minyak", text: "Minyak 1 sdm" },
+                    { img: "img/yogurt.png", alt: "Yogurt", text: "Yogurt 1/2 cup kecil" }
+                ],
+                "2-5": [
+                    { img: "img/oil.png", alt: "Minyak", text: "Minyak 3 sdm<br>(Per hari)" },
+                    { img: "img/avocado.png", alt: "Alpukat", text: "Alpukat 1/4 buah<br>(Sumber lemak sehat)" },
+                    { img: "img/nuts.png", alt: "Kacang-kacangan", text: "Selai Kacang 1 sdm<br>(Lemak sehat)" }
+                ]
+            },
+            "Serat": {
+                "12-24": [
+                    { img: "img/banana.png", alt: "Pisang", text: "Pisang 1<br>porsi perhari" },
+                    { img: "img/papaya.png", alt: "Pepaya", text: "Pepaya 1<br>potong kecil" },
+                    { img: "img/apple.png", alt: "Apel", text: "Apel 1/2<br>di potong kecil-kecil" },
+                    { img: "img/carrot.png", alt: "Wortel", text: "Wortel 2-3 sdm" },
+                    { img: "img/broccoli.png", alt: "Brokoli", text: "Brokoli 1-2<br>kuntum kecil" },
+                    { img: "img/spinach.png", alt: "Bayam", text: "Bayam 1<br>mangkuk kecil" }
+                ],
+                "2-5": [
+                    { img: "img/orange.png", alt: "Jeruk", text: "Jeruk 1<br>buah sedang" },
+                    { img: "img/watermelon.png", alt: "Semangka", text: "Semangka 2<br>potongan" },
+                    { img: "img/green-beans.png", alt: "Kacang Panjang", text: "Kacang Panjang 1/2<br>mangkuk" },
+                    { img: "img/spinach.png", alt: "Bayam", text: "Bayam 1<br>mangkuk" }
+                ]
+            },
+            "Cair": {
+                "12-24": [
+                    { img: "img/water-glass.png", alt: "Air Minum", text: "240 - 960 ml<br>(setara 1–4 gelas)" }
+                ],
+                "2-5": [
+                    { img: "img/water-bottle.png", alt: "Air Minum", text: "1000–1200 ml<br>(setara 5–6 gelas)" }
+                ]
+            }
+        };
 
-            // Update tulisan dropdown dan indicator
-            dropdownText.textContent = (ageKey === "12-24") ? "Usia 12–23 Bulan" : "Usia 2–5 Tahun";
-            indicator.textContent = (ageKey === "12-24") ? "Kebutuhan Harian Balita 12–23 Bulan" : "Kebutuhan Harian Balita 2–5 Tahun";
 
-            // Tampilkan gambar
-            const images = plateImages[ageKey];
-            container.innerHTML = "";
-            container.style.gap = (ageKey === "12-24") ? "25px" : "0"; // Sesuaikan gap
+        // Fungsi untuk merender daftar makanan
+        function renderFoodItems(ageKey) {
+            document.querySelectorAll('.food-section-card').forEach(card => {
+                const header = card.querySelector('.section-header').textContent.trim();
+                const itemsData = dailyFoodItems[header] ? dailyFoodItems[header][ageKey] : [];
 
-            images.forEach(item => {
-                const img = document.createElement("img");
-                img.src = item.src;
-                img.alt = item.type;
+                const rowElement = card.querySelector('.row');
+                if (!rowElement) return;
 
-                // Tentukan kelas CSS berdasarkan tipe
-                if (item.type === "arrow" || item.type === "arrow2") {
-                    img.className = "arrow-img";
-                } else if (item.type === "asi") {
-                    img.className = "asi-img";
-                } else if (item.type === "plate1") {
-                    img.className = "plate-image";
-                    
-                    // Tambahkan atribut untuk Tooltip Bootstrap
-                    img.setAttribute('data-bs-toggle', 'tooltip');
-                    img.setAttribute('data-bs-placement', 'bottom');
-                    img.setAttribute('data-bs-title', tooltipContent);
+                let htmlContent = '';
 
-                } else if (item.type === "plate2") {
-                    img.className = "plate-image";
-                } else if (item.type === "single") {
-                    img.className = "default-plate";
+                // Jika usia dipilih, render item yang sesuai
+                if (ageKey !== "default" && itemsData.length > 0) {
+
+                    // Tentukan kelas Bootstrap berdasarkan kategori
+                    let colClass = 'col-6 col-md-4 col-lg-2'; // Default untuk Protein, Karbohidrat, Serat
+                    if (header === "Lemak") {
+                        colClass = 'col-6 col-md-4 col-lg-3';
+                    } else if (header === "Cair") {
+                        colClass = 'col-8 col-md-6 col-lg-4';
+                    }
+
+                    htmlContent = itemsData.map(item => `
+                    <div class="${colClass} food-item">
+                        <img src="${item.img}" alt="${item.alt}">
+                        <p>${item.text}</p>
+                    </div>
+                `).join('');
                 }
 
-                container.appendChild(img);
+                // Ganti konten row
+                rowElement.innerHTML = htmlContent;
+
+                // Tampilkan row jika ada konten, sembunyikan jika tidak (meski harusnya selalu ada jika ageKey != default)
+                if (ageKey === "default") {
+                    rowElement.classList.add('d-none');
+                } else {
+                    rowElement.classList.remove('d-none');
+                }
             });
-            
-            // Inisialisasi Tooltip setelah elemen ditambahkan ke DOM
-            if (ageKey === "12-24") {
-                const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-                const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-            }
         }
+
+        // 🔴 FUNGSI YANG DIMODIFIKASI
+        function updatePlateVisual(ageKey) {
+            const plateWrapper = document.getElementById("plateVisualWrapper");
+            const plateNote = document.getElementById("plateNote");
+            plateWrapper.innerHTML = ''; // Bersihkan wadah gambar
+
+            let htmlContent = '';
+            let noteText = '';
+
+            if (ageKey === "12-24") {
+
+                noteText = 'Lanjutkan Pemberian ASI sampai anak usia 2 tahun.';
+
+                htmlContent = `
+        <div class="d-flex flex-column align-items-center">
+
+            <!-- Piring 1 - Panah - Piring 2 -->
+            <div class="d-flex justify-content-center align-items-center mb-2"
+                style="width: 100%; max-width: 650px; gap: 12px;">
+
+                <img src="${plate12to24Img1}" 
+                    class="plate-composition-img"
+                    style="width: 42%; max-width: 200px;"
+                    alt="Piring 1">
+
+                <img src="${rightArrowImg}" 
+                    style="height: 60px;"
+                    alt="Panah">
+
+                <img src="${plate12to24Img2}" 
+                    class="plate-composition-img"
+                    style="width: 42%; max-width: 200px;"
+                    alt="Piring 2">
+            </div>
+
+            <!-- Gambar ASI -->
+            <div class="d-flex justify-content-center mt-2" 
+                style="width: 100%; max-width: 350px;">
+                
+                <img src="${asiImg}" 
+                    style="width: 200%; max-width: 500px;"
+                    alt="ASI 30% + MPASI 70%">
+            </div>
+        </div>
+    `;
+
+            } else if (ageKey === "2-5") {
+                // Tampilan STANDAR untuk usia 2-5 Tahun (Satu Piring)
+                noteText = '*Komposisi piring di atas adalah rekomendasi untuk usia 2–5 tahun.';
+                htmlContent = `
+                <img src="${plate2to5Img}" class="plate-composition-img" style="max-width: 400px;" alt="Komposisi Piring Sehat 2-5 Tahun" id="currentPlateImg">
+            `;
+            } else {
+                // Tampilan Default
+                noteText = '';
+                htmlContent = `
+                <img src="${emptyPlateImg}" class="plate-composition-img" style="max-width: 400px;" alt="Pilih Usia" id="currentPlateImg">
+            `;
+            }
+
+            plateWrapper.innerHTML = htmlContent;
+            plateNote.textContent = noteText;
+        }
+
+        // Fungsi untuk mengganti teks kebutuhan harian & menampilkan/menyembunyikan kartu
+        function updateDailyNeeds(ageKey) {
+            const indicator = document.getElementById("usia-indicator");
+            const dropdownBtn = document.getElementById("usiaDropdown");
+            const categoriesContainer = document.getElementById("foodCategoriesContainer");
+
+            // 1. Update Teks Indicator
+            indicator.textContent = dailyNeeds[ageKey];
+            dropdownBtn.textContent = (ageKey === "12-24") ? "Usia 12–23 Bulan" : (ageKey === "2-5" ? "Usia 2–5 Tahun" : "Pilih Usia");
+
+            // 2. Tampilkan/Sembunyikan Kartu
+            if (ageKey === "default") {
+                categoriesContainer.classList.add('d-none'); // Sembunyikan semua kartu
+            } else {
+                categoriesContainer.classList.remove('d-none'); // Tampilkan semua kartu
+            }
+
+            // 3. Update Visual Piring
+            updatePlateVisual(ageKey);
+
+            // 4. Update Teks Kebutuhan Harian di setiap kartu (daily-need-bar)
+            document.querySelectorAll('.food-section-card').forEach(card => {
+                const header = card.querySelector('.section-header').textContent.trim();
+                const dailyBar = card.querySelector('.daily-need-bar');
+                const category = header;
+                let needText = categoryNeeds[category] ? categoryNeeds[category][ageKey] : 'Kebutuhan Harian';
+
+                if (ageKey === "default") {
+                    // Teks awal saat reset
+                    needText = 'Kebutuhan Harian Balita';
+                }
+                dailyBar.textContent = needText;
+            });
+
+            // 5. Update Daftar Makanan
+            renderFoodItems(ageKey);
+        }
+
+        // Reset ke default
+        function resetPlate() {
+            updateDailyNeeds("default");
+        }
+
+        // --- Hook event dropdown items (delegate) ---
+        document.addEventListener('DOMContentLoaded', function () {
+            // attach listeners to items (using data-age attr)
+            document.querySelectorAll('.dropdown-menu .dropdown-item[data-age]').forEach(el => {
+                el.addEventListener('click', function (e) {
+                    const age = e.currentTarget.getAttribute('data-age');
+
+                    // close dropdown (Bootstrap)
+                    const btn = document.getElementById('usiaDropdown');
+                    const dropdown = bootstrap.Dropdown.getInstance(btn) || new bootstrap.Dropdown(btn);
+                    dropdown.hide();
+
+                    updateDailyNeeds(age);
+                });
+            });
+
+            // reset button
+            document.getElementById('resetPlateBtn').addEventListener('click', function () {
+                const btn = document.getElementById('usiaDropdown');
+                const dropdown = bootstrap.Dropdown.getInstance(btn) || new bootstrap.Dropdown(btn);
+                dropdown.hide();
+                resetPlate();
+            });
+
+            // Inisialisasi awal: pastikan dalam keadaan reset
+            resetPlate();
+        });
     </script>
 
 </body>
