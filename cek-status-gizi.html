@@ -125,8 +125,7 @@
         /* --- Input Styles (Disederhanakan) --- */
 
         .input-group-custom {
-            display: flex;
-            align-items: center;
+            /* Kelas ini sekarang hanya berfungsi sebagai container Card untuk setiap baris */
             background-color: var(--color-bg-light);
             border-radius: 10px;
             margin-bottom: 18px;
@@ -135,6 +134,11 @@
             font-size: 1.05rem;
             color: #333;
             transition: background-color 0.2s;
+
+            /* Penting: Disesuaikan dengan d-flex justify-content-between dari HTML */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .input-group-custom:focus-within {
@@ -142,19 +146,32 @@
             box-shadow: 0 0 0 2px var(--color-secondary);
         }
 
+        .input-group-custom label {
+            /* Label tetap di kiri */
+            font-weight: 500;
+            /* Menghapus flex-grow: 1 dan margin-left */
+        }
+
         .input-group-custom i {
+            /* Ikon diposisikan di dalam div d-flex yang baru */
             color: #4a6c38;
-            margin-right: 15px;
-            margin-left: 5px;
+            /* Menghapus margin-right/left yang lama */
             font-size: 1.3rem;
             flex-shrink: 0;
         }
 
-        .input-group-custom label {
-            flex-grow: 1;
-            text-align: left;
-            font-weight: 500;
-            margin-left: 5px;
+        /* Style untuk Input Value (BB, TB, Usia) */
+        .input-value-custom {
+            border: none;
+            background: transparent;
+            text-align: right;
+            outline: none;
+            font-weight: 600;
+            color: #333;
+            width: 60px;
+            /* Lebar Input disesuaikan agar rapi */
+            padding: 0;
+            margin: 0;
         }
 
         .input-group-custom select,
@@ -178,6 +195,25 @@
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%234a6c38' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 5px center;
+        }
+
+        .form-select-custom {
+            border: none;
+            background: transparent;
+            text-align: right;
+            outline: none;
+            font-weight: 600;
+            color: #333;
+            padding-right: 25px;
+            /* Memberi ruang untuk panah */
+            cursor: pointer;
+            appearance: none;
+            /* Menggunakan background image yang sudah ada */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%234a6c38' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 5px center;
+            width: 150px;
+            /* Lebar Select disesuaikan agar rapi */
         }
 
         /* Tombol Hitung */
@@ -241,6 +277,7 @@
                 margin-bottom: 0;
                 /* Padding disesuaikan agar gambar terlihat seimbang */
                 padding-top: 50px;
+                margin-top: 70px;
             }
 
             .image-section img {
@@ -294,27 +331,26 @@
         <div class="container-fluid">
             <div class="d-flex align-items-center">
 
-                <a href="home.html" class="back-link me-3" title="Kembali">
-                    <i class="bi bi-arrow-left"></i>
+                <a href="home.html" class="back-link me-3 ms-2" title="Kembali">
+                    <i class="bi bi-arrow-left" style="color: var(--color-primary);"></i>
                 </a>
 
                 <a class="navbar-brand d-flex align-items-center" href="home.html">
                     <img src="img/logo-djkn.png" alt="DJKN Logo" class="brand-logo me-2">
-                    <span class="brand-text">
-                        <span style="color:var(--color-primary)">DJKN</span>
-                        <span style="color:var(--color-secondary)">-CARE</span>
+                    <span style="font-size: 1.8rem; font-weight: 700;">
+                        <span style="color: #006838;">DJKN</span><span style="color: #8cc342;">-CARE</span>
                     </span>
                 </a>
             </div>
 
             <div class="d-flex align-items-center">
-                <img src="img/logo-stikes.png" alt="STIKES Logo" class="stikes-logo">
+                <img src="img/logo-stikes.png" alt="STIKES Logo" class="stikes-logo me-2">
             </div>
         </div>
     </nav>
 
     <div class="gizi-container">
-        <h1>Cek Status Gizi Anak</h1>
+        <h1 class="text-success">Cek Status Gizi Anak</h1>
 
         <div class="content-wrapper">
 
@@ -324,10 +360,12 @@
 
             <div class="input-section">
 
-                <div class="input-group-custom">
-                    <label for="kategoriIndex">Kategori Index</label>
-                    <i class="bi bi-info-circle" data-bs-toggle="modal" data-bs-target="#indexInfoModal"></i>
-                    <select id="kategoriIndex" required>
+                <div class="input-group-custom d-flex justify-content-between align-items-center">
+                    <label for="kategoriIndex" class="d-flex align-items-center mb-0 me-2">
+                        Kategori Index
+                        <i class="bi bi-info-circle ms-2" data-bs-toggle="modal" data-bs-target="#indexInfoModal"></i>
+                    </label>
+                    <select id="kategoriIndex" class="form-select-custom flex-shrink-0" required>
                         <option value="" disabled selected>Pilih Kategori Index</option>
                         <option value="BB/U">BB/U (Berat Badan / Usia)</option>
                         <option value="TB/U">TB/U (Tinggi Badan / Usia)</option>
@@ -335,32 +373,45 @@
                     </select>
                 </div>
 
-                <div class="input-group-custom">
-                    <label for="jenisKelamin">Jenis Kelamin</label>
-                    <i class="bi bi-person-circle"></i>
-                    <select id="jenisKelamin" required>
-                        <option value="" disabled selected>Pilih Jenis Kelamin</option>
-                        <option value="L">Laki-laki</option>
-                        <option value="P">Perempuan</option>
-                    </select>
+                <div class="input-group-custom d-flex justify-content-between align-items-center">
+                    <label for="jenisKelamin" class="d-flex align-items-center mb-0 me-2">
+                        Jenis Kelamin
+                    </label>
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-person-circle me-2"></i>
+                        <select id="jenisKelamin" class="form-select-custom flex-shrink-0" required>
+                            <option value="" disabled selected>Pilih Jenis Kelamin</option>
+                            <option value="L">Laki-laki</option>
+                            <option value="P">Perempuan</option>
+                        </select>
+                    </div>
                 </div>
 
-                <div class="input-group-custom">
-                    <label for="beratBadan">Berat Badan (kg)</label>
-                    <i class="bi bi-speedometer2"></i>
-                    <input type="number" id="beratBadan" placeholder="0.0" min="0" step="0.1" required>
+                <div class="input-group-custom d-flex justify-content-between align-items-center">
+                    <label for="beratBadan" class="mb-0 me-2">Berat Badan (kg)</label>
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-speedometer2 me-2"></i>
+                        <input type="number" id="beratBadan" placeholder="0.0" min="0" step="0.1" required
+                            class="input-value-custom flex-shrink-0">
+                    </div>
                 </div>
 
-                <div class="input-group-custom">
-                    <label for="tinggiBadan">Tinggi Badan (cm)</label>
-                    <i class="bi bi-rulers"></i>
-                    <input type="number" id="tinggiBadan" placeholder="0.0" min="0" step="0.1" required>
+                <div class="input-group-custom d-flex justify-content-between align-items-center">
+                    <label for="tinggiBadan" class="mb-0 me-2">Tinggi Badan (cm)</label>
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-rulers me-2"></i>
+                        <input type="number" id="tinggiBadan" placeholder="0.0" min="0" step="0.1" required
+                            class="input-value-custom flex-shrink-0">
+                    </div>
                 </div>
 
-                <div class="input-group-custom">
-                    <label for="usiaBulan">Usia (bulan)</label>
-                    <i class="bi bi-calendar-date"></i>
-                    <input type="number" id="usiaBulan" placeholder="0" min="0" max="60" step="1" required>
+                <div class="input-group-custom d-flex justify-content-between align-items-center">
+                    <label for="usiaBulan" class="mb-0 me-2">Usia (bulan)</label>
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-calendar-date me-2"></i>
+                        <input type="number" id="usiaBulan" placeholder="0" min="0" max="60" step="1" required
+                            class="input-value-custom flex-shrink-0">
+                    </div>
                 </div>
 
                 <button class="btn btn-hitung" onclick="hitungGizi()">HITUNG STATUS GIZI</button>
@@ -425,6 +476,8 @@
 
                     <small class="text-muted text-start mt-3 d-block">Garis tengah (Median) mewakili rata-rata populasi
                         rujukan WHO.</small>
+                    <small class="text-muted text-start d-block fw-bold">Mohon Screenshot grafik untuk menyimpan data
+                        IMT anak Anda.</small>
                 </div>
 
                 <div class="modal-footer">
@@ -570,7 +623,7 @@
                 dataParam = usia;
                 value = bb;
                 if (usia < 0 || usia > 60) {
-                    errorMessage = "BB/U hanya didukung untuk usia **0 hingga 60 bulan**.";
+                    errorMessage = "BB/U hanya didukung untuk usia 0 hingga 60 bulan.";
                     showErrorModal(errorMessage);
                     return;
                 }
@@ -579,7 +632,7 @@
                 dataParam = usia;
                 value = tb;
                 if (usia < 0 || usia > 60) {
-                    errorMessage = "TB/U hanya didukung untuk usia **0 hingga 60 bulan**.";
+                    errorMessage = "TB/U hanya didukung untuk usia 0 hingga 60 bulan.";
                     showErrorModal(errorMessage);
                     return;
                 }
@@ -589,7 +642,7 @@
                 value = bb;
                 // Batasan yang lebih realistis
                 if (tb < 45 || tb > 120) {
-                    errorMessage = "BB/TB hanya didukung untuk Tinggi Badan **45 cm hingga 120 cm**.";
+                    errorMessage = "BB/TB hanya didukung untuk Tinggi Badan 45 cm hingga 120 cm.";
                     showErrorModal(errorMessage);
                     return;
                 }
@@ -621,6 +674,19 @@
             const kategoriHasil = document.getElementById('kategoriHasil');
             const grafikSubjudul = document.getElementById('grafikSubjudul');
 
+            // *** START: PENAMBAHAN TANGGAL DAN JAM ***
+            const now = new Date();
+            const options = {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            const waktuHitung = now.toLocaleDateString('id-ID', options);
+            // *** END: PENAMBAHAN TANGGAL DAN JAM ***
+
             // Atur Warna Header Modal
             modalHeader.className = `modal-header text-white ${jenisKelamin === 'L' ? 'bg-laki-laki' : 'bg-perempuan'}`;
             modalTitleSpan.textContent = `- ${jkDisplay}`;
@@ -628,10 +694,12 @@
             // Atur Teks Hasil
             kategoriHasil.innerHTML = `Status Gizi Anak Anda (<span class="${warna}">${index}</span>) adalah: <br> <b class="${warna}">${kategori}</b>`;
 
-            // Atur Subjudul Grafik
+            // Atur Subjudul Grafik (Tambahkan Waktu Hitung)
             const xLabel = index === "BB/TB" ? "Tinggi Badan (cm)" : "Usia (Bulan)";
             const yLabel = index === "TB/U" ? "Tinggi Badan (cm)" : "Berat Badan (kg)";
-            grafikSubjudul.innerHTML = `Grafik Status Gizi Anak (<b>${index}</b>) berdasarkan ${xLabel}:`;
+
+            // Perubahan di baris ini:
+            grafikSubjudul.innerHTML = `Grafik Status Gizi Anak (<b>${index}</b>) berdasarkan ${xLabel}: <br><small class="text-muted fw-normal d-block mt-1">Dihitung pada: ${waktuHitung}</small>`;
 
             // Tampilkan Grafik
             tampilkanGrafik(index, dataParam, whoData, value, xLabel, yLabel, jenisKelamin);
