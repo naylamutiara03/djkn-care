@@ -55,7 +55,7 @@
             max-width: 1000px;
         }
 
-        /* Kartu Bahan Makanan (sesuai tema warna gambar) */
+        /* Kartu Bahan Makanan */
         .food-section-card {
             background-color: var(--color-section-bg);
             border-radius: 12px;
@@ -65,11 +65,9 @@
         }
 
         .section-header {
-            background-color: var(--color-secondary);
-            color: white;
-            padding: 10px 15px;
+            padding: 0;
             border-radius: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             font-size: 1.4rem;
             font-weight: 700;
             display: inline-block;
@@ -77,7 +75,8 @@
 
         .food-item {
             text-align: center;
-            padding: 10px;
+            padding: 10px 5px;
+            /* Kurangi padding horizontal */
         }
 
         .food-item img {
@@ -102,8 +101,8 @@
             padding: 8px 15px;
             border-radius: 8px;
             font-weight: 600;
-            margin-top: 10px;
             margin-bottom: 20px;
+            margin-top: 10px;
             font-size: 0.95rem;
         }
 
@@ -119,20 +118,66 @@
         /* Wadah untuk piring default/usia */
         #plateVisualWrapper {
             position: relative;
-            /* Penting untuk penempatan gambar default */
             min-height: 200px;
-            /* Jaga agar tidak collapse saat kosong */
         }
 
         .plate-composition-img {
             max-width: 500px;
-            /* Ukuran agar komposisi piring tetap fokus */
             width: 100%;
             height: auto;
         }
 
+        /* 💡 Penyesuaian untuk Tampilan Piring Ganda (Dual Plate View) */
+        .dual-plate-container {
+            /* Default untuk desktop/tablet: berdampingan */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .plate-image {
+            /* Mengatur lebar proporsional default */
+            width: 40%;
+            max-width: 250px;
+            height: auto;
+        }
+
+        .plate-image.mpasi-main {
+            /* Membuat Piring 1 (MPASI awal) lebih besar sesuai permintaan */
+            width: 45%; /* Diperbesar sedikit dari default 40% */
+            max-width: 300px;
+        }
+
+        .plate-arrow {
+            height: 60px;
+            margin: 0 5px;
+            flex-shrink: 0;
+        }
+
+        /* Gambar ASI diletakkan di luar dual-plate-container, jadi tidak perlu kelas asi-center-image lagi */
+        
         /* Responsive */
+        @media (max-width: 768px) {
+            /* Untuk Tablet (md) */
+            .food-item img {
+                height: 60px;
+                /* Sedikit lebih kecil */
+            }
+
+            .plate-image {
+                max-width: 200px;
+            }
+             .plate-image.mpasi-main {
+                max-width: 250px;
+            }
+        }
+
         @media (max-width: 576px) {
+            /* Untuk Ponsel (sm) */
+
             .brand-logo {
                 height: 44px;
             }
@@ -143,10 +188,12 @@
 
             .section-header {
                 font-size: 1.2rem;
+                margin-bottom: 5px;
             }
 
             .food-item img {
                 height: 50px;
+                /* Ukuran gambar item makanan di ponsel */
             }
 
             .food-item p {
@@ -159,6 +206,37 @@
 
             .daily-need-bar {
                 font-size: 0.85rem;
+                margin-top: 5px;
+                margin-bottom: 15px;
+            }
+
+            /* 💡 Penyesuaian Tata Letak Piring Ganda di Ponsel */
+            .dual-plate-container {
+                /* Ganti menjadi kolom di layar kecil agar panah vertikal */
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .plate-image {
+                width: 70%;
+                max-width: 250px;
+            }
+
+            .plate-image.mpasi-main {
+                /* Piring 1 di ponsel */
+                max-width: 250px;
+            }
+
+            .plate-arrow {
+                /* Panah diputar saat dalam mode kolom */
+                transform: rotate(90deg);
+                height: 40px;
+                margin: 5px 0;
+            }
+            
+            /* Atur ulang gaya ASI agar sesuai dengan posisi di bawah */
+            .asi-image {
+                max-width: 150px !important; 
             }
         }
 
@@ -167,7 +245,6 @@
         .dropdown-menu .dropdown-item {
             cursor: pointer !important;
             user-select: none;
-            /* biar tidak bisa diseleksi text */
         }
     </style>
 </head>
@@ -231,57 +308,52 @@
 
             <div class="food-section-card">
                 <div class="text-center">
-                    <span class="section-header">Protein</span>
+                    <img class="section-header" src="img/protein.png" width="200" alt="Protein">
                 </div>
                 <div class="daily-need-bar text-center">
                     Kebutuhan Harian Balita
                 </div>
-                <div class="row">
-                </div>
+                <div class="row"></div>
             </div>
 
             <div class="food-section-card">
                 <div class="text-center">
-                    <span class="section-header">Karbohidrat</span>
+                    <img class="section-header" src="img/karbohidrat.png" width="200" alt="Karbohidrat">
                 </div>
                 <div class="daily-need-bar text-center">
                     Kebutuhan Harian Balita
                 </div>
-                <div class="row">
-                </div>
+                <div class="row"></div>
             </div>
 
             <div class="food-section-card">
                 <div class="text-center">
-                    <span class="section-header">Lemak</span>
+                    <img class="section-header" src="img/lemak.png" width="200" alt="Lemak">
                 </div>
                 <div class="daily-need-bar text-center">
                     Kebutuhan Harian Balita
                 </div>
-                <div class="row">
-                </div>
+                <div class="row"></div>
             </div>
 
             <div class="food-section-card">
                 <div class="text-center">
-                    <span class="section-header">Serat</span>
+                    <img class="section-header" src="img/serat.png" width="200" alt="Serat">
                 </div>
                 <div class="daily-need-bar text-center">
                     Kebutuhan Harian Balita
                 </div>
-                <div class="row">
-                </div>
+                <div class="row"></div>
             </div>
 
             <div class="food-section-card">
                 <div class="text-center">
-                    <span class="section-header">Cair</span>
+                    <img class="section-header" src="img/air-judul.png" width="200" alt="Cair">
                 </div>
                 <div class="daily-need-bar text-center">
                     Kebutuhan Harian Balita
                 </div>
-                <div class="row justify-content-center">
-                </div>
+                <div class="row"></div>
             </div>
         </div>
 
@@ -292,13 +364,14 @@
         // Data sederhana untuk simulasi perubahan konten
 
         // 🟢 Variabel Gambar Piring (Disesuaikan dengan permintaan baru)
-        // Asumsi: Anda akan mengganti DJKN CARE (3).jpg menjadi piring1(12-24).png
         const plate12to24Img1 = 'img/piring1(12-24).png';
-        const plate12to24Img2 = 'img/piring2(12-24).png'; // Asumsi nama file piring kedua
-        const rightArrowImg = 'img/right-arrow.png';     // Asumsi nama file panah
-        const asiImg = 'img/asi.png';                     // Asumsi nama file ASI
+        const plate12to24Img2 = 'img/piring2(12-24).png';
+        const rightArrowImg = 'img/right-arrow.png';
+        const asiImg = 'img/asi.png';
 
-        const plate2to5Img = 'img/piring2(2-5).png';
+        // 🔴 Variabel gambar baru untuk usia 2-5 tahun (Permintaan dari user)
+        const plate2to5Img1 = 'img/piring1(2-5).png';
+        const plate2to5Img2 = 'img/piring2(2-5).png';
         const emptyPlateImg = 'img/isi-piring-removebg.png';
 
         // Data Kebutuhan Harian (teks indikator utama)
@@ -312,27 +385,27 @@
         const categoryNeeds = {
             "Protein": {
                 "12-24": "Contoh Bahan Makanan",
-                "2-5": "Kebutuhan Harian Balita 2–5 Tahun (Contoh: Daging 35-40g)"
+                "2-5": "Contoh Bahan Makanan"
             },
             "Karbohidrat": {
                 "12-24": "Contoh Bahan Makanan",
-                "2-5": "Kebutuhan Harian Balita 2–5 Tahun (Contoh: Nasi 100g)"
+                "2-5": "Contoh Bahan Makanan"
             },
             "Lemak": {
                 "12-24": "Contoh Bahan Makanan",
-                "2-5": "Kebutuhan Harian Balita 2–5 Tahun (Contoh: Minyak 3 sdm)"
+                "2-5": "Contoh Bahan Makanan"
             },
             "Serat": {
                 "12-24": "Contoh Bahan Makanan",
-                "2-5": "Kebutuhan Harian Balita 2–5 Tahun (Contoh: Buah 150g, Sayur 120g)"
+                "2-5": "Contoh Bahan Makanan"
             },
             "Cair": {
                 "12-24": "Contoh Bahan Makanan",
-                "2-5": "Kebutuhan Harian Balita 2–5 Tahun (Contoh: 1000–1200 ml)"
+                "2-5": "Contoh Bahan Makanan"
             }
         };
 
-        // 🟢 Data Makanan Terperinci per Usia (Tetap sama dengan yang Anda berikan sebelumnya)
+        // 🟢 Data Makanan Terperinci per Usia 
         const dailyFoodItems = {
             "Protein": {
                 "12-24": [
@@ -344,12 +417,12 @@
                     { img: "img/susu.png", alt: "Susu", text: "Susu 180-240 ml<br>(1–2 gelas)" }
                 ],
                 "2-5": [
-                    { img: "img/chicken.png", alt: "Ayam", text: "Ayam 80 gr<br>(8 sdm.)" },
-                    { img: "img/beef.png", alt: "Daging Sapi", text: "Daging Sapi 75 gr<br>(7-8 sdm.)" },
-                    { img: "img/tofu.png", alt: "Tahu", text: "Tahu 100 gr<br>(2 potong besar)" },
-                    { img: "img/tempeh.png", alt: "Tempe", text: "Tempe 100 gr<br>(2 potong besar)" },
-                    { img: "img/egg.png", alt: "Telur", text: "Telur 60 gr<br>(1 butir besar)" },
-                    { img: "img/fish.png", alt: "Ikan", text: "Ikan 80 gr<br>(8 sdm.)" }
+                    { img: "img/dada-ayam.png", alt: "Ayam", text: "Ayam 80 gr<br>(setara 1 ptg ayam)" },
+                    { img: "img/hati-ayam.png", alt: "Hati Ayam", text: "Hati Ayam 80 gr<br>(6 sdm penuh)" },
+                    { img: "img/ikan.png", alt: "Ikan", text: "Ikan 60 gr<br>(6 sdm)" },
+                    { img: "img/daging.png", alt: "Daging Sapi", text: "Daging Sapi 80 gr<br>(5-6 sdm penuh)" },
+                    { img: "img/telur.png", alt: "Telur", text: "Telur 60 gr<br>(1 butir besar)" },
+                    { img: "img/susu.png", alt: "Susu", text: "Susu 480-600 ml<br>(2–3 gelas)" }
                 ]
             },
             "Karbohidrat": {
@@ -361,10 +434,11 @@
                     { img: "img/kentang.png", alt: "Kentang", text: "Kentang 1<br>buah kecil" }
                 ],
                 "2-5": [
-                    { img: "img/rice.png", alt: "Nasi", text: "Nasi 120 gr<br>(5–6 sdm penuh)" },
-                    { img: "img/sweet-potato.png", alt: "Ubi Jalar", text: "Ubi Jalar 100 gr<br>(1 buah sedang)" },
-                    { img: "img/noodle.png", alt: "Mi", text: "Mi Kering 50 gr<br>(1/2 bungkus)" },
-                    { img: "img/oat.png", alt: "Oatmeal", text: "Oatmeal 3 sdm<br>(Setara 1 mangkuk)" }
+                    { img: "img/nasi.png", alt: "Nasi", text: "Nasi 125 gr<br>(7 sdm)" },
+                    { img: "img/jagung.png", alt: "Jagung", text: "Jagung 1/4<br>(7 sdm)" },
+                    { img: "img/roti.png", alt: "Roti Tawar", text: "Roti Tawar<br>1 lembar" },
+                    { img: "img/ubi.png", alt: "Ubi Jalar", text: "Ubi Jalar 140 gr<br>(7–8 sdm)" },
+                    { img: "img/kentang.png", alt: "Kentang", text: "Kentang 1<br>buah" }
                 ]
             },
             "Lemak": {
@@ -375,9 +449,10 @@
                     { img: "img/yoghurt.png", alt: "Yogurt", text: "Yogurt 1/2 cup kecil" }
                 ],
                 "2-5": [
-                    { img: "img/oil.png", alt: "Minyak", text: "Minyak 3 sdm<br>(Per hari)" },
-                    { img: "img/avocado.png", alt: "Alpukat", text: "Alpukat 1/4 buah<br>(Sumber lemak sehat)" },
-                    { img: "img/nuts.png", alt: "Kacang-kacangan", text: "Selai Kacang 1 sdm<br>(Lemak sehat)" }
+                    { img: "img/keju.png", alt: "Keju", text: "1-2 porsi kecil" },
+                    { img: "img/margarin.png", alt: "Margarin", text: "Margarin 1-2 sdt per hari" },
+                    { img: "img/minyak.png", alt: "Minyak", text: "Minyak 1-2 sdm" },
+                    { img: "img/yoghurt.png", alt: "Yogurt", text: "Yogurt 1 cup kecil" }
                 ]
             },
             "Serat": {
@@ -390,10 +465,12 @@
                     { img: "img/bayam.png", alt: "Bayam", text: "Bayam 1<br>mangkuk kecil" }
                 ],
                 "2-5": [
-                    { img: "img/orange.png", alt: "Jeruk", text: "Jeruk 1<br>buah sedang" },
-                    { img: "img/watermelon.png", alt: "Semangka", text: "Semangka 2<br>potongan" },
-                    { img: "img/green-beans.png", alt: "Kacang Panjang", text: "Kacang Panjang 1/2<br>mangkuk" },
-                    { img: "img/spinach.png", alt: "Bayam", text: "Bayam 1<br>mangkuk" }
+                    { img: "img/pisang.png", alt: "Pisang", text: "Pisang 1<br>porsi perhari" },
+                    { img: "img/pepaya.png", alt: "Pepaya", text: "Pepaya 1<br>potong ukuran sedang" },
+                    { img: "img/apel.png", alt: "Apel", text: "Apel 1<br>buah" },
+                    { img: "img/wortel.png", alt: "Wortel", text: "Wortel 3-4 sdm" },
+                    { img: "img/brokoli.png", alt: "Brokoli", text: "Brokoli 2-3<br>kuntum kecil" },
+                    { img: "img/bayam.png", alt: "Bayam", text: "Bayam 1<br>mangkuk kecil" }
                 ]
             },
             "Cair": {
@@ -401,7 +478,7 @@
                     { img: "img/air.png", alt: "Air Minum", text: "240 - 960 ml<br>(setara 1–4 gelas)" }
                 ],
                 "2-5": [
-                    { img: "img/water-bottle.png", alt: "Air Minum", text: "1000–1200 ml<br>(setara 5–6 gelas)" }
+                    { img: "img/air.png", alt: "Air Minum", text: "1300 ml<br>(setara 5 gelas)" }
                 ]
             }
         };
@@ -410,7 +487,13 @@
         // Fungsi untuk merender daftar makanan
         function renderFoodItems(ageKey) {
             document.querySelectorAll('.food-section-card').forEach(card => {
-                const header = card.querySelector('.section-header').textContent.trim();
+
+                // Ambil nama kategori dari atribut 'alt'
+                const headerElement = card.querySelector('.section-header');
+                if (!headerElement) return;
+
+                const header = headerElement.getAttribute('alt'); // Mengambil nilai 'alt' (misal: "Protein")
+
                 const itemsData = dailyFoodItems[header] ? dailyFoodItems[header][ageKey] : [];
 
                 const rowElement = card.querySelector('.row');
@@ -418,21 +501,17 @@
 
                 let htmlContent = '';
 
-                // Terapkan justify-content-center pada rowElement
-                // Ini adalah perubahan utama
                 rowElement.classList.add('justify-content-center');
 
                 // Jika usia dipilih, render item yang sesuai
                 if (ageKey !== "default" && itemsData.length > 0) {
 
-                    // Tentukan kelas Bootstrap berdasarkan kategori
-                    let colClass = 'col-6 col-md-4 col-lg-2'; // Default untuk Protein, Karbohidrat, Serat
+                    // Gunakan kelas Bootstrap yang lebih responsif
+                    let colClass = 'col-6 col-sm-4 col-md-3 col-lg-2'; // Default untuk Protein, Karbohidrat, Serat
                     if (header === "Lemak") {
-                        colClass = 'col-6 col-md-4 col-lg-3';
+                        colClass = 'col-6 col-sm-4 col-md-4 col-lg-3';
                     } else if (header === "Cair") {
-                        // Untuk Cair sudah ada justify-content-center di HTML
-                        // Tapi kita pastikan lagi, dan ini tidak mengganggu
-                        colClass = 'col-8 col-md-6 col-lg-4';
+                        colClass = 'col-8 col-sm-6 col-md-4 col-lg-3'; // Lebih lebar karena hanya sedikit item
                     }
 
                     htmlContent = itemsData.map(item => `
@@ -455,7 +534,7 @@
             });
         }
 
-        // 🔴 FUNGSI YANG DIMODIFIKASI
+        // 🔴 FUNGSI YANG DIMODIFIKASI untuk Responsivitas Tata Letak Piring
         function updatePlateVisual(ageKey) {
             const plateWrapper = document.getElementById("plateVisualWrapper");
             const plateNote = document.getElementById("plateNote");
@@ -468,50 +547,55 @@
 
                 noteText = 'Lanjutkan Pemberian ASI sampai anak usia 2 tahun.';
 
+                // 💡 STRUKTUR SESUAI GAMBAR ASLI: Piring-Panah-Piring di atas, ASI di bawah
                 htmlContent = `
-        <div class="d-flex flex-column align-items-center">
+                    <div class="dual-plate-container">
+                        
+                        <img src="${plate12to24Img1}" 
+                            class="plate-image mpasi-main"
+                            alt="Piring MPASI 70%">
+                        
+                        <img src="${rightArrowImg}" 
+                            class="plate-arrow"
+                            alt="Panah">
 
-            <!-- Piring 1 - Panah - Piring 2 -->
-            <div class="d-flex justify-content-center align-items-center mb-2"
-                style="width: 100%; max-width: 650px; gap: 12px;">
+                        <img src="${plate12to24Img2}" 
+                            class="plate-image"
+                            alt="Piring Keseimbangan Gizi">
+                    </div>
+                    
+                    <div class="d-flex justify-content-center mt-3" 
+                        style="width: 100%;"> 
+                        <img src="${asiImg}" 
+                            class="asi-image"
+                            alt="ASI 30% + MPASI 70%"
+                            style="max-width: 200px; height: auto;">
+                    </div>
+                `;
 
-                <img src="${plate12to24Img1}" 
-                    class="plate-composition-img"
-                    style="width: 42%; max-width: 200px;"
+            } else if (ageKey === "2-5") {
+                // Tata letak untuk 2-5 tahun (Dua Piring & Panah)
+                noteText = '*Komposisi piring di atas adalah rekomendasi untuk usia 2–5 tahun.';
+                htmlContent = `
+            <div class="dual-plate-container">
+                <img src="${plate2to5Img1}" 
+                    class="plate-image"
                     alt="Piring 1">
 
                 <img src="${rightArrowImg}" 
-                    style="height: 60px;"
+                    class="plate-arrow"
                     alt="Panah">
 
-                <img src="${plate12to24Img2}" 
-                    class="plate-composition-img"
-                    style="width: 42%; max-width: 200px;"
+                <img src="${plate2to5Img2}" 
+                    class="plate-image"
                     alt="Piring 2">
             </div>
-
-            <!-- Gambar ASI -->
-            <div class="d-flex justify-content-center mt-2" 
-                style="width: 100%; max-width: 350px;">
-                
-                <img src="${asiImg}" 
-                    style="width: 200%; max-width: 500px;"
-                    alt="ASI 30% + MPASI 70%">
-            </div>
-        </div>
-    `;
-
-            } else if (ageKey === "2-5") {
-                // Tampilan STANDAR untuk usia 2-5 Tahun (Satu Piring)
-                noteText = '*Komposisi piring di atas adalah rekomendasi untuk usia 2–5 tahun.';
-                htmlContent = `
-                <img src="${plate2to5Img}" class="plate-composition-img" style="max-width: 400px;" alt="Komposisi Piring Sehat 2-5 Tahun" id="currentPlateImg">
             `;
             } else {
                 // Tampilan Default
                 noteText = '';
                 htmlContent = `
-                <img src="${emptyPlateImg}" class="plate-composition-img" style="max-width: 400px;" alt="Pilih Usia" id="currentPlateImg">
+            <img src="${emptyPlateImg}" class="plate-composition-img" style="max-width: 450px;" alt="Pilih Usia" id="currentPlateImg">
             `;
             }
 
@@ -541,9 +625,15 @@
 
             // 4. Update Teks Kebutuhan Harian di setiap kartu (daily-need-bar)
             document.querySelectorAll('.food-section-card').forEach(card => {
-                const header = card.querySelector('.section-header').textContent.trim();
+
+                // Ambil nama kategori dari atribut 'alt'
+                const headerElement = card.querySelector('.section-header');
+                if (!headerElement) return;
+                const header = headerElement.getAttribute('alt');
+
                 const dailyBar = card.querySelector('.daily-need-bar');
-                const category = header;
+                const category = header; // Gunakan nilai 'alt' sebagai category
+
                 let needText = categoryNeeds[category] ? categoryNeeds[category][ageKey] : 'Kebutuhan Harian';
 
                 if (ageKey === "default") {
@@ -556,7 +646,6 @@
             // 5. Update Daftar Makanan
             renderFoodItems(ageKey);
         }
-
         // Reset ke default
         function resetPlate() {
             updateDailyNeeds("default");
