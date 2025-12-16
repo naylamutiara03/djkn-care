@@ -12,59 +12,72 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 
     <style>
-        /* ========================================================================= */
-        /* BASE & LAYOUT STYLES */
-        /* ========================================================================= */
-
-        /* Variabel Warna Utama */
+        /* ===================================================== */
+        /* ROOT COLOR VARIABLES */
+        /* ===================================================== */
         :root {
             --color-primary: #006838;
-            /* Hijau Tua DJKN */
             --color-secondary: #8cc342;
-            /* Hijau Muda */
             --color-success-dark: #176f4e;
-            /* Warna Tombol Hitung */
             --color-bg-light: #f7f7f7;
-            /* Background input */
         }
 
-        /* Latar Belakang Gradien */
+        /* ===================================================== */
+        /* BASE LAYOUT */
+        /* ===================================================== */
         body {
             background: linear-gradient(to top, #badc84 50%, #d4eb95 100%);
             min-height: 100vh;
             margin: 0;
             display: flex;
             flex-direction: column;
-            /* Ubah ke kolom untuk menampung navbar dan konten */
             align-items: center;
-            padding-bottom: 20px;
-            /* Padding di bagian bawah */
             padding-top: 80px;
-            /* Jarak dari navbar fixed */
+            padding-bottom: 20px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
         }
 
-        /* Container Utama */
         .gizi-container {
-            max-width: 800px;
+            max-width: 820px;
             width: 95%;
-            background-color: #fff;
-            padding: 30px 20px;
+            background: #fff;
+            padding: 30px 22px;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            text-align: center;
-            margin: 20px auto 0 auto;
-            /* Margin atas agar tidak menempel di navbar */
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+            margin-top: 10px;
         }
 
-        /* Header */
         .gizi-container h1 {
             color: #4a6c38;
-            font-weight: bold;
-            margin-bottom: 30px;
+            font-weight: 700;
+            margin-bottom: 25px;
             font-size: 1.8rem;
         }
 
-        /* Wrapper Konten (Gambar dan Input) */
+        /* ===================================================== */
+        /* NAVBAR */
+        /* ===================================================== */
+        .navbar {
+            width: 100%;
+            z-index: 1030;
+        }
+
+        .brand-logo {
+            height: 50px;
+        }
+
+        .brand-text {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        .stikes-logo {
+            height: 36px;
+        }
+
+        /* ===================================================== */
+        /* CONTENT */
+        /* ===================================================== */
         .content-wrapper {
             display: flex;
             flex-direction: column;
@@ -75,209 +88,113 @@
             width: 100%;
             display: flex;
             justify-content: center;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-top: 20px;
+            margin-bottom: 25px;
         }
 
         .image-section img {
-            width: 180px;
-            height: auto;
-            max-width: 100%;
+            width: 170px;
         }
 
-        /* Bagian Input (Kanan) */
         .input-section {
             width: 100%;
         }
 
-        /* ========================================================================= */
-        /* NAVBAR STYLES (DIPERBAIKI & RESPONSIVE) */
-        /* ========================================================================= */
-
-        .navbar {
-            width: 100%;
-            /* Pastikan navbar mengambil lebar penuh */
-            z-index: 1030;
-            /* Z-index standar untuk navbar tetap di atas */
-        }
-
-        .brand-logo {
-            height: 45px;
-            /* Diperkecil sedikit untuk mobile */
-            transition: height 0.3s;
-        }
-
-        .brand-text {
-            font-size: 1.3rem;
-            /* Diperkecil untuk mobile */
-            font-weight: 700;
-            transition: font-size 0.3s;
-        }
-
-        .stikes-logo {
-            height: 35px;
-            /* Diperkecil sedikit untuk mobile */
-            width: auto;
-            transition: height 0.3s;
-        }
-
-        /* --- Input Styles (Disederhanakan) --- */
-
+        /* ===================================================== */
+        /* INPUT CARD */
+        /* ===================================================== */
         .input-group-custom {
-            /* Kelas ini sekarang hanya berfungsi sebagai container Card untuk setiap baris */
-            background-color: var(--color-bg-light);
-            border-radius: 10px;
-            margin-bottom: 18px;
-            padding: 12px 18px;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
-            font-size: 1.05rem;
-            color: #333;
-            transition: background-color 0.2s;
-
-            /* Penting: Disesuaikan dengan d-flex justify-content-between dari HTML */
+            background: var(--color-bg-light);
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: all 0.2s ease;
         }
 
         .input-group-custom:focus-within {
-            background-color: #ffffff;
+            background: #fff;
             box-shadow: 0 0 0 2px var(--color-secondary);
         }
 
         .input-group-custom label {
-            /* Label tetap di kiri */
             font-weight: 500;
-            /* Menghapus flex-grow: 1 dan margin-left */
-        }
-
-        .input-group-custom i {
-            /* Ikon diposisikan di dalam div d-flex yang baru */
-            color: #4a6c38;
-            /* Menghapus margin-right/left yang lama */
-            font-size: 1.3rem;
-            flex-shrink: 0;
-        }
-
-        /* Style untuk Input Value (BB, TB, Usia) */
-        .input-value-custom {
-            border: none;
-            background: transparent;
-            text-align: right;
-            outline: none;
-            font-weight: 600;
-            color: #333;
-            width: 60px;
-            /* Lebar Input disesuaikan agar rapi */
-            padding: 0;
+            font-size: 1rem;
             margin: 0;
         }
 
-        .input-group-custom select,
-        .input-group-custom input {
+        .input-group-custom i {
+            color: #4a6c38;
+            font-size: 1.25rem;
+        }
+
+        /* INPUT VALUE */
+        .input-value-custom {
             border: none;
             background: transparent;
-            text-align: right;
             outline: none;
-            flex-shrink: 0;
+            text-align: right;
             font-weight: 600;
-            color: #333;
-            padding-right: 8px;
+            width: 90px;
         }
 
-        /* Style Select Dropdown */
-        .input-group-custom select {
-            width: auto;
-            padding-right: 25px;
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%234a6c38' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 5px center;
-        }
-
+        /* SELECT */
         .form-select-custom {
             border: none;
             background: transparent;
-            text-align: right;
             outline: none;
             font-weight: 600;
-            color: #333;
             padding-right: 25px;
-            /* Memberi ruang untuk panah */
-            cursor: pointer;
             appearance: none;
-            /* Menggunakan background image yang sudah ada */
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%234a6c38' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%234a6c38' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 5px center;
-            width: 150px;
-            /* Lebar Select disesuaikan agar rapi */
         }
 
-        /* Tombol Hitung */
+        .gizi-container h1 {
+            color: #4a6c38;
+            font-weight: 700;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+
+        /* ===================================================== */
+        /* BUTTON */
+        /* ===================================================== */
         .btn-hitung {
-            background-color: var(--color-success-dark);
-            color: white;
-            font-weight: bold;
-            font-size: 1.25rem;
-            padding: 15px 0;
-            border-radius: 12px;
             width: 100%;
-            margin-top: 30px;
+            margin-top: 25px;
+            padding: 14px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-radius: 12px;
+            background: var(--color-success-dark);
+            color: #fff;
             border: none;
-            transition: background-color 0.2s, transform 0.2s;
+            transition: 0.2s;
         }
 
         .btn-hitung:hover {
-            background-color: #12573d;
+            background: #12573d;
             transform: translateY(-2px);
         }
 
-        /* ========================================================================= */
-        /* MEDIA QUERY: Desktop/Tablet (>= 768px) */
-        /* ========================================================================= */
-
+        /* ===================================================== */
+        /* DESKTOP (>= 768px) */
+        /* ===================================================== */
         @media (min-width: 768px) {
-
-            /* Navbar Desktop Adjustments */
-            .brand-logo {
-                height: 60px;
-            }
-
-            .brand-text {
-                font-size: 1.8rem;
-            }
-
-            .stikes-logo {
-                height: 40px;
-            }
-
-            /* Content Layout Desktop */
-            .gizi-container {
-                padding: 45px 50px;
-            }
-
-            .gizi-container h1 {
-                font-size: 2.2rem;
-            }
-
             .content-wrapper {
                 flex-direction: row;
-                justify-content: space-between;
                 align-items: flex-start;
                 gap: 40px;
             }
 
             .image-section {
                 width: 40%;
-                justify-content: center;
-                text-align: center;
-                margin-bottom: 0;
-                /* Padding disesuaikan agar gambar terlihat seimbang */
-                padding-top: 50px;
-                margin-top: 70px;
+                margin-top: 60px;
             }
 
             .image-section img {
@@ -287,12 +204,82 @@
             .input-section {
                 width: 60%;
             }
+
+            .gizi-container {
+                padding: 45px 50px;
+            }
+
+            .gizi-container h1 {
+                font-size: 2.2rem;
+            }
         }
 
-        /* ========================================================================= */
-        /* MODAL & CHART STYLES */
-        /* ========================================================================= */
+        /* ===================================================== */
+        /* MOBILE OPTIMIZATION (<= 576px) */
+        /* ===================================================== */
+        @media (max-width: 576px) {
 
+            body {
+                padding-top: 70px;
+            }
+
+            .gizi-container {
+                padding: 20px 15px;
+                border-radius: 12px;
+            }
+
+            .gizi-container h1 {
+                font-size: 1.4rem;
+                margin-bottom: 18px;
+            }
+
+            .image-section img {
+                width: 135px;
+            }
+
+            /* INPUT CARD -> VERTICAL */
+            .input-group-custom {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .input-group-custom>div {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .input-value-custom {
+                width: 100%;
+                text-align: right;
+                font-size: 1rem;
+            }
+
+            .form-select-custom {
+                width: 100%;
+                font-size: 0.95rem;
+            }
+
+            .btn-hitung {
+                font-size: 1.1rem;
+                padding: 14px;
+                border-radius: 10px;
+            }
+
+            .brand-logo {
+                height: 40px;
+            }
+
+            .stikes-logo {
+                height: 30px;
+            }
+        }
+
+        /* ===================================================== */
+        /* MODAL & CHART */
+        /* ===================================================== */
         .modal-header.bg-laki-laki {
             background-color: #0d6efd !important;
         }
@@ -305,15 +292,9 @@
             background-color: var(--color-success-dark) !important;
         }
 
-        #kategoriHasil b {
-            font-size: 1.5rem;
-        }
-
         .chart-container {
-            position: relative;
-            height: 40vh;
             width: 100%;
-            margin: 0 auto;
+            height: 40vh;
         }
 
         @media (min-width: 768px) {
@@ -322,7 +303,77 @@
                 max-height: 450px;
             }
         }
+
+        /* ===================================================== */
+        /* MOBILE FIX TOTAL – INPUT CARD */
+        /* ===================================================== */
+        @media (max-width: 576px) {
+
+            /* Card jadi vertical */
+            .input-group-custom {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+                padding: 16px 16px;
+                border-radius: 14px;
+            }
+
+            /* Label full width di atas */
+            .input-group-custom label {
+                width: 100%;
+                font-size: 0.95rem;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            /* Row icon + input */
+            .input-group-custom>div {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            /* Icon fix position */
+            .input-group-custom i {
+                font-size: 1.2rem;
+                flex-shrink: 0;
+                color: var(--color-primary);
+            }
+
+            /* Input number */
+            .input-value-custom {
+                flex: 1;
+                width: 100%;
+                font-size: 1.05rem;
+                text-align: right;
+            }
+
+            /* Hilangkan arrow bawaan browser */
+            select {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                background-color: transparent;
+            }
+
+            /* Pastikan arrow custom tetap rapi */
+            .form-select-custom {
+                background-position: right 8px center;
+                padding-right: 30px;
+            }
+
+            /* Button */
+            .btn-hitung {
+                font-size: 1.15rem;
+                padding: 16px;
+                border-radius: 12px;
+            }
+        }
     </style>
+
 </head>
 
 <body>
@@ -360,7 +411,7 @@
 
             <div class="input-section">
 
-                <div class="input-group-custom d-flex justify-content-between align-items-center">
+                <div class="input-group-custom">
                     <label for="kategoriIndex" class="d-flex align-items-center mb-0 me-2">
                         Kategori Index
                         <i class="bi bi-info-circle ms-2" data-bs-toggle="modal" data-bs-target="#indexInfoModal"></i>
@@ -373,13 +424,13 @@
                     </select>
                 </div>
 
-                <div class="input-group-custom d-flex justify-content-between align-items-center">
+                <div class="input-group-custom">
                     <label for="jenisKelamin" class="d-flex align-items-center mb-0 me-2">
                         Jenis Kelamin
                     </label>
                     <div class="d-flex align-items-center">
                         <i class="bi bi-person-circle me-2"></i>
-                        <select id="jenisKelamin" class="form-select-custom flex-shrink-0" required>
+                        <select id="jenisKelamin" class="form-select-custom" required>
                             <option value="" disabled selected>Pilih Jenis Kelamin</option>
                             <option value="L">Laki-laki</option>
                             <option value="P">Perempuan</option>
@@ -387,7 +438,7 @@
                     </div>
                 </div>
 
-                <div class="input-group-custom d-flex justify-content-between align-items-center">
+                <div class="input-group-custom">
                     <label for="beratBadan" class="mb-0 me-2">Berat Badan (kg)</label>
                     <div class="d-flex align-items-center">
                         <i class="bi bi-speedometer2 me-2"></i>
@@ -396,7 +447,7 @@
                     </div>
                 </div>
 
-                <div class="input-group-custom d-flex justify-content-between align-items-center">
+                <div class="input-group-custom">
                     <label for="tinggiBadan" class="mb-0 me-2">Tinggi Badan (cm)</label>
                     <div class="d-flex align-items-center">
                         <i class="bi bi-rulers me-2"></i>
@@ -405,7 +456,7 @@
                     </div>
                 </div>
 
-                <div class="input-group-custom d-flex justify-content-between align-items-center">
+                <div class="input-group-custom">
                     <label for="usiaBulan" class="mb-0 me-2">Usia (bulan)</label>
                     <div class="d-flex align-items-center">
                         <i class="bi bi-calendar-date me-2"></i>
