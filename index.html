@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="img/logo-djkn.png">
+    <title>Home - DJKN CARE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .feature-card {
+            transition: all 0.3s ease-in-out;
+            border-radius: 15px;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+        }
+
+        /* Efek hover elegan untuk card */
+        .article-promo-section .card {
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            border: 1px solid #84b66b !important;
+            background: #ffffff;
+            opacity: 0;
+            animation: fadeSlideIn 0.8s ease forwards;
+        }
+
+        .article-promo-section .card:hover {
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border-color: #006838 !important;
+        }
+
+        /* Efek pada gambar */
+        .article-promo-section .card img {
+            transition: transform 0.3s ease;
+        }
+
+        .article-promo-section .card:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Efek teks menguat saat hover */
+        .article-promo-section .card:hover p {
+            color: #004d2f !important;
+        }
+
+        /* Smooth hover background */
+        .article-promo-section .card:hover {
+            background: #f3ffe5;
+        }
+
+        @keyframes fadeSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 
+        .card-hover-link {
+            border-left: 5px solid #006838;
+            transition: all 0.25s ease;
+            cursor: pointer;
+        }
+
+        .card-hover-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+            background-color: #f8fff3;
+        }
+
+        .card-hover-link .card-title {
+            color: #006838 !important;
+        } */
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                    <img src="img/logo-djkn.png" alt="DJKN CARE Logo" height="50" class="me-2 me-md-3">
+                    <span class="brand-text-djkn" style="font-size: 1.8rem; font-weight: 700;">
+                        <span class="text-djkn" style="color: #006838;">DJKN</span><span class="text-care" style="color: #8cc342;">-CARE</span>
+                    </span>
+                </div>
+
+                <img src="img/logo-stikes.png" alt="Logo STIKES" height="40" class="ms-auto">
+            </div>
+        </nav>
+    </header>
+
+
+    <main>
+        <section class="hero-section py-5" style="
+    background-color: #badc84;
+    padding-top: 60px;
+    padding-bottom: 0; /* diperkecil */
+">
+            <div class="container text-center" style="max-width: 1200px;">
+                <!-- Judul -->
+                <h1 class="display-4 fw-bold" style="color: #006838; font-size: 3rem; font-style: italic;">
+                    DIGITAL JOURNEY KIDS NUTRITION
+                </h1>
+
+                <!-- Subjudul -->
+                <p class="lead fw-bold" style="color: #3d5831; font-size: 1.4rem;">
+                    Atasi Picky Eater, Cegah Stunting
+                </p>
+
+                <!-- Gambar Besar Hampir Full -->
+                <img src="img/home.png" alt="Kids Nutrition" style="
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        ">
+            </div>
+        </section>
+
+        <section class="info-section" style="
+    background-color: #badc84;
+    padding-top: 25px;   /* jarak lebih dekat dari hero-section */
+    padding-bottom: 40px;
+">
+            <div class="container">
+                <div class="row g-4">
+
+                    <!-- CARD 1 -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="p-4 rounded-4 shadow-sm h-100" style="background-color:#E2EFDA;">
+                            <h3 class="h5 fw-bold text-success mb-3">Apa itu Stunting?</h3>
+                            <p>Stunting adalah gangguan tumbuh kembang anak akibat kekurangan gizi kronis.</p>
+                        </div>
+                    </div>
+
+                    <!-- CARD 2 -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="p-4 rounded-4 shadow-sm h-100" style="background-color:#E8F3D6;">
+                            <h3 class="h5 fw-bold text-success mb-3">Ciri-ciri Stunting</h3>
+                            <ul class="mb-0">
+                                <li>Pertumbuhan tulang melambat</li>
+                                <li>Tinggi badan rendah</li>
+                                <li>Postur lebih pendek dari rata-rata</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- CARD 3 -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="p-4 rounded-4 shadow-sm h-100" style="background-color:#D9EED0;">
+                            <h3 class="h5 fw-bold text-success mb-3">Penyebab Stunting</h3>
+                            <ul class="mb-0">
+                                <li>Kekurangan gizi 1000 hari pertama</li>
+                                <li>Pola asuh kurang memadai</li>
+                                <li>Sanitasi buruk</li>
+                                <li>Infeksi berulang</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- CARD 4 -->
+                    <div class="col-lg-6">
+                        <div class="p-4 rounded-4 shadow-sm h-100" style="background-color:#FFF2CC;">
+                            <h3 class="h5 fw-bold text-warning mb-3">Apa itu Picky Eater?</h3>
+                            <p>Anak sangat selektif memilih makanan atau menolak mencoba makanan baru.</p>
+                        </div>
+                    </div>
+
+                    <!-- CARD 5 -->
+                    <div class="col-lg-6">
+                        <div class="p-4 rounded-4 shadow-sm h-100" style="background-color:#FFE7A7;">
+                            <h3 class="h5 fw-bold text-warning mb-3">Faktor Picky Eater</h3>
+                            <ul class="mb-0">
+                                <li>Pengaruh orang tua saat makan</li>
+                                <li>Porsi terlalu besar</li>
+                                <li>Waktu makan terlalu lama</li>
+                                <li>Anak dipaksa makan</li>
+                                <li>Lingkungan makan tidak nyaman</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="features-section text-center py-5 bg-light">
+            <div class="container">
+                <h2 class="mb-5 text-success">Fitur Utama Kami</h2>
+
+                <div class="row justify-content-center g-4">
+
+                    <div class="col-md-4">
+                        <a href="#article-promo"
+                            class="card feature-card p-3 h-100 shadow-sm text-decoration-none text-dark d-flex flex-column justify-content-between">
+                            <div>
+                                <img src="img/artikel.png" class="mx-auto mb-3" alt="Fitur 1"
+                                    style="width: 100px; height: 80px;">
+                                <h5 class="card-title">Artikel & Quiz Edukasi</h5>
+                                <p class="card-text small">Dapatkan wawasan seputar stunting dan picky eater.</p>
+                            </div>
+                            <button onclick="window.location.href='quiz.html'" class="btn btn-success mt-3 w-100">
+                                Start Quiz!
+                            </button>
+                        </a>
+                    </div>
+
+                    <div class="col-md-4">
+                        <a href="isi-piring.html"
+                            class="card feature-card p-3 h-100 shadow-sm text-decoration-none text-dark">
+                            <img src="img/piring.png" class="mx-auto mb-3" alt="Fitur 2"
+                                style="width: 120px; height: 70px;">
+                            <h5 class="card-title">Isi Piringku</h5>
+                            <p class="card-text">Penuhi piring si kecil dengan gizi lengkap untuk tumbuh kembang
+                                maksimal.</p>
+                        </a>
+                    </div>
+
+                    <div class="col-md-4">
+                        <a href="cek-status-gizi.html"
+                            class="card feature-card p-3 h-100 shadow-sm text-decoration-none text-dark">
+                            <img src="img/cek-gizi.png" class="mx-auto mb-3" alt="Fitur 3"
+                                style="width: 120px; height: 70px;">
+                            <h5 class="card-title">Cek Status Gizi</h5>
+                            <p class="card-text">Pantau pertumbuhan anak anda secara berkala.</p>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <section id="article-promo" class="article-promo-section py-5" style="background-color: #badc84;">
+            <div class="container text-center">
+                <h3 class="mb-4 text-success">Artikel</h3>
+                <div class="row justify-content-center g-4">
+
+                    <!-- 1. Tips Makanan Sehat -->
+                    <div class="col-6 col-md-3">
+                        <a href="https://www.halodoc.com/artikel/5-tips-yang-bisa-dilakukan-agar-anak-makan-lahap?srsltid=AfmBOoqZwy2kowimGcbvjvKyKu6yMPoM1LEinga7qqmMHvzWN0R7f1Mi"
+                            target="_blank" class="card h-100 text-decoration-none shadow-sm border-success">
+                            <div class="card-body text-center">
+                                <img src="img/makan-sehat.png" class="img-fluid mb-2" style="height: 60px;">
+                                <p class="card-text fw-bold text-success small">
+                                    5 Tips Seru Agar Anak Suka Makanan Sehat
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- 2. Tips Mengatasi Picky Eater -->
+                    <div class="col-6 col-md-3">
+                        <a href="https://www.alodokter.com/bunda-ini-penyebab-dan-tips-menghadapi-anak-picky-eater"
+                            target="_blank" class="card h-100 text-decoration-none shadow-sm border-success">
+                            <div class="card-body text-center">
+                                <img src="img/mengatasi.png" class="img-fluid mb-2" style="height: 60px;">
+                                <p class="card-text fw-bold text-success small">
+                                    Tips Mengatasi Anak Picky Eater
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- 3. Peran Orangtua -->
+                    <div class="col-6 col-md-3">
+                        <a href="https://rsjrw.id/artikel/peran-orang-tua-menghadapi-anak-picky-eater" target="_blank"
+                            class="card h-100 text-decoration-none shadow-sm border-success">
+                            <div class="card-body text-center">
+                                <img src="img/picky-eater.png" class="img-fluid mb-2" style="height: 60px;">
+                                <p class="card-text fw-bold text-success small">
+                                    Peran Orangtua Menghadapi Anak Picky Eater
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- 4. 3 Tips Pencegah Stunting -->
+                    <div class="col-6 col-md-3">
+                        <a href="https://ayosehat.kemkes.go.id/mengenal-3-tips-pencegahan-stunting" target="_blank"
+                            class="card h-100 text-decoration-none shadow-sm border-success">
+                            <div class="card-body text-center">
+                                <img src="img/stunting.png" class="img-fluid mb-2" style="height: 60px;">
+                                <p class="card-text fw-bold text-success small">
+                                    3 Tips Pencegah Stunting
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- 5. Faktor Picky Eater -->
+                    <div class="col-6 col-md-3">
+                        <a href="https://jurnalsandihusada.polsaka.ac.id/JIKSH/article/download/158/130/"
+                            target="_blank" class="card h-100 text-decoration-none shadow-sm border-success">
+                            <div class="card-body text-center">
+                                <img src="img/picky-eater2.png" class="img-fluid mb-2" style="height: 60px;">
+                                <p class="card-text fw-bold text-success small">
+                                    Faktor yang Memengaruhi Kejadian Picky Eater
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- <section class="article-section py-5">
+            <div class="container">
+                <h2 class="text-center mb-5" style="color: #006838;">
+                    ISI FITUR ARTIKEL
+                </h2>
+                <div id="tips-makan-sehat" class="card mb-4 shadow-sm" style="border-left: 5px solid #006838;">
+                    <div class="card-body">
+                        <h3 class="card-title h5" style="color: #006838;">5 Tips Seru Agar Anak Suka Makanan Sehat</h3>
+                        <p>https://promkes.kemkes.go.id/?p=8904</p>
+                        <ul>
+                            <li>Sajikan buah dan sayur dengan potongan yang menarik.</li>
+                            <li>Kreasikan menu yang si kecil tidak suka.</li>
+                            <li>Kombinasi menu lama dengan baru.</li>
+                            <li>Berikan pilihan.</li>
+                            <li>Ciptakan suasana makan yang kondusif.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <a href="https://www.alodokter.com/bunda-ini-penyebab-dan-tips-menghadapi-anak-picky-eater"
+                    target="_blank" class="text-decoration-none text-dark">
+
+                    <div id="tips-picky-eater" class="card mb-4 shadow-sm card-hover-link">
+                        <div class="card-body">
+                            <h3 class="card-title h5">Tips Mengatasi Anak Picky Eater</h3>
+
+                            <p class="small text-muted">Sumber: Alodokter</p>
+
+                            <ul>
+                                <li>Hindari memaksa anak untuk makan.</li>
+                                <li>Sajikan makanan dengan variasi yang menarik.</li>
+                                <li>Perbolehkan anak menyentuh makanannya.</li>
+                                <li>Buat suasana makan jadi menyenangkan.</li>
+                                <li>Berikan contoh (Anak adalah pencontoh yang baik. Oleh karena itu, untuk membuat si
+                                    Kecil tertarik dengan makanan barunya, cobalah untuk mengonsumsi makanan tersebut di
+                                    depannya sesering mungkin).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+
+            
+                <a href="https://rsjrw.id/artikel/peran-orang-tua-menghadapi-anak-picky-eater" target="_blank"
+                    class="text-decoration-none text-dark">
+
+                    <div id="peran-orangtua" class="card mb-4 shadow-sm card-hover-link">
+                        <div class="card-body">
+                            <h3 class="card-title h5">Peran Orangtua Menghadapi Anak Picky Eater</h3>
+
+                            <p class="small text-muted">Sumber: RSJRW.id</p>
+
+                            <ul>
+                                <li>Menyajikan makanan dalam porsi kecil agar tidak terlalu banyak atau enek. Lebih baik
+                                    menambah lagi jika kurang, daripada membuang sisanya.</li>
+                                <li>Berikan contoh teladan ke anak. Anak biasanya melihat kebiasaan orang tua. Ketika
+                                    seorang anak melihat orang tuanya tidak suka sayur dan buah, maka ada kecenderungan
+                                    anak
+                                    untuk mencontoh kebiasaan orang tuanya.</li>
+                                <li>Memberikan akses yang mudah ke anak untuk mengambil makanan, misalkan menaruh
+                                    makanan di meja yang tidak tinggi dan terlihat.</li>
+                                <li>Mengenalkan makanan baru harus sabar dan berkali-kali. Jika terjadi penolakan,
+                                    harus terus dicoba (misalnya, tawarkan hingga 10-15 kali).</li>
+                                <li>Mengikutsertakan anak dalam pemilihan dan memasak makanan.</li>
+                                <li>Memodifikasi makanan agar menarik, misalkan pepaya dibuat puding, atau tahu dibuat
+                                    bola-bola yang dicampur wortel dan ayam.</li>
+                                <li>Konsultasi ke dokter anak atau ahli gizi.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+
+               
+                <a href="https://ayosehat.kemkes.go.id/mengenal-3-tips-pencegahan-stunting" target="_blank"
+                    class="text-decoration-none text-dark">
+
+                    <div id="pencegah-stunting" class="card mb-4 shadow-sm card-hover-link">
+                        <div class="card-body">
+                            <h3 class="card-title h5">3 Tips Pencegahan Stunting</h3>
+
+                            <p class="small text-muted">Sumber: Kemkes</p>
+
+                            <ul class="mt-3">
+                                <li>Pola makan.</li>
+                                <li>Pola asuh.</li>
+                                <li>Sanitasi & akses air bersih.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://jurnalsandihusada.polsaka.ac.id/JIKSH/article/download/158/130/" target="_blank"
+                    class="text-decoration-none text-dark">
+
+                    <div id="faktor" class="card mb-4 shadow-sm card-hover-link">
+                        <div class="card-body">
+                            <h3 class="card-title h5">Faktor yang Memengaruhi Kejadian Picky Eater</h3>
+
+                            <p class="small text-muted">Sumber: Jurnal Sandihusada</p>
+                            <ul>
+                                <li>Pengaruh Genetik: Sering disebut pewarisan sifat, yaitu kombinasi kontribusi
+                                    relatif dari gen dan lingkungan yang menentukan ciri atau sifat fenotipe pada suatu
+                                    organisme (termasuk preferensi rasa dan kecenderungan berat badan).</li>
+                                <li>Pengaruh Prenatal: Ditemukan bukti bahwa pola makan ibu selama kehamilan dapat
+                                    menjadi sebuah 'programming' yang dapat mempengaruhi perilaku dan pilihan makan anak
+                                    yang dikandungnya setelah lahir.</li>
+                                <li>Pengaruh Pemberian Makanan Dini Postnatal (periode setelah melahirkan): Bagaimana
+                                    dan apa yang diberikan kepada anak pada masa bayi dan balita sangat membentuk
+                                    kebiasaan
+                                    makan jangka panjang (misalnya, pengenalan variasi rasa pada MPASI).</li>
+                                <li>Pola Makan Orang Tua: Kebiasaan diet orang tua secara langsung memengaruhi makanan
+                                    yang tersedia di rumah dan menjadi contoh yang ditiru oleh anak.</li>
+                                <li>Lingkungan Keluarga: Mencakup suasana saat makan, tekanan untuk makan, jadwal makan
+                                    yang teratur, dan ketersediaan makanan sehat di rumah.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </section> -->
+    </main>
+
+    <footer class="bg-light text-black py-4">
+        <div class="container text-center">
+            <p>&copy; 2025 DJKN CARE. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>
