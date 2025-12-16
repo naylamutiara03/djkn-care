@@ -106,137 +106,133 @@
             font-size: 0.95rem;
         }
 
-        /* Top Section: Piring & Komposisi */
+        /* Top Section: Diubah agar transparan (Tanpa Background Putih) */
         .top-plate-section {
-            background-color: white;
-            padding: 30px 15px;
-            border-radius: 12px;
+            background-color: transparent;
+            /* Menghapus background putih */
+            padding: 20px 0;
             margin-bottom: 30px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            /* Box shadow dihapus agar tidak terlihat kotak putih samar */
+            box-shadow: none;
         }
 
-        /* Wadah untuk piring default/usia */
+        /* Wadah utama piring dan panah */
         #plateVisualWrapper {
-            position: relative;
-            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
         }
 
+        /* Ukuran piring di layar besar */
+        .plate-image {
+            width: 100%;
+            max-width: 320px;
+            /* Ukuran piring kanan */
+            height: auto;
+        }
+
+        /* --- Perbaikan Layout Piring Responsif --- */
+        .dual-plate-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Panah Default (Layar Besar) */
+        .plate-arrow {
+            width: 60px;
+            height: auto;
+            flex-shrink: 0;
+        }
+
+        .plate-image.mpasi-main {
+            max-width: 420px;
+            /* Piring kiri sedikit lebih besar */
+        }
+
+        /* Pengaturan Gambar ASI di bawah */
+        .asi-image {
+            max-width: 400px;
+            width: 90%;
+            height: auto;
+            margin-top: 20px;
+        }
+
+        /* Gambar default saat reset */
         .plate-composition-img {
             max-width: 500px;
             width: 100%;
             height: auto;
         }
 
-        /* 💡 Penyesuaian untuk Tampilan Piring Ganda (Dual Plate View) */
-        .dual-plate-container {
-            /* Default untuk desktop/tablet: berdampingan */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            width: 100%;
-            max-width: 1000px;
+        /* Gaya untuk tombol reset (menghilangkan garis pemisah) */
+        .dropdown-divider {
+            display: none !important;
+            /* Hapus garis pemisah */
         }
 
-        .plate-image {
-            /* Mengatur lebar proporsional default */
-            width: 40%;
-            max-width: 250px;
-            height: auto;
+        #resetPlateBtn {
+            background-color: transparent !important;
+            color: var(--color-primary) !important;
+            font-weight: 700 !important;
         }
 
-        .plate-image.mpasi-main {
-            /* Membuat Piring 1 (MPASI awal) lebih besar sesuai permintaan */
-            width: 45%; /* Diperbesar sedikit dari default 40% */
-            max-width: 300px;
+        #resetPlateBtn:hover,
+        #resetPlateBtn:focus {
+            background-color: var(--color-section-bg) !important;
+            color: var(--color-primary) !important;
         }
 
-        .plate-arrow {
-            height: 60px;
-            margin: 0 5px;
-            flex-shrink: 0;
-        }
-
-        /* Gambar ASI diletakkan di luar dual-plate-container, jadi tidak perlu kelas asi-center-image lagi */
-        
         /* Responsive */
         @media (max-width: 768px) {
-            /* Untuk Tablet (md) */
-            .food-item img {
-                height: 60px;
-                /* Sedikit lebih kecil */
-            }
 
+            /* Untuk Tablet (md) */
             .plate-image {
                 max-width: 200px;
             }
-             .plate-image.mpasi-main {
+
+            .plate-image.mpasi-main {
                 max-width: 250px;
+                /* Piring 1 tetap sedikit lebih besar */
+            }
+
+            .asi-image {
+                max-width: 250px;
+                /* Gambar ASI di Tablet */
             }
         }
 
+        /* --- Pengaturan Khusus Layar HP --- */
         @media (max-width: 576px) {
-            /* Untuk Ponsel (sm) */
-
-            .brand-logo {
-                height: 44px;
-            }
-
-            .brand-text {
-                font-size: 1.4rem;
-            }
-
-            .section-header {
-                font-size: 1.2rem;
-                margin-bottom: 5px;
-            }
-
-            .food-item img {
-                height: 50px;
-                /* Ukuran gambar item makanan di ponsel */
-            }
-
-            .food-item p {
-                font-size: 0.8rem;
-            }
-
-            .food-section-card {
-                padding: 15px 10px;
-            }
-
-            .daily-need-bar {
-                font-size: 0.85rem;
-                margin-top: 5px;
-                margin-bottom: 15px;
-            }
-
-            /* 💡 Penyesuaian Tata Letak Piring Ganda di Ponsel */
             .dual-plate-container {
-                /* Ganti menjadi kolom di layar kecil agar panah vertikal */
                 flex-direction: column;
-                gap: 5px;
+                /* Tumpuk piring secara vertikal */
+                gap: 10px;
             }
 
+            /* Piring di HP tetap besar (memenuhi 90% lebar layar) */
+            .plate-image.mpasi-main,
             .plate-image {
-                width: 70%;
-                max-width: 250px;
+                max-width: 90%;
+                width: 280px;
+                /* Ukuran minimum agar tetap jelas */
             }
 
-            .plate-image.mpasi-main {
-                /* Piring 1 di ponsel */
-                max-width: 250px;
-            }
-
+            /* Panah di HP otomatis menghadap ke bawah */
             .plate-arrow {
-                /* Panah diputar saat dalam mode kolom */
+                width: 50px;
                 transform: rotate(90deg);
-                height: 40px;
-                margin: 5px 0;
+                margin: 15px 0;
             }
-            
-            /* Atur ulang gaya ASI agar sesuai dengan posisi di bawah */
+
             .asi-image {
-                max-width: 150px !important; 
+                max-width: 80%;
+                margin-top: 10px;
             }
         }
 
@@ -534,73 +530,34 @@
             });
         }
 
-        // 🔴 FUNGSI YANG DIMODIFIKASI untuk Responsivitas Tata Letak Piring
         function updatePlateVisual(ageKey) {
             const plateWrapper = document.getElementById("plateVisualWrapper");
-            const plateNote = document.getElementById("plateNote");
-            plateWrapper.innerHTML = ''; // Bersihkan wadah gambar
+            plateWrapper.innerHTML = '';
 
             let htmlContent = '';
-            let noteText = '';
 
             if (ageKey === "12-24") {
-
-                noteText = 'Lanjutkan Pemberian ASI sampai anak usia 2 tahun.';
-
-                // 💡 STRUKTUR SESUAI GAMBAR ASLI: Piring-Panah-Piring di atas, ASI di bawah
-                htmlContent = `
-                    <div class="dual-plate-container">
-                        
-                        <img src="${plate12to24Img1}" 
-                            class="plate-image mpasi-main"
-                            alt="Piring MPASI 70%">
-                        
-                        <img src="${rightArrowImg}" 
-                            class="plate-arrow"
-                            alt="Panah">
-
-                        <img src="${plate12to24Img2}" 
-                            class="plate-image"
-                            alt="Piring Keseimbangan Gizi">
-                    </div>
-                    
-                    <div class="d-flex justify-content-center mt-3" 
-                        style="width: 100%;"> 
-                        <img src="${asiImg}" 
-                            class="asi-image"
-                            alt="ASI 30% + MPASI 70%"
-                            style="max-width: 200px; height: auto;">
-                    </div>
-                `;
-
-            } else if (ageKey === "2-5") {
-                // Tata letak untuk 2-5 tahun (Dua Piring & Panah)
-                noteText = '*Komposisi piring di atas adalah rekomendasi untuk usia 2–5 tahun.';
                 htmlContent = `
             <div class="dual-plate-container">
-                <img src="${plate2to5Img1}" 
-                    class="plate-image"
-                    alt="Piring 1">
-
-                <img src="${rightArrowImg}" 
-                    class="plate-arrow"
-                    alt="Panah">
-
-                <img src="${plate2to5Img2}" 
-                    class="plate-image"
-                    alt="Piring 2">
+                <img src="${plate12to24Img1}" class="plate-image mpasi-main" alt="Piring Bahan">
+                <img src="${rightArrowImg}" class="plate-arrow" alt="Panah">
+                <img src="${plate12to24Img2}" class="plate-image" alt="Piring Jadi">
             </div>
-            `;
-            } else {
-                // Tampilan Default
-                noteText = '';
+            <img src="${asiImg}" class="asi-image" alt="Informasi ASI">
+        `;
+            } else if (ageKey === "2-5") {
                 htmlContent = `
-            <img src="${emptyPlateImg}" class="plate-composition-img" style="max-width: 450px;" alt="Pilih Usia" id="currentPlateImg">
-            `;
+            <div class="dual-plate-container">
+                <img src="${plate2to5Img1}" class="plate-image mpasi-main" alt="Piring Bahan">
+                <img src="${rightArrowImg}" class="plate-arrow" alt="Panah">
+                <img src="${plate2to5Img2}" class="plate-image" alt="Piring Jadi">
+            </div>
+        `;
+            } else {
+                htmlContent = `<img src="${emptyPlateImg}" class="plate-composition-img" alt="Pilih Usia">`;
             }
 
             plateWrapper.innerHTML = htmlContent;
-            plateNote.textContent = noteText;
         }
 
         // Fungsi untuk mengganti teks kebutuhan harian & menampilkan/menyembunyikan kartu
