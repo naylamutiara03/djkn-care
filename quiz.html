@@ -4,386 +4,408 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="img/logo-djkn.png">
     <title>Quiz Edukasi - DJKN CARE</title>
 
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+
     <style>
+        :root {
+            --green-main: #006838;
+            --green-soft: #badc84;
+            --green-light: #f3faec;
+            --option-border: #dceccc;
+            --option-hover: #eef8e7;
+            --option-active: #d7f4c3;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: #badc84;
+            font-family: 'Poppins', sans-serif;
+            background: var(--green-soft);
             min-height: 100vh;
+            padding-top: 80px;
         }
 
-        .main-header {
+        /* ================= NAVBAR ================= */
+        .navbar {
+            position: fixed;
+            top: 0;
             width: 100%;
-            position: relative;
-            z-index: 1000;
+            background: #fff;
+            z-index: 1030;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .08);
         }
 
-        .main-header .navbar {
-            width: 100%;
+        .navbar img {
+            height: 45px;
+        }
+
+        /* ================= QUIZ WRAPPER ================= */
+        .quiz-wrapper {
+            min-height: calc(100vh - 100px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
         }
 
         .quiz-container {
-            max-width: 750px;
-            background: white;
-            padding: 35px;
-            border-radius: 18px;
-            margin-top: 80px;
-            box-shadow:
-                0 8px 20px rgba(0, 0, 0, 0.12),
-                0 3px 6px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e7f5dc;
-            transition: transform .2s ease;
-            min-height: 500px; 
+            background: #fff;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 22px;
+            padding: 24px 22px 30px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, .15);
         }
 
-        /* Style pertanyaan */
-        .quiz-container h5 {
+        @media (min-width: 768px) {
+            .quiz-container {
+                max-width: 520px;
+                padding: 32px 32px 36px;
+            }
+        }
+
+        /* ================= HEADER ================= */
+        .quiz-title {
+            font-weight: 800;
+            color: var(--green-main);
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        .quiz-progress {
+            text-align: center;
+            color: #777;
+            font-size: .9rem;
+            margin-bottom: 20px;
+        }
+
+        /* ================= QUESTION ================= */
+        .quiz-question {
             font-weight: 700;
+            text-align: center;
+            margin-bottom: 22px;
             color: #2d4d1f;
-            text-align: center; /* Rata tengah teks pertanyaan */
-            margin-bottom: 25px !important;
-        }
-        
-        /* ---------------------------------------------------- */
-        /* Gaya untuk Opsi Jawaban (Box dan Centering) */
-        /* ---------------------------------------------------- */
-
-        .options-wrapper {
-            /* text-align: center; */ 
         }
 
+        /* ================= OPTIONS ================= */
         .form-check {
-            display: block; /* Agar opsi tetap atas-bawah */
-            margin: 0 auto 12px auto; /* Centering box secara horizontal */
-            max-width: 85%; /* Batasi lebar opsi agar tidak memenuhi container */
-            width: 100%; 
+            margin-bottom: 12px;
         }
 
         .form-check-input {
-            display: none; /* Sembunyikan radio button/bullet point */
+            display: none;
         }
 
         .form-check-label {
-            /* Gaya kotak jawaban */
-            background: #f8fbeff5;
-            padding: 15px 16px; 
+            display: block;
+            width: 100%;
+            padding: 14px 16px;
             border-radius: 12px;
-            border: 2px solid #dceccc;
+            border: 2px solid var(--option-border);
+            background: var(--green-light);
+            text-align: center;
+            cursor: pointer;
             transition: all .2s ease;
-            cursor: pointer; 
-            display: block; 
-            text-align: center; /* Rata tengah teks di dalam kotak opsi */
+        }
+
+        .form-check-label:hover {
+            background: var(--option-hover);
         }
 
         .form-check-input:checked+.form-check-label {
-            background: #d7f4c3;
+            background: var(--option-active);
             border-color: #9dd18c;
             font-weight: 600;
         }
 
-        .form-check-label:hover {
-            background: #eef8e7;
-        }
-        
-        /* ---------------------------------------------------- */
-
-        .carousel-control-prev,
-        .carousel-control-next {
-            display: none !important;
+        /* ================= NAVIGATION ================= */
+        .quiz-nav {
+            margin-top: 26px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
         }
 
-        /* Tombol navigasi */
-        #quiz-navigation button {
-            padding: 10px 26px;
-            font-size: 1.1rem;
+        .btn-main {
+            background: var(--green-main);
+            color: #fff;
             border-radius: 10px;
+            padding: 8px 22px;
+            border: none;
         }
 
-        .btn-primary {
-            background: #006838 !important;
-            border-color: #006838 !important;
+        .btn-main:disabled {
+            background: #9db8a6;
         }
 
-        .btn-primary:hover {
-            background: #00582f !important;
+        /* ================= RESULT ================= */
+        .quiz-result {
+            text-align: center;
         }
 
-        /* PERBAIKAN: Kode CSS Animasi telah dinonaktifkan */
-        /*
-        .fade-question {
-            animation: fadeIn .45s ease;
+        .quiz-result h3 {
+            font-weight: 800;
+            margin-bottom: 10px;
         }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-        */
     </style>
 </head>
 
 <body>
-    <header class="main-header">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm py-2">
-            <div class="container d-flex align-items-center">
 
-                <div class="d-flex align-items-center">
-                    <img src="img/logo-djkn.png" alt="DJKN CARE Logo" height="70" class="me-0"
-                        style="margin-right: 6px;">
+    <!-- NAVBAR -->
+    <nav class="navbar px-3">
+        <div class="d-flex align-items-center">
+            <img src="img/logo-djkn.png" class="me-2">
+            <strong>
+                <span style="color:#006838">DJKN</span><span style="color:#8cc342">-CARE</span>
+            </strong>
+        </div>
+        <img src="img/logo-stikes.png">
+    </nav>
 
-                    <span style="font-size: 1.7rem; font-weight: 700;">
-                        <span style="color: #006838;">DJKN</span>
-                        <span style="color: #8cc342;">-CARE</span>
-                    </span>
-                </div>
+    <!-- QUIZ -->
+    <div class="quiz-wrapper">
+        <div class="quiz-container">
 
-                <img src="img/logo-stikes.png" alt="Logo STIKES" height="55" class="ms-auto">
+            <a href="home.html" class="btn btn-outline-secondary btn-sm mb-3">← Back</a>
 
-            </div>
-        </nav>
-    </header>
-
-    <div class="container">
-
-        <div class="quiz-container mx-auto">
-            <a href="home.html" class="btn btn-outline-secondary btn-sm mb-3">
-                ← Back
-            </a>
-
-            <h2 class="text-center mb-4" style="color:#006838; font-weight:800; letter-spacing:1px;">
-                Uji Pengetahuan Anda! <span style="font-size:1.6rem;">🧠</span>
-            </h2>
-
-
-            <div class="text-center text-muted mb-2">
+            <h4 class="quiz-title">Uji Pengetahuan Anda! 🧠</h4>
+            <div class="quiz-progress">
                 Soal <span id="current-question">1</span> dari 15
             </div>
 
             <div id="quiz-carousel" class="carousel slide" data-bs-interval="false">
-                <div class="carousel-inner" id="quiz-questions-container"></div>
-
-                <div id="quiz-navigation" class="text-center mt-5"></div>
-
-                <div id="quiz-result" class="text-center mt-5" style="display:none;">
-                    <h3>Hasil Quiz Anda</h3>
-                    <p class="lead">
-                        Skor Anda:
-                        <span id="final-percentage-score" class="fw-bold fs-2 text-success"></span>
-                    </p>
-                    <p class="text-muted">
-                        (<span id="correct-count"></span> jawaban benar dari 15 soal)
-                    </p>
-                    <p id="result-message"></p>
-
-                    <button class="btn btn-outline-primary mt-3" onclick="window.location.href='home.html'">
-                        Kembali ke Beranda
-                    </button>
-                    <button class="btn btn-success mt-3" onclick="restartQuiz()">
-                        Ulangi Quiz
-                    </button>
-
-                </div>
+                <div class="carousel-inner" id="quiz-questions"></div>
             </div>
+
+            <div class="quiz-nav" id="quiz-nav"></div>
+
+            <!-- RESULT -->
+            <div id="quiz-result" class="quiz-result d-none">
+                <h3>Hasil Quiz</h3>
+                <p class="fs-5">Skor Anda</p>
+                <p class="fs-1 fw-bold text-success" id="final-score"></p>
+                <p id="result-msg"></p>
+
+                <button class="btn btn-outline-secondary mt-2" onclick="location.href='home.html'">Beranda</button>
+                <button class="btn btn-main mt-2" onclick="restartQuiz()">Ulangi</button>
+            </div>
+
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // ========================
-        // DATA SOAL (TIDAK ADA PERUBAHAN)
-        // ========================
         const questions = [
-            { question: "Apa itu picky eater?", options: ["Anak yang suka pilih-pilih makanan", "Anak yang makan banyak", "Anak yang suka semua makanan"], answer: 1 },
-            { question: "Ciri-ciri picky eater adalah", options: ["Mau mencoba semua makanan", "Hanya mau makan makanan tertentu", "Selalu makan tepat waktu"], answer: 2 },
-            { question: "Dampak buruk picky eater bisa menyebabkan", options: ["Nafsu makan meningkat", "Gizi anak tercukupi", "Kekurangan nutrisi"], answer: 3 },
-            { question: "Penyebab utama stunting adalah", options: ["Kekurangan gizi dalam jangka panjang", "Terlalu banyak tidur", "Sering bermain"], answer: 1 },
-            { question: "Nutrisi penting untuk mencegah stunting adalah", options: ["Gula", "Protein, zat besi, dan vitamin", "Pewarna makanan"], answer: 2 },
-            { question: "Picky eater seringkali berhubungan dengan masalah", options: ["Pertumbuhan", "Tidur", "Bermain"], answer: 1 },
-            { question: "Mengapa penting untuk rutin memantau tumbuh kembang anak?", options: ["Untuk mengetahui warna kesukaan anak", "Untuk mendeteksi dini masalah gizi dan pertumbuhan ", "Untuk menghitung jumlah mainan",], answer: 2 },
-            { question: "Peran keluarga dalam mencegah stunting sangat penting karena...", options: ["Keluarga bisa memilih baju anak", "Keluarga menentukan pola makan dan perawatan anak", "Anak tidak butuh bantuan"], answer: 2 },
-            { question: "Cara mengatasi picky eater yang benar adalah", options: ["Memarahi anak saat makan", "Memaksa anak makan banyak", "Memberikan contoh makan yang baik dan sabar"], answer: 3 },
-            { question: "Salah satu akibat jangka panjang dari picky eater adalah", options: ["Nafsu makan meningkat", "Berat badan cepat naik", "Kekurangan nutrisi penting"], answer: 3 },
-            { question: "Faktor penting dalam mencegah stunting adalah", options: ["Banyak menonton TV", "Asupan gizi yang baik dan cukup", "Tidur larut malam"], answer: 2 },
-            { question: "Cara memperkenalkan makanan baru ke anak adalah...", options: ["Memberi porsi besar langsung", "Memberikan dalam jumlah kecil dan sering ", "Tidak dikenalkan sama sekali"], answer: 2 },
-            { question: "Susu, telur, ikan, dan kacang-kacangan mengandung banyak", options: ["Gula", "Protein", "Garam"], answer: 2 },
-            { question: "Pola makan yang buruk bisa menyebabkan...", options: ["Masalah tumbuh kembang seperti stunting", "Anak jadi pintar", "Anak lebih kuat"], answer: 1 },
-            { question: "Apa yang dimaksud dengan makanan bergizi?", options: ["Makanan berwarna-warni", "Makanan yang mengandung zat gizi lengkap (karbohidrat, protein, vitamin, dll)", "Makanan manis"], answer: 2 }
+            {
+                q: "Apa itu picky eater?",
+                o: [
+                    "Anak yang suka pilih-pilih makanan",
+                    "Anak yang makan banyak",
+                    "Anak yang suka semua makanan"
+                ],
+                a: 0
+            },
+            {
+                q: "Ciri-ciri picky eater adalah",
+                o: [
+                    "Mau mencoba semua makanan",
+                    "Hanya mau makan makanan tertentu",
+                    "Selalu makan tepat waktu"
+                ],
+                a: 1
+            },
+            {
+                q: "Dampak buruk picky eater bisa menyebabkan",
+                o: [
+                    "Nafsu makan meningkat",
+                    "Gizi anak tercukupi",
+                    "Kekurangan nutrisi"
+                ],
+                a: 2
+            },
+            {
+                q: "Penyebab utama stunting adalah",
+                o: [
+                    "Kekurangan gizi dalam jangka panjang",
+                    "Terlalu banyak tidur",
+                    "Sering bermain"
+                ],
+                a: 0
+            },
+            {
+                q: "Nutrisi penting untuk mencegah stunting adalah",
+                o: [
+                    "Gula",
+                    "Protein, zat besi, dan vitamin",
+                    "Pewarna makanan"
+                ],
+                a: 1
+            },
+            {
+                q: "Picky eater seringkali berhubungan dengan masalah",
+                o: [
+                    "Pertumbuhan",
+                    "Tidur",
+                    "Bermain"
+                ],
+                a: 0
+            },
+            {
+                q: "Mengapa penting untuk rutin memantau tumbuh kembang anak?",
+                o: [
+                    "Untuk mengetahui warna kesukaan anak",
+                    "Untuk mendeteksi dini masalah gizi dan pertumbuhan",
+                    "Untuk menghitung jumlah mainan"
+                ],
+                a: 1
+            },
+            {
+                q: "Peran keluarga dalam mencegah stunting sangat penting karena...",
+                o: [
+                    "Keluarga bisa memilih baju anak",
+                    "Keluarga menentukan pola makan dan perawatan anak",
+                    "Anak tidak butuh bantuan"
+                ],
+                a: 1
+            },
+            {
+                q: "Cara mengatasi picky eater yang benar adalah",
+                o: [
+                    "Memarahi anak saat makan",
+                    "Memaksa anak makan banyak",
+                    "Memberikan contoh makan yang baik dan sabar"
+                ],
+                a: 2
+            },
+            {
+                q: "Salah satu akibat jangka panjang dari picky eater adalah",
+                o: [
+                    "Nafsu makan meningkat",
+                    "Berat badan cepat naik",
+                    "Kekurangan nutrisi penting"
+                ],
+                a: 2
+            },
+            {
+                q: "Faktor penting dalam mencegah stunting adalah",
+                o: [
+                    "Banyak menonton TV",
+                    "Asupan gizi yang baik dan cukup",
+                    "Tidur larut malam"
+                ],
+                a: 1
+            },
+            {
+                q: "Cara memperkenalkan makanan baru ke anak adalah...",
+                o: [
+                    "Memberi porsi besar langsung",
+                    "Memberikan dalam jumlah kecil dan sering",
+                    "Tidak dikenalkan sama sekali"
+                ],
+                a: 1
+            },
+            {
+                q: "Susu, telur, ikan, dan kacang-kacangan mengandung banyak",
+                o: [
+                    "Gula",
+                    "Protein",
+                    "Garam"
+                ],
+                a: 1
+            },
+            {
+                q: "Pola makan yang buruk bisa menyebabkan...",
+                o: [
+                    "Masalah tumbuh kembang seperti stunting",
+                    "Anak jadi pintar",
+                    "Anak lebih kuat"
+                ],
+                a: 0
+            },
+            {
+                q: "Apa yang dimaksud dengan makanan bergizi?",
+                o: [
+                    "Makanan berwarna-warni",
+                    "Makanan yang mengandung zat gizi lengkap (karbohidrat, protein, vitamin, dll)",
+                    "Makanan manis"
+                ],
+                a: 1
+            }
         ];
 
-        let currentQuestionIndex = 0;
-        const userAnswers = new Array(questions.length).fill(null);
 
-        // Inisialisasi Carousel tanpa interval dan wrap
-        const quizCarousel = new bootstrap.Carousel(document.getElementById('quiz-carousel'), {
-            interval: false,
-            wrap: false
-        });
+        let answers = Array(questions.length).fill(null);
+        const carousel = new bootstrap.Carousel('#quiz-carousel', { interval: false, wrap: false });
 
-        const quizContainer = document.getElementById('quiz-questions-container');
-        const navContainer = document.getElementById('quiz-navigation');
-        const resultSection = document.getElementById('quiz-result');
-        const indicator = document.getElementById('current-question');
-
-        window.handleAnswerChange = function (qIndex, answerValue) {
-            userAnswers[qIndex] = answerValue;
-            updateNavigation();
-        };
-
-        function renderQuestions() {
-            quizContainer.innerHTML = '';
-
-            questions.forEach((q, index) => {
-                const item = document.createElement('div');
-                item.className = 'carousel-item' + (index === 0 ? ' active' : '');
-                item.dataset.questionIndex = index;
-
-                let optionsHtml = '';
-
-                q.options.forEach((option, optIndex) => {
-                    const isChecked = userAnswers[index] === optIndex;
-
-                    optionsHtml += `
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio"
-                                name="q${index}"
-                                id="q${index}opt${optIndex}"
-                                value="${optIndex}"
-                                ${isChecked ? 'checked' : ''}
-                                onchange="handleAnswerChange(${index}, ${optIndex})">
-
-                            <label class="form-check-label" for="q${index}opt${optIndex}">
-                                ${option}
-                            </label>
-                        </div>`;
-                });
-
-                // Wrapper untuk opsi jawaban
-                item.innerHTML = `
-                    <h5 class="mb-4">Soal ${index + 1}: ${q.question}</h5>
-                    <div class="options-wrapper">
-                        ${optionsHtml}
-                    </div>
-                `;
-
-                quizContainer.appendChild(item);
-            });
-
-            updateNavigation();
-        }
-
-        function updateNavigation() {
-            navContainer.innerHTML = '';
-
-            const currentItem = document.querySelector('.carousel-item.active');
-            currentQuestionIndex = currentItem ? parseInt(currentItem.dataset.questionIndex) : 0;
-
-            indicator.textContent = currentQuestionIndex + 1;
-
-            const isAnswered = userAnswers[currentQuestionIndex] !== null;
-
-            // Tombol Sebelumnya
-            if (currentQuestionIndex > 0) {
-                const prevBtn = document.createElement('button');
-                prevBtn.className = 'btn btn-outline-secondary me-3';
-                prevBtn.textContent = 'Sebelumnya';
-                prevBtn.onclick = () => quizCarousel.prev();
-                navContainer.appendChild(prevBtn);
-            }
-
-            // Tombol Selanjutnya / Selesai
-            const nextBtn = document.createElement('button');
-            nextBtn.className = 'btn btn-primary';
-            nextBtn.disabled = !isAnswered;
-
-            if (currentQuestionIndex < questions.length - 1) {
-                nextBtn.textContent = 'Selanjutnya';
-                nextBtn.onclick = () => quizCarousel.next();
-            } else {
-                nextBtn.textContent = 'Selesai & Lihat Hasil';
-                nextBtn.onclick = calculateScore;
-            }
-
-            navContainer.appendChild(nextBtn);
-        }
-
-        function calculateScore() {
-            let correctCount = 0;
+        function render() {
+            const box = document.getElementById('quiz-questions');
+            box.innerHTML = '';
 
             questions.forEach((q, i) => {
-                if (userAnswers[i] + 1 === q.answer) correctCount++;
+                box.innerHTML += `
+        <div class="carousel-item ${i === 0 ? 'active' : ''}" data-index="${i}">
+            <div class="quiz-question">${q.q}</div>
+            ${q.o.map((opt, j) => `
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q${i}" id="q${i}o${j}"
+                onchange="selectAnswer(${i},${j})">
+                <label class="form-check-label" for="q${i}o${j}">${opt}</label>
+            </div>`).join('')}
+        </div>`;
             });
 
-            const percentageScore = ((correctCount / questions.length) * 100).toFixed(0);
-
-            document.getElementById('final-percentage-score').textContent = percentageScore + "%";
-            document.getElementById('correct-count').textContent = correctCount;
-
-            quizContainer.style.display = "none";
-            navContainer.style.display = "none";
-            resultSection.style.display = "block";
-
-            let msg = "";
-            if (correctCount === questions.length) msg = "SEMPURNA! 🎉";
-            else if (correctCount >= 12) msg = "Luar biasa! Pengetahuan Anda sangat baik!";
-            else if (correctCount >= 8) msg = "Bagus! Terus tingkatkan wawasan Anda!";
-            else msg = "Jangan khawatir! Ini kesempatan untuk belajar lebih banyak!";
-
-            document.getElementById('result-message').textContent = msg;
+            updateNav();
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            renderQuestions();
+        function selectAnswer(i, j) {
+            answers[i] = j;
+            updateNav();
+        }
 
-            document.getElementById('quiz-carousel').addEventListener('slid.bs.carousel', (event) => {
-                const newIndex = event.to;
+        function updateNav() {
+            const nav = document.getElementById('quiz-nav');
+            const active = document.querySelector('.carousel-item.active');
+            const idx = +active.dataset.index;
+            document.getElementById('current-question').textContent = idx + 1;
 
-                // Update angka soal langsung
-                indicator.textContent = newIndex + 1;
+            nav.innerHTML = '';
+            if (idx > 0) nav.innerHTML += `<button class="btn btn-outline-secondary" onclick="carousel.prev()">Sebelumnya</button>`;
+            nav.innerHTML += `<button class="btn btn-main" ${answers[idx] == null ? 'disabled' : ''}
+    onclick="${idx === questions.length - 1 ? 'finish()' : 'carousel.next()'}">
+    ${idx === questions.length - 1 ? 'Selesai' : 'Selanjutnya'}
+    </button>`;
+        }
 
-                // Update button navigation
-                updateNavigation();
-            });
-
-        });
+        function finish() {
+            let score = answers.filter((a, i) => a === questions[i].a).length;
+            document.getElementById('quiz-carousel').classList.add('d-none');
+            document.getElementById('quiz-nav').classList.add('d-none');
+            document.getElementById('quiz-result').classList.remove('d-none');
+            document.getElementById('final-score').textContent = Math.round(score / questions.length * 100) + '%';
+            document.getElementById('result-msg').textContent =
+                score === questions.length ? 'Sempurna 🎉' : 'Terus belajar ya 💪';
+        }
 
         function restartQuiz() {
-            userAnswers.fill(null);
-            currentQuestionIndex = 0;
-
-            resultSection.style.display = "none";
-            quizContainer.style.display = "block";
-            navContainer.style.display = "block";
-
-            const quizText = document.querySelector('.quiz-container > p');
-            if (quizText) quizText.style.display = 'block';
-
-            renderQuestions();
-            quizCarousel.to(0);
-            updateNavigation();
+            answers.fill(null);
+            location.reload();
         }
 
-        /* PERBAIKAN: EVENT yang memicu animasi telah dihapus */
-        /*
-        document.getElementById('quiz-carousel').addEventListener('slid.bs.carousel', function () {
-            const active = document.querySelector(".carousel-item.active");
-            if (active) {
-                active.classList.add("fade-question");
-                setTimeout(() => active.classList.remove("fade-question"), 500);
-            }
-        });
-        */
-
-
+        render();
+        document.getElementById('quiz-carousel')
+            .addEventListener('slid.bs.carousel', updateNav);
     </script>
+
 </body>
 
 </html>
